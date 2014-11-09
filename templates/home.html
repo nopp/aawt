@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block body %}
+	<br>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Docker Hosts {% if session["docking_group"] == "admin" %}<a href="/manage"><i class="fa fa-wrench fa-lg"></i></a>{% endif %}</h3>
+				</div>
+				<div class="panel-body">
+				{% for key,value in clt.iteritems() %}
+					<b><i class="fa fa-angle-double-right"></i> {{ key }}</b> <a href="/cluster_info/{{ key }}"><i class="fa fa-bar-chart-o"></i></a><br>
+					{% for va in value %}
+						&nbsp;&nbsp;{% if va[3] == "OK" %}<i class="fa fa-circle-o-notch fa-vaok"></i>{% else %}<i class="fa fa-circle-o-notch fa-vanok"></i>{% endif %} {{ va[1] }} ({{ va[2] }})<br>
+					{% endfor %}
+					<hr>	
+				{% endfor %}	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<table class="table">
+					  <thead>
+						<tr>
+						  <th>Docking Info</th>
+						  <th>Total</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td><i class="fa fa-gears"></i> Hosts</td>
+						  <td><span class="label label-default">{{ infodocking[0] }}</span></td>
+						</tr>
+						<tr>
+						  <td><i class="fa fa-group"></i> Teams</td>
+						  <td><span class="label label-default">{{ infodocking[1] }}</span></td>
+						</tr>
+						<tr>
+						  <td><i class="fa fa-cubes"></i> Containers</td>
+						  <td><span class="label label-default">{{ infodocking[2] }}</span></td>
+						</tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

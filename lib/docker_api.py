@@ -1,5 +1,5 @@
 #
-# Docking - Web Docker GUI
+# Docking - Docker manager web
 #
 import json
 import urllib2
