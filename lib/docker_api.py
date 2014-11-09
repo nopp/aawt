@@ -7,42 +7,18 @@ from urllib2 import Request, urlopen, URLError
 
 class dockerApi():
 
-	def urlRequest(self,dockerAgent,action,extra=None,mtd=None,domain=None):
+	def urlRequest(self,dockerAgent,action):
 		uName = "carlos"
 		pWord = "loke99"
 		userData = "Basic " + (uName + ":" + pWord).encode("base64").rstrip()
-		if (extra != None):
-			try:
-				# Type of method (POST/PUT)
-				if mtd == "POST":
-					if action == "ban":
-						req = urllib2.Request('http://'+dockerAgent+'/'+action+'/'+str(extra))
-						req.get_method = lambda: 'POST'
-					else:
-						req = urllib2.Request('http://'+dockerAgent+'/'+action+'/',str(extra))
-						req.get_method = lambda: 'POST'
-				elif mtd == "PUT":
-					req = urllib2.Request('http://'+dockerAgent+'/'+action+'/'+str(extra), data=str(extra))
-					req.get_method = lambda: 'PUT'
-				else:
-					req = urllib2.Request('http://'+dockerAgent+'/'+action+'/'+str(extra))
-				if domain != None:
-					req.add_header('Host', domain)
-				req.add_header('Accept', 'application/json')
-				req.add_header("Content-type", "application/x-www-form-urlencoded")
-				req.add_header('Authorization', userData)
-				return req
-			except URLError, e:
-				return e.reason
-		else:
-			try:
-				req = urllib2.Request('http://'+str(dockerAgent)+'/'+str(action))
-				req.add_header('Accept', 'application/json')
-				req.add_header("Content-type", "application/x-www-form-urlencoded")
-				req.add_header('Authorization', userData)
-				return req
-			except URLError, e:
-				return e.reason
+		try:
+			req = urllib2.Request('http://'+str(dockerAgent)+'/'+str(action))
+			req.add_header('Accept', 'application/json')
+			req.add_header("Content-type", "application/x-www-form-urlencoded")
+			req.add_header('Authorization', userData)
+			return req
+		except URLError, e:
+			return e.reason
 
 	def docker_version(self,dockerHost):
 		try:
