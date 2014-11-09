@@ -1,1 +1,1 @@
-Web Docker GUI
+Docker manager web 
