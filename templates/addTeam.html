@@ -2,10 +2,25 @@
     {% block body %}
 		{% if session["docking_group"] == "admin" %}
 				<h2 class="linha"><i class="fa fa-group"> Create team</i></h2>
-				<form action="register_cluster" method="POST">
+				<form action="create_team" method="POST">
 					<div class="form-group">
 						<label for="name">Name</label>
 						<input id="name" class="form-control" type="text" name="name" />
+					</div>
+					<div class="form-group">
+						<label for="name">Login</label>
+						<input id="login" class="form-control" type="text" name="login" />
+					</div>
+					<div class="form-group">
+						<label for="name">Senha</label>
+						<input id="senha" class="form-control" type="text" name="senha" />
+					</div>
+					<div class="form-group">
+						<label for="name">Group</label>
+						<select name="cluster" class="form-control">
+							<option value="0">Admin</option>
+							<option value="1">Developer</option>
+						</select>
 					</div>
 					<div class="form-group">
 						<label for="name">Max memory (in GB)</label>

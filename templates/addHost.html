@@ -2,10 +2,18 @@
     {% block body %}
 		{% if session["docking_group"] == "admin" %}
 				<h2 class="linha"><i class="fa fa-gears"> Register host</i></h2>
-				<form action="register_cluster" method="POST">
+				<form action="register_host" method="POST">
 					<div class="form-group">
 						<label for="name">Name</label>
 						<input id="name" class="form-control" type="text" name="name" />
+					</div>
+					<div class="form-group">
+						<label for="name">IP/Domain</label>
+						<input id="ip" class="form-control" type="text" name="ip" />
+					</div>
+					<div class="form-group">
+						<label for="name">Port</label>
+						<input id="port" class="form-control" type="text" name="port" />
 					</div>
 					<div class="form-group">
 						<label for="name">Max memory (in GB)</label>

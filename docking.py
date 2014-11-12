@@ -53,8 +53,7 @@ def index():
 		info.append(docking.dockingInfo("hosts"))
 		info.append(docking.dockingInfo("teams"))
 		info.append(docking.dockingInfo("containers"))
-		oloco = {'123':'456','abc':'def'}
-		return render_template('home.html', clt=oloco, infodocking=info)
+		return render_template('home.html', clt=docking.returnHosts(), infodocking=info)
 	else:
 		return redirect(url_for('login'))
 
@@ -84,21 +83,45 @@ def info(dockerHost):
 
 # Register new host
 @app.route('/rh')
-def registerHost():
+def rh():
 	if(verifyAdmin()):
 		return render_template('addHost.html')
 	else:
 		flash("Restricted area!")
 		return redirect(url_for('login'))
 
+@app.route('/register_host', methods=['POST'])
+def registerHost():
+	if(verifyAdmin()):
+		if request.method == 'POST':
+			docking = Docking()
+			rtn = docking.addHost(request.form['name'],request.form['ip'],request.form['port'],request.form['max_memory'])
+			flash(rtn)
+			return redirect(url_for('index'))
+		else:
+			flash("Restricted area!")
+			return redirect(url_for('login'))
+
 # Create team
 @app.route('/ct')
-def createTeam():
+def ct():
 	if(verifyAdmin()):
 		return render_template('addTeam.html')
 	else:
 		flash("Restricted area!")
 		return redirect(url_for('login'))
+
+@app.route('/create_team', methods=['POST'])
+def createTeam():
+	if(verifyAdmin()):
+		if request.method == 'POST':
+			docking = Docking()
+			rtn = docking.addTeam(request.form['name'],request.form['ip'],request.form['port'],request.form['max_memory'])
+			flash(rtn)
+			return redirect(url_for('index'))
+		else:
+			flash("Restricted area!")
+			return redirect(url_for('login'))
 
 # Containers
 @app.route("/containers/<dockerHost>", methods=['GET'])

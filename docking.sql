@@ -9,8 +9,9 @@ CREATE TABLE IF NOT EXISTS `containers` (
 
 CREATE TABLE IF NOT EXISTS `hosts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `ip` text NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `ip` varchar(200) NOT NULL,
+  `port` int(5) NOT NULL,
   `max_memory` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
