@@ -178,11 +178,9 @@ class Docking:
 			if total >= 1:
 				c.execute('select teams.'+info+' from teams where login = %s',[loginTeam])
 				rtnInfo = c.fetchall()
-				print rtnInfo
 				c.close()
 				return rtnInfo
 			else:
-				print "zuado"
 				return "Your team doesn't have containers yet!"
 		except:
 			return "Error to return team info on MySQL"
