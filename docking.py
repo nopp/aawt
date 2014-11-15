@@ -116,12 +116,12 @@ def createTeam():
 	if(verifyAdmin()):
 		if request.method == 'POST':
 			docking = Docking()
-			rtn = docking.addTeam(request.form['name'],request.form['ip'],request.form['port'],request.form['max_memory'])
+			rtn = docking.addTeam(request.form['name'],request.form['login'],request.form['pass'],request.form['group'],request.form['max_memory'])
 			flash(rtn)
 			return redirect(url_for('index'))
-		else:
-			flash("Restricted area!")
-			return redirect(url_for('login'))
+	else:
+		flash("Restricted area!")
+		return redirect(url_for('login'))
 
 # Containers
 @app.route("/containers/<dockerHost>", methods=['GET'])
