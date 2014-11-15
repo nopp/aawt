@@ -8,8 +8,8 @@ from urllib2 import Request, urlopen, URLError
 class dockerApi():
 
 	def urlRequest(self,dockerAgent,action,mtd=None):
-		uName = "carlos"
-		pWord = "loke99"
+		uName = "userhttp"
+		pWord = "passhttp"
 		userData = "Basic " + (uName + ":" + pWord).encode("base64").rstrip()
 		try:
 			if mtd == "POST":
