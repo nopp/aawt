@@ -32,6 +32,8 @@ def verify():
 		if docking.verifyLogin(request.form['login'],request.form['password']):
 			session['docking_auth'] = request.form['login']
 			session['docking_group'] = docking.returnGroup(request.form['login'])
+			if docking.returnGroup(request.form['login']) == "dev":
+				session['docking_host'] = docking.returnTeamInfo(request.form['login'],"id_host")
 			return redirect(url_for('index'))
 		else:
 			flash("Login error!")
@@ -49,11 +51,17 @@ def logout():
 def index():
 	if "docking_auth" in session:
 		docking = Docking()
-		info = []
-		info.append(docking.dockingInfo("hosts"))
-		info.append(docking.dockingInfo("teams"))
-		info.append(docking.dockingInfo("containers"))
-		return render_template('home.html', clt=docking.returnHosts(), infodocking=info)
+		if session['docking_group'] == "admin":
+			info = []
+			info.append(docking.dockingInfo("hosts"))
+			info.append(docking.dockingInfo("teams"))
+			info.append(docking.dockingInfo("containers"))
+			return render_template('home.html', clt=docking.returnHosts(), infodocking=info)
+		else:
+			dockerHost = docking.returnHostById(docking.returnTeamInfo(session['docking_auth'],"id_host"))[2]
+			maxMemory = docking.returnTeamInfo(session['docking_auth'],"max_memory")
+			idTeam = docking.returnTeamInfo(session['docking_auth'],"id")
+			return render_template('home.html', clt=docking.returnContainersTeam(idTeam), mm=maxMemory, c=0, host=dockerHost)
 	else:
 		return redirect(url_for('login'))
 

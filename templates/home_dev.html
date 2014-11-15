@@ -1,0 +1,56 @@
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fa fa-cube"></i> Docker host</h3>
+				</div>
+				<div class="panel-body">
+					{{ host }}
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fa fa-square"></i> Containers</h3>
+				</div>
+				<div class="panel-body">
+				{% if clt is string %}
+					{{ clt }}
+				{% else %}
+					{% for value in clt %}
+						<i class="fa fa-cube"></i> {{ value[1] }} <a href="/cluster_info/{{ value[0] }}"><i class="fa fa-bar-chart"></i></a><br>
+							{{ value[2] }}<br>
+						<hr>	
+					{% endfor %}	
+				{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<table class="table">
+					  <thead>
+						<tr>
+						  <th>Docking Info</th>
+						  <th>Total</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td><i class="fa fa-th-large"></i> Max memory</td>
+						  <td><span class="label label-default">{{ mm }} GB</span></td>
+						</tr>
+						<tr>
+						  <td><i class="fa fa-th"></i> Memory used</td>
+						  <td><span class="label label-default">{{ mm }} GB</span></td>
+						</tr>
+						<tr>
+						  <td><i class="fa fa-square"></i> Containers</td>
+						  <td><span class="label label-default">{{ c }}</span></td>
+						</tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>

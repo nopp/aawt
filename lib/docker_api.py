@@ -9,7 +9,7 @@ class dockerApi():
 
 	def urlRequest(self,dockerAgent,action,mtd=None):
 		uName = "carlos"
-		pWord = "loke99"
+		pWord = "123"
 		userData = "Basic " + (uName + ":" + pWord).encode("base64").rstrip()
 		try:
 			if mtd == "POST":

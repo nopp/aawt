@@ -30,10 +30,10 @@
           <a class="navbar-brand" href="/"><i class="fa fa-cubes"></i> DOCKING</a>
         </div>
         <div class="navbar-collapse collapse">
-			{% if session["docking_group"] == "view" %}
-					<!-- view menu -->
+			{% if session["docking_group"] == "dev" %}
+					<!-- dev menu -->
 				   <ul class="nav navbar-nav">
-					<li><a href="/register"><i class="fa fa-cube fa-lg"> Create container</i></a></li>
+					<li><a href="/cc"><i class="fa fa-cube fa-lg"> Create container</i></a></li>
 				  </ul>
 			{% else %}
 					<!-- admin menu -->

@@ -26,9 +26,15 @@
 			{% endwith %}
 		</div>
       	<form class="form-signin" role="form" action="/verify" method="POST">
-        	<input id="login" name="login" type="text" class="form-control" placeholder="Login" required autofocus>
-			<input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
-        	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			<div class="form-group">
+        		<input id="login" name="login" type="text" class="form-control" placeholder="Login" required autofocus>
+			</div>
+			<div class="form-group">
+				<input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
+			</div>
+			<div class="form-group">
+        		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			</div>
       </form>
     </div>
   </body>

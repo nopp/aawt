@@ -118,7 +118,7 @@ class Docking:
 		try:
 			con = self.connect()
 			c = con.cursor()
-			c.execute('select * from hosts')
+			c.execute('select count(*) from hosts')
 			total = c.fetchone()[0]
 			if total >= 1:
 				hosts = []
@@ -132,3 +132,57 @@ class Docking:
 				return "Please, register a host"
 		except:
 			return "Error to return hosts on MySQL"
+
+	# Return host by id
+	def returnHostById(self,idHost):
+		try:
+			con = self.connect()
+			c = con.cursor()
+			c.execute('select count(*) from hosts where id = %s',[idHost])
+			total = c.fetchone()[0]
+			if total >= 1:
+				hosts = []
+				c.execute('select * from hosts where id = %s',[idHost])
+				rtnHost = c.fetchone()
+				c.close()
+				return rtnHost
+			else:
+				return "Please, register a host"
+		except:
+			return "Error to return host on MySQL"
+
+	# Return team info
+	def returnTeamInfo(self,loginTeam,info):
+		try:
+			con = self.connect()
+			c = con.cursor()
+			c.execute('select count(*) from teams where login = %s',[loginTeam])
+			total = c.fetchone()[0]
+			if total >= 1:
+				c.execute('select teams.'+info+' from teams where login = %s',[loginTeam])
+				rtnInfo = c.fetchone()[0]
+				c.close()
+				return rtnInfo
+			else:
+				return "Please, register a team"
+		except:
+			return "Error to return team info on MySQL"
+
+	# Return containers from team
+	def returnContainersTeam(self,idTeam):
+		try:
+			con = self.connect()
+			c = con.cursor()
+			c.execute('select count(*) from containers where id_team = %s',[idTeam])
+			total = c.fetchone()[0]
+			if total >= 1:
+				c.execute('select teams.'+info+' from teams where login = %s',[loginTeam])
+				rtnInfo = c.fetchall()
+				print rtnInfo
+				c.close()
+				return rtnInfo
+			else:
+				print "zuado"
+				return "Your team doesn't have containers yet!"
+		except:
+			return "Error to return team info on MySQL"
