@@ -42,10 +42,10 @@
 					<li><a href="/ct"><i class="fa fa-group fa-lg"> Create team</i></a></li>
 				  </ul>
 			{% endif %}
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/users"><i class="fa fa-user fa-lg"></i> <b>{{ session["docking_auth"] }}</b></a></li>
-            <li><a href="/logout"><i class="fa fa-sign-out"></i></a></li>
-          </ul>
+          		  <ul class="nav navbar-nav navbar-right">
+            		<li><a href="/users"><i class="fa fa-user fa-lg"></i> {{ session["docking_auth"] }}</a></li>
+            		<li><a href="/logout"><i class="fa fa-sign-out"></i></a></li>
+          		  </ul>
         </div>
       </div>
     </div>

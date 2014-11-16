@@ -61,7 +61,9 @@ def index():
 			dockerHost = docking.returnHostById(docking.returnTeamInfo(session['docking_auth'],"id_host"))[2]
 			maxMemory = docking.returnTeamInfo(session['docking_auth'],"max_memory")
 			idTeam = docking.returnTeamInfo(session['docking_auth'],"id")
-			return render_template('home.html', clt=docking.returnContainersTeam(idTeam), mm=maxMemory, c=0, host=dockerHost)
+			teamName = docking.returnTeamInfo(session['docking_auth'],"name")
+			totalContainers = docking.returnTotalContainersTeam(idTeam)
+			return render_template('home.html', clt=docking.returnContainersTeam(idTeam), mm=maxMemory, c=totalContainers, host=dockerHost, name=teamName)
 	else:
 		return redirect(url_for('login'))
 
@@ -150,6 +152,8 @@ def containerInfo(dockerHost,idContainer):
 		if request.method == 'GET':
 			dApi = dockerApi()
 			rtn = dApi.docker_container_info(dockerHost,idContainer)
+			rtnJson = json.loads(rtn) 
+			#return json.dumps(rtnJson['NetworkSettings'])
 			return rtn
 	else:
 		flash("Please sign in!")

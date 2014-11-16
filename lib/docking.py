@@ -176,11 +176,25 @@ class Docking:
 			c.execute('select count(*) from containers where id_team = %s',[idTeam])
 			total = c.fetchone()[0]
 			if total >= 1:
-				c.execute('select teams.'+info+' from teams where login = %s',[loginTeam])
+				c.execute('select * from containers where id_team = %s',[idTeam])
 				rtnInfo = c.fetchall()
 				c.close()
 				return rtnInfo
 			else:
 				return "Your team doesn't have containers yet!"
+		except:
+			return "Error to return container fron MySQL"
+
+	# Return total of containers from team
+	def returnTotalContainersTeam(self,idTeam):
+		try:
+			con = self.connect()
+			c = con.cursor()
+			c.execute('select count(*) from containers where id_team = %s',[idTeam])
+			total = c.fetchone()[0]
+			if total >= 1:
+				return total
+			else:
+				return 0
 		except:
 			return "Error to return team info on MySQL"

@@ -3,13 +3,17 @@
 #
 import json
 import urllib2
+import ConfigParser
 from urllib2 import Request, urlopen, URLError
+
+config = ConfigParser.RawConfigParser()
+config.read('/etc/docking/config.cfg')
 
 class dockerApi():
 
 	def urlRequest(self,dockerAgent,action,mtd=None):
-		uName = "userhttp"
-		pWord = "passhttp"
+		uName = config.get('conf','haLogin')
+		pWord = config.get('conf','haPass')
 		userData = "Basic " + (uName + ":" + pWord).encode("base64").rstrip()
 		try:
 			if mtd == "POST":

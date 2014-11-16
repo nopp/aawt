@@ -1,6 +1,6 @@
 	<div class="row">
 		<div class="col-md-6">
-			<div class="panel panel-info">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title"><i class="fa fa-cube"></i> Docker host</h3>
 				</div>
@@ -8,7 +8,7 @@
 					{{ host }}
 				</div>
 			</div>
-			<div class="panel panel-info">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title"><i class="fa fa-square"></i> Containers</h3>
 				</div>
@@ -18,7 +18,7 @@
 				{% else %}
 					{% for value in clt %}
 						<i class="fa fa-cube"></i> {{ value[1] }} <a href="/cluster_info/{{ value[0] }}"><i class="fa fa-bar-chart"></i></a><br>
-							{{ value[2] }}<br>
+							{{ value[3] }}<br>
 						<hr>	
 					{% endfor %}	
 				{% endif %}
@@ -31,7 +31,7 @@
 					<table class="table">
 					  <thead>
 						<tr>
-						  <th>Docking Info</th>
+						  <th>Team {{ name }} (Info)</th>
 						  <th>Total</th>
 						</tr>
 					  </thead>
@@ -50,6 +50,17 @@
 						</tr>
 					  </tbody>
 					</table>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"> How to access the containers?</h3>
+				</div>
+				<div class="panel-body">
+					To access your container do you need use public ports.<br>
+					Ex:<br>
+					http://{{ host }}:publicPort<br>
+					ssh root@{{ host }} -p publicPort
 				</div>
 			</div>
 		</div>
