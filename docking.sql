@@ -28,4 +28,4 @@ CREATE TABLE IF NOT EXISTS `teams` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 INSERT INTO `teams` (`id`, `name`, `login`, `passwd`, `max_memory`, `group`, `id_host`) VALUES
-(1,'Admins', 'admin', 'loke99', '1', '0', '0')
+(1,'Admins', 'admin', 'admin', '1', '0', '0')
