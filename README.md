@@ -1,1 +1,1 @@
-Docker manager web for Amazon AWS EC2
+Docker manager web
