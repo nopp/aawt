@@ -48,4 +48,34 @@
 			</div>
 		</div>
 	</div>
+	<div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="panel-title"> Result</h3>
+          </div>
+          <div class="panel-body">
+          <table class="table">
+              <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Instance ID</th>
+                    <th>Type</th>
+                    <th>Private IP</th>
+                    <th>State</th>
+                  </tr>
+              </thead>
+              </tbody>
+              {% for ec2 in results %}
+                    <tr>
+                        <td>{{ ec2[0] }}</td>
+                        <td>{{ ec2[1] }}</td>
+                        <td>{{ ec2[3] }}</td>
+                        <td>{{ ec2[2] }}</td>
+                        <td>{{ ec2[4] }}</td>
+                    </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+		  <div>Total <b>{{ total }}</b></div>
+          </div>
+	</div>
 {% endblock %}

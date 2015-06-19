@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Docking - Docker manager web for Amazon AWS Ec2</title>
+    <title>AWS Tool Web (ATW)</title>
 
     <!-- Bootstrap core CSS -->
    	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -19,54 +19,24 @@
             });
         })
     </script>
-    <link href="/static/bs/css/bootstrap.css" rel="stylesheet">
-    <link href="/static/style.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bs/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="static/style.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
   <body>
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/"><i class="fa fa-cubes"></i> DOCKING</a>
-        </div>
-        <div class="navbar-collapse collapse">
-			{% if session["docking_group"] == "dev" %}
-					<!-- dev menu -->
-				   <ul class="nav navbar-nav">
-					<li><a href="/cc"><i class="fa fa-cube fa-lg"> Create container</i></a></li>
-				  </ul>
-			{% else %}
-					<!-- admin menu -->
-				   <ul class="nav navbar-nav">
-					<li><a href="/rh"><i class="fa fa-cube fa-lg"> Register host</i></a></li>
-					<li><a href="/ct"><i class="fa fa-group fa-lg"> Create team</i></a></li>
-				  </ul>
-			{% endif %}
-          		  <ul class="nav navbar-nav navbar-right">
-            		<li><a href="/users"><i class="fa fa-user fa-lg"></i> {{ session["docking_auth"] }}</a></li>
-            		<li><a href="/logout"><i class="fa fa-sign-out"></i></a></li>
-          		  </ul>
+          <a class="navbar-brand" href="/"><i class="fa fa-cubes"></i> AWS Tool Web (ATW)</a>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="jumbotron">
-	  {% with messages = get_flashed_messages() %}
-         {% if messages %}
-			<br>
-			<div class="alert alert-info alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert">
-					<span aria-hidden="true">&times;</span>
-					<span class="sr-only">Close</span>
-				</button>
-                {% for message in messages %}
-               		{{ message }}
-                {% endfor %}
-            </div>
-         {% endif %}
-      {% endwith %}
       {% block body %}{% endblock %}
       </div>
     </div>
+	<div align="center"><a href="http://github.com/nopp/atw">code</a></div>
+	<br>
   </body>
 </html>
