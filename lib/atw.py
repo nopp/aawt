@@ -22,8 +22,11 @@ class Atw:
 	def searchByPrIP(self,ip):
 		ec2_conn = self.ec2_connect()
 		filters = {"private-ip-address": ip}
+		ec2List = []
 		for ec2 in ec2_conn.get_only_instances(filters=filters):
-			return ec2.tags['Name']+" "+ec2.id+" "+ec2.private_ip_address+" "+ec2_conn.get_instance_attribute(ec2.id,"instanceType")['instanceType']+" ("+ec2.state+")"
+			ec2Vm = [ec2.tags['Name'],ec2.id,ec2.private_ip_address,ec2_conn.get_instance_attribute(ec2.id,"instanceType")['instanceType'],ec2.state]
+			ec2List.append(ec2Vm)
+		return ec2List
 
 	# EC2 Search by IP (Public)
 	def searchByPIP(self,ip):
