@@ -1,5 +1,4 @@
-# atw
-AWS Tool Web
+# ATW (AWS Tool Web)
 
 Create a directory /etc/atw/ and file /etc/atw/config.cfg with:
 
