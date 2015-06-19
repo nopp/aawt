@@ -20,7 +20,7 @@ class Atw:
 			conn = boto.ec2.connect_to_region(self.region,aws_access_key_id=access_key,aws_secret_access_key=secret_key)
 			return conn
 		except:
-			print "Error - can't connect to EC2"
+			print "Error - can't connect to EC2 (LIB)"
 
 	# EC2 Search by IP (Private) 
 	def searchByPrIP(self,ip):
@@ -33,7 +33,7 @@ class Atw:
 				ec2List.append(ec2Vm)
 			return ec2List
 		except:
-			print "Error - Can't search EC2 by Private IP"
+			print "Error - Can't search EC2 by Private IP (LIB)"
 
 	# EC2 Search by IP (Public)
 	def searchByPIP(self,ip):
@@ -46,7 +46,7 @@ class Atw:
 				ec2List.append(ec2Vm)
 			return ec2List
 		except:
-			print "Error - Can't search EC2 by Public IP"
+			print "Error - Can't search EC2 by Public IP (LIB)"
 
 	# EC2 Search by TAG
 	def searchByTAG(self,tagKey,tagValue):
@@ -59,4 +59,4 @@ class Atw:
 				ec2List.append(ec2Vm)
 			return ec2List
 		except:
-			print "Error - Can't search EC2 by TAG"
+			print "Error - Can't search EC2 by TAG (LIB)"
