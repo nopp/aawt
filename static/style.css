@@ -3,3 +3,7 @@
 	background-position: center;
 	height: 200px;
 }
+
+.page-header {
+	background: red;
+}

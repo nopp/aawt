@@ -1,54 +1,54 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="page-header">
-	<h3>EC2 Search by IP</h3>
-	<form action="ec2SearchIP" method="POST" class="form-inline">
-		<div class="form-group">
-			<input id="ip" class="form-control" type="text" name="ip" />
-		</div>
-		<div class="form-group">
-			<select name="iptype" class="form-control">
-				<option value="public">Public</option>
-				<option value="private">Private</option>
-			</select>
-		</div>
-		<button type="submit" class="btn btn-primary">Search</button>
-	</form>		
-</div>
+<div class="panel panel-default">
+	<div class="panel-body">
+		EC2 Search by IP<br><br>
+		<form action="ec2SearchIP" method="POST" class="form-inline">
+			<div class="form-group">
+				<input id="ip" class="form-control" type="text" name="ip" />
+			</div>
+			<div class="form-group">
+				<select name="iptype" class="form-control">
+					<option value="public">Public</option>
+					<option value="private">Private</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Search</button>
+		</form>		
+	</div>
+</div>	
 {% if results %}
-<div class="jumbotron">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title"> Total <b>{{ total }}</b> found!</h3>
-		</div>
-		<div class="panel-body">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Instance ID</th>
-						<th>Type</th>
-						<th>Private IP</th>
-						<th>State</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for ec2 in results %}
-					<tr>
-						<td>{{ ec2[0] }}</td>
-						<td>{{ ec2[1] }}</td>
-						<td>{{ ec2[3] }}</td>
-						<td>{{ ec2[2] }}</td>
-						{% if ec2[4] == "running" %}
-						<td><span class="label label-success">{{ ec2[4] }}</span></td>
-						{% else %}
-						<td><span class="label label-danger">{{ ec2[4] }}</span></td>
-						{% endif %}
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"> Total <b>{{ total }}</b> found!</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Instance ID</th>
+					<th>Type</th>
+					<th>Private IP</th>
+					<th>State</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for ec2 in results %}
+				<tr>
+					<td>{{ ec2[0] }}</td>
+					<td>{{ ec2[1] }}</td>
+					<td>{{ ec2[3] }}</td>
+					<td>{{ ec2[2] }}</td>
+					{% if ec2[4] == "running" %}
+					<td><span class="label label-success">{{ ec2[4] }}</span></td>
+					{% else %}
+					<td><span class="label label-danger">{{ ec2[4] }}</span></td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
 </div>
 {% endif %}
