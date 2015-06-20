@@ -18,12 +18,8 @@ def ec2_searchByIP():
 	try:
 		if request.method == 'POST':	
 			atw = Atw()
-			if request.form['iptype'] == "public":
-				rtn = atw.searchByPIP(request.form['ip'])
-				total = len(rtn)
-			else:
-				rtn = atw.searchByPrIP(request.form['ip'])
-				total = len(rtn)
+			rtn = atw.searchByIP(request.form['ip'],request.form['iptype'])
+			total = len(rtn)
 		return render_template('result.html',results=rtn,total=total)
 	except:
 		print "Error - Can't search EC2 by IP"
@@ -41,4 +37,4 @@ def ec2_searchByTAG():
 		print "Error - Can'tsearch EC2 by TAG"
 
 if __name__ == '__main__':
-	app.run(host='10.211.55.18',port=80,debug=True)
+	app.run(host='10.211.55.18',port=80,debug=True)	
