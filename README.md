@@ -2,8 +2,7 @@
 
 Required
 ========
-
-* Python + Flask
+	Python + Flask
 
 Install
 =======
@@ -20,7 +19,7 @@ Configure
 	accessKey = yourAccessKeyWithEC2ReadOnly
 	secretKey = yourPrivateKeyWithEC2ReadOnly
 
-Obs:. you need to change atw.py host and port to bind.
+	Obs:. you need to change atw.py host and port to bind.
 
 Start
 =====
