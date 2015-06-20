@@ -40,7 +40,7 @@ def ec2_list_all():
 		total = len(rtn)
 		return render_template('ec2_list_all.html',results=rtn,total=total)
 	except:
-		print "Error - Can't search EC2 by IP"
+		print "Error - Can't list all EC2"
 
 # EC2 Search by TAG
 @app.route("/ec2_search_tag")
