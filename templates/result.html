@@ -1,37 +1,37 @@
 {% extends "layout.html" %}
 {% block body %}
-	<br>
-	<div class="panel panel-default">
-          <div class="panel-heading">
-              <h3 class="panel-title"> Total <b>{{ total }}</b> found!</h3>
-          </div>
-          <div class="panel-body">
-          <table class="table">
-              <thead>
-                  <tr>
+<br>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"> Total <b>{{ total }}</b> found!</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
                     <th>Name</th>
                     <th>Instance ID</th>
                     <th>Type</th>
                     <th>Private IP</th>
                     <th>State</th>
-                  </tr>
-              </thead>
-              </tbody>
-              {% for ec2 in results %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for ec2 in results %}
                     <tr>
                         <td>{{ ec2[0] }}</td>
                         <td>{{ ec2[1] }}</td>
                         <td>{{ ec2[3] }}</td>
                         <td>{{ ec2[2] }}</td>
-						{% if ec2[4] == "running" %}
-                       		<td><span class="label label-success">{{ ec2[4] }}</span></td>
-						{% else %}
-                       		<td><span class="label label-danger">{{ ec2[4] }}</span></td>
-						{% endif %}
+                        {% if ec2[4] == "running" %}
+                            <td><span class="label label-success">{{ ec2[4] }}</span></td>
+                        {% else %}
+                            <td><span class="label label-danger">{{ ec2[4] }}</span></td>
+                        {% endif %}
                     </tr>
-              {% endfor %}
-              </tbody>
-          </table>
-          </div>
-	</div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

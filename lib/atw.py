@@ -29,7 +29,7 @@ class Atw:
 			return self.error("Error - can't connect to EC2 (LIB)")
 
 	# EC2 Search by IP (Private/Public) 
-	def searchByIP(self,ip,iptype):
+	def ec2_searchByIP(self,ip,iptype):
 		ec2_conn = self.ec2_connect()
 		try:
 			if iptype == "private":
@@ -45,7 +45,7 @@ class Atw:
 			return self.error("Error - Can't search EC2 by IP (LIB)")
 
 	# EC2 Search by TAG
-	def searchByTAG(self,tagKey,tagValue):
+	def ec2_searchByTAG(self,tagKey,tagValue):
 		ec2_conn = self.ec2_connect()
 		try:
 			filters = {"tag-key":tagKey,"tag-value":"*"+tagValue+"*"}
