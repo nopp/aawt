@@ -10,71 +10,53 @@
     <title>AWS Tool Web (ATW)</title>
 
     <!-- Bootstrap core CSS -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/"><i class="fa fa-cubes"></i> AWS Tool Web (ATW)</a>
+                <a class="navbar-brand" href="/">AWS Tool Web</a>
+            </div>
+            <div id="navbar">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">EC2 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/ec2_search_ip">Search by IP</a></li>
+                            <li><a href="/ec2_search_tag">Search by TAG</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">S3 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Soon</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">RDS <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Soon</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">AMI <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Soon</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="jumbotron">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-cube"></i> EC2 Search by IP</h3>
-                        </div>
-                        <div class="panel-body">
-                            <form action="ec2SearchIP" method="POST">
-                                <div class="form-group">
-                                    <input id="ip" class="form-control" type="text" name="ip" />
-                                </div>
-                                <div class="form-group">
-                                    <select name="iptype" class="form-control">
-                                        <option value="public">Public</option>
-                                        <option value="private">Private</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-cube"></i> EC2 Search by Tag</h3>
-                        </div>
-                        <div class="panel-body">
-                            <form action="ec2SearchTAG" method="POST">
-                                <div class="form-group">
-                                    <input id="tagValue" class="form-control" type="text" name="tagValue" />
-                                </div>
-                                <div class="form-group">
-                                    <select name="tagKey" class="form-control">
-                                        <option value="Name">Name</option>
-                                        <option value="OS">OS</option>
-                                        <option value="Project">Project</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
         {% block body %}{% endblock %}
     </div>
-    <div align="center"><a href="http://github.com/nopp/atw">code</a></div>
-    <br>
+    <div align="center"><a href="http://github.com/nopp/atw"><i class="fa fa-code fa-lg"></i></a></div>
 </body>
 </html>

@@ -14,9 +14,13 @@ app.secret_key = 'BYG>.L*((*$jjkh>>'
 # Index
 @app.route("/")
 def index():
-	return render_template('layout.html')
+	return render_template('index.html')
 
 # EC2 Search by IP
+@app.route("/ec2_search_ip")
+def ec2_search_ip():	
+	return render_template('ec2_search_ip.html')
+
 @app.route("/ec2SearchIP", methods=['POST'])
 def ec2ip():
 	try:
@@ -24,11 +28,15 @@ def ec2ip():
 			atw = Atw()
 			rtn = atw.ec2_searchByIP(request.form['ip'],request.form['iptype'])
 			total = len(rtn)
-		return render_template('result.html',results=rtn,total=total)
+		return render_template('ec2_search_ip.html',results=rtn,total=total)
 	except:
 		print "Error - Can't search EC2 by IP"
 
 # EC2 Search by TAG
+@app.route("/ec2_search_tag")
+def ec2_search_tag():	
+	return render_template('ec2_search_tag.html')
+
 @app.route("/ec2SearchTAG", methods=['POST'])
 def ec2tag():
 	try:
@@ -36,7 +44,7 @@ def ec2tag():
 			atw = Atw()
 			rtn = atw.ec2_searchByTAG(request.form['tagKey'],request.form['tagValue'])
 			total = len(rtn)
-		return render_template('result.html',results=rtn,total=total)
+		return render_template('ec2_search_tag.html',results=rtn,total=total)
 	except:
 		print "Error - Can't search EC2 by TAG"
 
