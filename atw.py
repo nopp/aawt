@@ -1,8 +1,12 @@
 #
 # ATW - AWS Tool Web
 #
+import ConfigParser
 from flask import *
 from lib.atw import *
+
+config = ConfigParser.RawConfigParser()
+config.read('/etc/atw/config.cfg')
 
 app = Flask(__name__)
 app.secret_key = 'BYG>.L*((*$jjkh>>'
@@ -37,4 +41,4 @@ def ec2_searchByTAG():
 		print "Error - Can'tsearch EC2 by TAG"
 
 if __name__ == '__main__':
-	app.run(host='10.211.55.18',port=80,debug=True)	
+	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)	
