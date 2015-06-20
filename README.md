@@ -18,7 +18,7 @@ Install
 	# pip install boto
 	# git clone https://github.com/nopp/atw.git
 	# cd atw
-	-> configure the aplication
+	-> configure the application
 	# python atw.py
 
 Configure
