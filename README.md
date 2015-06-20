@@ -8,8 +8,6 @@ TODO
 ====
 	* EC2 Search/List (done!)
 	* S3 Search/List
-	* RDS Search/List
-	* AMI Search/List
 
 Install
 =======
