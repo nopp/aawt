@@ -18,7 +18,7 @@ Install
 	# pip install boto
 	# git clone https://github.com/nopp/atw.git
 	# cd atw
-	-> configure the aplication
+	-> configure the application
 	# python atw.py
 
 Configure
@@ -30,5 +30,5 @@ Configure
 	region = yourEC2region
 	accessKey = yourAccessKeyWithEC2ReadOnly
 	secretKey = yourPrivateKeyWithEC2ReadOnly
-	ip = ipOfYouATWServer
+	ip = ipOfYourATWServer
 	port = portOfYourATWServer
