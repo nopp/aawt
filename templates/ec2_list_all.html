@@ -11,6 +11,7 @@
 				<tr>
 					<th>Name</th>
 					<th>Instance ID</th>
+					<th>Zone</th>
 					<th>Type</th>
 					<th>Private IP</th>
 					<th>State</th>
@@ -21,6 +22,7 @@
 				<tr>
 					<td>{{ ec2[0] }}</td>
 					<td>{{ ec2[1] }}</td>
+					<td>{{ ec2[5] }}</td>
 					<td>{{ ec2[3] }}</td>
 					<td>{{ ec2[2] }}</td>
 					{% if ec2[4] == "running" %}
