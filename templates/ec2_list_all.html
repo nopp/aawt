@@ -1,26 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="panel panel-default">
-	<div class="panel-body">
-		EC2 Search by IP<br><br>
-		<form action="ec2SearchIP" method="POST" class="form-inline">
-			<div class="form-group">
-				<input id="ip" class="form-control" type="text" name="ip" />
-			</div>
-			<div class="form-group">
-				<select name="iptype" class="form-control">
-					<option value="public">Public</option>
-					<option value="private">Private</option>
-				</select>
-			</div>
-			<button type="submit" class="btn btn-primary">Search</button>
-		</form>		
-	</div>
-</div>	
 {% if results %}
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"> Searching for {{ type }} ip {{ ip }} <br><br>Total <b>{{ total }}</b> found!</h3>
+		<h3 class="panel-title"> Listing all EC2 <br><br>Total <b>{{ total }}</b> found!</h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">

@@ -28,7 +28,17 @@ def ec2ip():
 			atw = Atw()
 			rtn = atw.ec2_searchByIP(request.form['ip'],request.form['iptype'])
 			total = len(rtn)
-		return render_template('ec2_search_ip.html',results=rtn,total=total)
+		return render_template('ec2_search_ip.html',results=rtn,total=total,ip=request.form['ip'],type=request.form['iptype'])
+	except:
+		print "Error - Can't search EC2 by IP"
+
+@app.route("/ec2_list_all")
+def ec2_list_all():
+	try:	
+		atw = Atw()
+		rtn = atw.ec2_listAll()
+		total = len(rtn)
+		return render_template('ec2_list_all.html',results=rtn,total=total)
 	except:
 		print "Error - Can't search EC2 by IP"
 
@@ -44,7 +54,7 @@ def ec2tag():
 			atw = Atw()
 			rtn = atw.ec2_searchByTAG(request.form['tagKey'],request.form['tagValue'])
 			total = len(rtn)
-		return render_template('ec2_search_tag.html',results=rtn,total=total)
+		return render_template('ec2_search_tag.html',results=rtn,total=total,key=request.form['tagKey'],value=request.form['tagValue'])
 	except:
 		print "Error - Can't search EC2 by TAG"
 
