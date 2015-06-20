@@ -4,23 +4,31 @@ Required
 ========
 	Python + Flask
 
+TODO
+====
+	* EC2 Search/List (done!)
+	* S3 Search/List
+	* RDS Search/List
+	* AMI Search/List
+
 Install
 =======
-	yum install python-pip -y
-	pip install flask
-	pip install boto
+	# yum install python-pip -y
+	# pip install flask
+	# pip install boto
+	# git clone https://github.com/nopp/atw.git
+	# cd atw
+	-> configure the aplication
+	# python atw.py
 
 Configure
 =========
 
-	Create a directory /etc/atw/ and file /etc/atw/config.cfg with:
+	Create a file /etc/atw/config.cfg with:
 
 	[conf]
+	region = yourEC2region
 	accessKey = yourAccessKeyWithEC2ReadOnly
 	secretKey = yourPrivateKeyWithEC2ReadOnly
-
-	Obs:. you need to change atw.py host and port to bind.
-
-Start
-=====
-	python atw.py
+	ip = ipOfYouATWServer
+	port = portOfYourATWServer
