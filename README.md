@@ -30,5 +30,5 @@ Configure
 	region = yourEC2region
 	accessKey = yourAccessKeyWithEC2ReadOnly
 	secretKey = yourPrivateKeyWithEC2ReadOnly
-	ip = ipOfYouATWServer
+	ip = ipOfYourATWServer
 	port = portOfYourATWServer
