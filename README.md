@@ -32,3 +32,7 @@ Configure
 	secretKey = yourPrivateKeyWithEC2ReadOnly
 	ip = ipOfYourATWServer
 	port = portOfYourATWServer
+
+Screenshot
+==========
+![Image Alt](http://s16.postimg.org/o3fpy1rp1/Screen_Shot_2015_06_20_at_10.png)
