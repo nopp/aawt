@@ -14,6 +14,7 @@ Install
 	# yum install python-pip -y
 	# pip install flask
 	# pip install boto
+	# mkdir /var/log/atw/
 	# git clone https://github.com/nopp/atw.git
 	# cd atw
 	-> configure the application
@@ -33,4 +34,4 @@ Configure
 
 Screenshot
 ==========
-![Image Alt](http://s16.postimg.org/o3fpy1rp1/Screen_Shot_2015_06_20_at_10.png)
+![Image Alt](http://i59.tinypic.com/ftpp4m.png)
