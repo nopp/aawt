@@ -50,7 +50,6 @@ class Atw:
 			filters = {"tag-key":tagKey,"tag-value":"*"+tagValue+"*"}
 			ec2List = []
 			for ec2 in ec2_conn.get_only_instances(filters=filters):
-				print dir(ec2.region)
 				ec2Vm = [ec2.tags['Name'],ec2.id,ec2.private_ip_address,ec2_conn.get_instance_attribute(ec2.id,"instanceType")['instanceType'],ec2.state,ec2.placement]
 				ec2List.append(ec2Vm)
 			return ec2List

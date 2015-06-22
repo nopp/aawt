@@ -24,7 +24,7 @@
 		<h3 class="panel-title"> Searching for {{ key }}:{{ value }} <br><br>Total <b>{{ total }}</b> found!</h3>
 	</div>
 	<div class="panel-body">
-		<table class="table">
+		<table id="ec2table" class="table table-striped">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -35,6 +35,16 @@
 					<th>State</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<th>Name</th>
+					<th>Instance ID</th>
+					<th>Zone</th>
+					<th>Type</th>
+					<th>Private IP</th>
+					<th>State</th>
+				</tr>
+			</tfoot>
 			<tbody>
 				{% for ec2 in results %}
 				<tr>

@@ -1,6 +1,7 @@
 #
 # ATW - AWS Tool Web
 #
+import logging
 import ConfigParser
 from flask import *
 from lib.atw import *
@@ -59,4 +60,5 @@ def ec2tag():
 		print "Error - Can't search EC2 by TAG"
 
 if __name__ == '__main__':
-	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)	
+	logging.basicConfig(filename='/var/log/atw/atw.log',level=logging.INFO)
+	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))	
