@@ -17,6 +17,7 @@ class Atw:
 		error.append(eMsg)
 		return error
 
+	# Connect to EC2
 	def ec2_connect(self):
 		try:
 			access_key = config.get('conf','accessKey')
@@ -27,35 +28,7 @@ class Atw:
 		except:			
 			return self.error("Error - can't connect to EC2 (LIB)")
 
-	# EC2 Search by IP (Private/Public) 
-	def ec2_searchByIP(self,ip,iptype):
-		ec2_conn = self.ec2_connect()
-		try:
-			if iptype == "private":
-				filters = {"private-ip-address": ip}
-			else:
-				filters = {"ip-address": ip}
-			ec2List = []
-			for ec2 in ec2_conn.get_only_instances(filters=filters):
-				ec2Vm = [ec2.tags['Name'],ec2.id,ec2.private_ip_address,ec2_conn.get_instance_attribute(ec2.id,"instanceType")['instanceType'],ec2.state,ec2.placement]
-				ec2List.append(ec2Vm)
-			return ec2List
-		except:
-			return self.error("Error - Can't search EC2 by IP (LIB)")
-
-	# EC2 Search by TAG
-	def ec2_searchByTAG(self,tagKey,tagValue):
-		ec2_conn = self.ec2_connect()
-		try:
-			filters = {"tag-key":tagKey,"tag-value":"*"+tagValue+"*"}
-			ec2List = []
-			for ec2 in ec2_conn.get_only_instances(filters=filters):
-				ec2Vm = [ec2.tags['Name'],ec2.id,ec2.private_ip_address,ec2_conn.get_instance_attribute(ec2.id,"instanceType")['instanceType'],ec2.state,ec2.placement]
-				ec2List.append(ec2Vm)
-			return ec2List
-		except:
-			return self.error("Error - Can't search EC2 by TAG (LIB)")
-
+	# Return EC2 Tags
 	def returnTags(self,tags):
 		ec2Tags = []
 		for tagKey,tagValue in tags.iteritems():
@@ -66,6 +39,9 @@ class Atw:
 	def ec2_listAll(self):
 		ec2_conn = self.ec2_connect()
 		try:
+			# Filter example:
+			# filters = {"private-ip-address": ip}
+			# ec2_conn.get_only_instances(filters=filters)
 			ec2List = []
 			for ec2 in ec2_conn.get_only_instances():
 				tagLists = self.returnTags(ec2.tags)

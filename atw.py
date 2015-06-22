@@ -17,21 +17,7 @@ app.secret_key = 'BYG>.L*((*$jjkh>>'
 def index():
 	return render_template('index.html')
 
-# EC2 Search by IP
-@app.route("/ec2_search_ip")
-def ec2_search_ip():	
-	return render_template('ec2_search_ip.html')
-
-@app.route("/ec2SearchIP", methods=['POST'])
-def ec2ip():
-	try:
-		if request.method == 'POST':	
-			atw = Atw()
-			rtn = atw.ec2_searchByIP(request.form['ip'],request.form['iptype'])
-		return render_template('ec2_search_ip.html',results=rtn,ip=request.form['ip'],type=request.form['iptype'])
-	except:
-		print "Error - Can't search EC2 by IP"
-
+# EC2 List All
 @app.route("/ec2_list_all")
 def ec2_list_all():
 	try:	
@@ -40,21 +26,6 @@ def ec2_list_all():
 		return render_template('ec2_list_all.html',results=rtn)
 	except:
 		print "Error - Can't list all EC2"
-
-# EC2 Search by TAG
-@app.route("/ec2_search_tag")
-def ec2_search_tag():	
-	return render_template('ec2_search_tag.html')
-
-@app.route("/ec2SearchTAG", methods=['POST'])
-def ec2tag():
-	try:
-		if request.method == 'POST':	
-			atw = Atw()
-			rtn = atw.ec2_searchByTAG(request.form['tagKey'],request.form['tagValue'])
-		return render_template('ec2_search_tag.html',results=rtn,key=request.form['tagKey'],value=request.form['tagValue'])
-	except:
-		print "Error - Can't search EC2 by TAG"
 
 if __name__ == '__main__':
 	logging.basicConfig(filename='/var/log/atw/atw.log',level=logging.INFO)
