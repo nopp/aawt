@@ -14,6 +14,7 @@ Install
 	# yum install python-pip -y
 	# pip install flask
 	# pip install boto
+	# mkdir /var/log/atw/
 	# git clone https://github.com/nopp/atw.git
 	# cd atw
 	-> configure the application
