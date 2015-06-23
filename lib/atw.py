@@ -44,9 +44,17 @@ class Atw:
 			# ec2_conn.get_only_instances(filters=filters)
 			ec2List = []
 			for ec2 in ec2_conn.get_only_instances():
-				tagLists = self.returnTags(ec2.tags)
-				ec2Vm = [ec2.tags['Name'],ec2.id,ec2.private_ip_address,ec2_conn.get_instance_attribute(ec2.id,"instanceType")['instanceType'],ec2.state,ec2.placement,tagLists]
+				tagList = self.returnTags(ec2.tags)
+				sgList = self.return_ec2SGs(ec2.groups)
+				ec2Vm = [ec2.tags['Name'],ec2.id,ec2.private_ip_address,ec2_conn.get_instance_attribute(ec2.id,"instanceType")['instanceType'],ec2.state,ec2.placement,tagList,sgList]
 				ec2List.append(ec2Vm)
 			return ec2List
 		except:
 			return self.error("Error - Can't list all EC2 (LIB)")
+
+	# Return SGs from EC2
+	def return_ec2SGs(self,ec2Groups):
+		listSGs = []
+		for sg in ec2Groups:
+			listSGs.append(sg.name+" ("+sg.id+")")
+		return listSGs

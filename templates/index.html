@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block body %}
 {% if results %}
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').popover({html: true})
+})
+</script>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title"> Listing all EC2</h3>
@@ -11,9 +16,10 @@
 				<tr>
 					<th>Name</th>
 					<th>Instance ID</th>
-					<th>Zone</th>
 					<th>Type</th>
+					<th>Zone</th>
 					<th>Private IP</th>
+					<th>SG</th>
 					<th>State</th>
 					<th style="display:none;">Tags</th>
 				</tr>
@@ -23,9 +29,10 @@
 				<tr>
 					<td>{{ ec2[0] }}</td>
 					<td>{{ ec2[1] }}</td>
-					<td>{{ ec2[5] }}</td>
 					<td>{{ ec2[3] }}</td>
+					<td>{{ ec2[5] }}</td>
 					<td>{{ ec2[2] }}</td>
+					<td><span data-toggle="tooltip" data-placement="top" title="Security Group" data-content="{% for sg in ec2[7] %}{{ sg }}<br>{% endfor %}">View</span></td>
 					{% if ec2[4] == "running" %}
 					<td><span class="label label-success">{{ ec2[4] }}</span></td>
 					{% else %}
