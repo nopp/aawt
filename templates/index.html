@@ -1,10 +1,13 @@
 {% extends "layout.html" %}
 {% block body %}
 {% if results %}
-<script>
-$(function () {
-  $('[data-toggle="tooltip"]').popover({html: true})
-})
+<script type="text/javascript" class="init">
+    $(document).ready(function() {
+        $('#ec2table').dataTable();
+        $('#ec2table tbody').on('click', 'td', function () {
+            $('[data-toggle="tooltip"]').popover({html: true, container : 'body'});
+        } );
+    } );
 </script>
 <div class="panel panel-default">
 	<div class="panel-heading">
