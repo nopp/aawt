@@ -13,14 +13,28 @@ app = Flask(__name__)
 app.secret_key = 'BYG>.L*((*$jjkh>>'
 
 # EC2 List All
-@app.route("/")
-def index():
+@app.route("/ec2/<region>",methods=['GET'])
+def ec2(region):
 	try:	
 		atw = Atw()
-		rtn = atw.ec2_listAll()
-		return render_template('index.html',results=rtn)
+		rtn = atw.ec2_listAll(region)
+		return render_template('ec2.html',results=rtn,region=region)
 	except:
 		print "Error - Can't list all EC2"
+
+# RDS List All
+@app.route("/rds/<region>",methods=['GET'])
+def rds(region):
+	try:	
+		atw = Atw()
+		rtn = atw.rds_listAll(region)
+		return render_template('rds.html',results=rtn,region=region)
+	except:
+		print "Error - Can't list all RDS"
+
+@app.route("/")
+def index():
+	return render_template('index.html')
 
 if __name__ == '__main__':
 	logging.basicConfig(filename='/var/log/atw/atw.log',level=logging.INFO)

@@ -3,6 +3,7 @@
 #
 import ConfigParser
 import boto.ec2
+import boto.rds
 import sys
 
 config = ConfigParser.RawConfigParser()
@@ -18,15 +19,24 @@ class Atw:
 		return error
 
 	# Connect to EC2
-	def ec2_connect(self):
+	def ec2_connect(self,region):
 		try:
 			access_key = config.get('conf','accessKey')
 			secret_key = config.get('conf','secretKey')
-			region = config.get('conf','region')
 			conn = boto.ec2.connect_to_region(region,aws_access_key_id=access_key,aws_secret_access_key=secret_key)
 			return conn
 		except:			
 			return self.error("Error - can't connect to EC2 (LIB)")
+
+	# Connect to RDS
+	def rds_connect(self,region):
+		try:
+			access_key = config.get('conf','accessKey')
+			secret_key = config.get('conf','secretKey')
+			conn = boto.rds.connect_to_region(region,aws_access_key_id=access_key,aws_secret_access_key=secret_key)
+			return conn
+		except:
+			return self.error("Error - can't connect to RDS (LIB)")
 
 	# Return EC2 Tags
 	def returnTags(self,tags):
@@ -36,8 +46,8 @@ class Atw:
 		return ec2Tags
 
 	# EC2 List all
-	def ec2_listAll(self):
-		ec2_conn = self.ec2_connect()
+	def ec2_listAll(self,region):
+		ec2_conn = self.ec2_connect(region)
 		try:
 			# Filter example:
 			# filters = {"private-ip-address": ip}
@@ -58,3 +68,15 @@ class Atw:
 		for sg in ec2Groups:
 			listSGs.append(sg.name+" ("+sg.id+")")
 		return listSGs
+
+	# RDS List all
+	def rds_listAll(self,region):
+		rds_conn = self.rds_connect(region)
+		try:
+			rdsList = []
+			for rds in rds_conn.get_all_dbinstances():
+				rdsInstance = [rds.DBName,rds.engine,rds.master_username,rds.endpoint[0],rds.endpoint[1],rds.status]
+				rdsList.append(rdsInstance)
+			return rdsList
+		except:
+			return self.error("Error - Can't list all RDS (LIB)")
