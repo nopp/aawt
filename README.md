@@ -34,4 +34,4 @@ Configure
 
 Screenshot
 ==========
-![Image Alt](http://i59.tinypic.com/ftpp4m.png)
+![Image Alt](http://i63.tinypic.com/309li5j.png)
