@@ -4,11 +4,6 @@ Required
 ========
 	Python + Flask + Boto3
 
-TODO
-====
-	* EC2 Search/List (done!)
-	* RDS Search/List (done!)
-
 Install
 =======
 	# yum install python-pip -y
