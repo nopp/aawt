@@ -2,7 +2,7 @@
 
 Required
 ========
-	Python + Flask
+	Python + Flask + Boto3
 
 TODO
 ====
@@ -26,7 +26,6 @@ Configure
 	Create a file /etc/atw/config.cfg with:
 
 	[conf]
-	region = yourEC2region
 	accessKey = yourAccessKeyWithEC2ReadOnly
 	secretKey = yourPrivateKeyWithEC2ReadOnly
 	ip = ipOfYourATWServer
@@ -34,4 +33,4 @@ Configure
 
 Screenshot
 ==========
-![Image Alt](http://i63.tinypic.com/309li5j.png)
+![Image Alt](http://i68.tinypic.com/1568wp1.png)
