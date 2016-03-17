@@ -1,18 +1,55 @@
 {% extends "layout.html" %}
 {% block body %}
-{% if results %}
-<script type="text/javascript" class="init">
-    $(document).ready(function() {
-        $('#ec2table').dataTable();
-        $('#ec2table tbody').on('click', 'td', function () {
-            $('[data-toggle="tooltip"]').popover({html: true});
-        } );
-    } );
-</script>
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title"> Listing all EC2</h3>
+	<div class="row">
+        <div class="col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">DC São Paulo</div>
+				<div class="panel-body">
+					<table class="table">
+					  <thead>
+						<tr>
+						  <th></th>
+						  <th>Total</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td><i class="fa fa-server"></i> EC2</td>
+						  <td><span class="badge">{{ ec2TotalSP }} instances</span></td>
+						</tr>
+						<tr>
+						  <td><i class="fa fa-hdd-o"></i> EBS</td>
+						  <td><span class="badge">{{ ebsTotalSP }} volumes ({{ ebsTotalSizeSP }} GB)</span></td>
+						</tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+        <div class="col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">DC Virginia</div>
+				<div class="panel-body">
+					<table class="table">
+					  <thead>
+						<tr>
+						  <th></th>
+						  <th>Total</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td><i class="fa fa-server"></i> EC2</td>
+						  <td><span class="badge">{{ ec2TotalVirginia }} instances</span></td>
+						</tr>
+						<tr>
+						  <td><i class="fa fa-hdd-o"></i> EBS</td>
+						  <td><span class="badge">{{ ebsTotalVirginia }} volumes ({{ ebsTotalSizeVirginia }} GB)</span></td>
+						</tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-{% endif %}
 {% endblock %}

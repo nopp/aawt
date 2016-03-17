@@ -22,7 +22,7 @@
 					<th>Type</th>
 					<th>Zone</th>
 					<th>Private IP</th>
-					<th>SG</th>
+					<th>Public IP</th>
 					<th>State</th>
 					<th style="display:none;">Tags</th>
 				</tr>
@@ -30,12 +30,18 @@
 			<tbody>
 				{% for ec2 in results %}
 				<tr>
-					<td>{{ ec2[0] }}</td>
+					<td>
+					{% if ec2[8] == None %}
+						<i class="fa fa-linux"></i> {{ ec2[0] }}
+					{% else %}
+						<i class="fa fa-windows"></i> {{ ec2[0] }}
+					{% endif %}
+					</td>
 					<td>{{ ec2[1] }}</td>
 					<td>{{ ec2[3] }}</td>
 					<td>{{ ec2[5] }}</td>
 					<td>{{ ec2[2] }}</td>
-					<td><span data-toggle="tooltip" data-placement="top" title="Security Group" data-content="{% for sg in ec2[7] %}{{ sg }}<br>{% endfor %}">View</span></td>
+					<td>{{ ec2[7] }}</td>
 					{% if ec2[4] == "running" %}
 					<td><span class="label label-success">{{ ec2[4] }}</span></td>
 					{% else %}
