@@ -43,5 +43,5 @@ def index():
 	return render_template('index.html')
 
 if __name__ == '__main__':
-	logging.basicConfig(filename='/var/log/atw/atw.log',level=logging.INFO)
+	logging.basicConfig(filename='atw.log',level=logging.INFO)
 	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
