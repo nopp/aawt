@@ -32,7 +32,7 @@ def rds(region):
 
 @app.route("/")
 def index():
-	return render_template('index.html',menu=atw.menu())
+	return render_template('index.html',menu=atw.menu(),atw=atw)
 
 if __name__ == '__main__':
 	logging.basicConfig(filename='atw.log',level=logging.INFO)

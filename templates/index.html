@@ -16,7 +16,8 @@
 					  <tbody>
 						<tr>
 						  <td><i class="fa fa-server"></i> EC2</td>
-						  <td><span class="badge">{{ ec2TotalSP }} instances</span></td>
+						  <!--td><span class="badge">{{ atw.ec2_listAll(mnu.split(":")[0])|length }} instances</span></td-->
+                          <td><span class="badge">{{ atw.ec2_total(mnu.split(":")[0]) }} instances</span></td>
 						</tr>
 						<tr>
 						  <td><i class="fa fa-hdd-o"></i> EBS</td>
