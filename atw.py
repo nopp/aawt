@@ -26,7 +26,7 @@ def ec2(region):
 @app.route("/rds/<region>",methods=['GET'])
 def rds(region):
 	try:
-		return render_template('rds.html',results=rtn,region=atw.rds_listAll(region),menu=atw.menu())
+		return render_template('rds.html',results=atw.rds_listAll(region),region=region,menu=atw.menu())
 	except:
 		print "Error - Can't list all RDS"
 
