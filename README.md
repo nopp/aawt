@@ -26,7 +26,7 @@ Configure
 	Create a file /etc/atw/config.cfg with:
 
 	[conf]
-	region = yourEC2region
+	regions = sa-east-1:Sao Paulo,us-east-1:Virginia # You need to follow this "pattern"
 	accessKey = yourAccessKeyWithEC2ReadOnly
 	secretKey = yourPrivateKeyWithEC2ReadOnly
 	ip = ipOfYourATWServer

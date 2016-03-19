@@ -38,6 +38,10 @@ class Atw:
 		except:
 			return self.error("Error - can't connect to RDS (LIB)")
 
+	def menu(self):
+		menu = config.get('conf','regions')
+		return menu.split(",")
+
 	# Return EC2 Tags
 	def returnTags(self,tags):
 		ec2Tags = []
@@ -52,7 +56,6 @@ class Atw:
 		for i in range(len(ec2Tags)):
 			if ec2Tags[i].keys()[0] == tag:
 				return ec2Tags[i].values()[0]
-		
 
 	# EC2 List all
 	def ec2_listAll(self,region):
@@ -72,18 +75,6 @@ class Atw:
 			return len(totalEC2)
 		except:
 			return self.error("Error - Can't get total EC2 (LIB)")
-
-	# Return total EBS
-	def ebs_total(self,region):
-		ec2_conn = self.ec2_connect(region)
-		try:
-			volumes = ec2_conn.get_all_volumes()
-			total = 0
-			for volume in volumes:
-				total = total+volume.size
-			return total,len(volumes)
-		except:
-			return self.error("Error - Can't get total EBS (LIB)")
 
 	# RDS List all
 	def rds_listAll(self,region):
