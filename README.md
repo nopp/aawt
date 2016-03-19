@@ -2,19 +2,13 @@
 
 Required
 ========
-	Python + Flask
-
-TODO
-====
-	* EC2 Search/List (done!)
-	* RDS Search/List (done!)
+	Python + Flask + Boto3
 
 Install
 =======
 	# yum install python-pip -y
 	# pip install flask
-	# pip install boto
-	# mkdir /var/log/atw/
+	# pip install boto3
 	# git clone https://github.com/nopp/atw.git
 	# cd atw
 	-> configure the application
@@ -34,4 +28,4 @@ Configure
 
 Screenshot
 ==========
-![Image Alt](http://i63.tinypic.com/309li5j.png)
+![Image Alt](http://i68.tinypic.com/1568wp1.png)
