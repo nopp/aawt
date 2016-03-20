@@ -76,20 +76,18 @@ class Atw:
         return total
     
     # EC2 total EBS
-    def ec2_totalEbs(self,region):
+    def ec2_totalEbs(self,region,opt):
         ec2 = self.connect_client(region,"ec2")
         total = 0
-        for volume in ec2.describe_volumes()['Volumes']:
-            total = total+1
+        if opt == "size":
+            # Size
+            for volume in ec2.describe_volumes()['Volumes']:
+                total = total+volume['Size']         
+        else:
+            # Total
+            for volume in ec2.describe_volumes()['Volumes']:
+                total = total+1
         return total
-    
-    # EC2 total size EBS
-    def ec2_totalSizeEbs(self,region):
-        ec2 = self.connect_client(region,"ec2")
-        size = 0
-        for volume in ec2.describe_volumes()['Volumes']:
-            size = size+volume['Size']
-        return size
 
     # RDS List all
     def rds_listAll(self,region):

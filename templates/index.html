@@ -20,7 +20,7 @@
 						</tr>
 						<tr>
 						  <td><i class="fa fa-hdd-o"></i> EBS</td>
-						  <td><span class="badge">{{ atw.ec2_totalEbs(mnu.split(":")[0]) }} volumes ({{ atw.ec2_totalSizeEbs(mnu.split(":")[0]) }} GB)</span></td>
+						  <td><span class="badge">{{ atw.ec2_totalEbs(mnu.split(":")[0],"total") }} volumes ({{ atw.ec2_totalEbs(mnu.split(":")[0],"size") }} GB)</span></td>
 						</tr>
 					  </tbody>
 					</table>
