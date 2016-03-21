@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if results %}
+<script type="text/javascript" class="init">
+    $(document).ready(function() {
+        $('#ec2table').dataTable();
+        $('#ec2table tbody').on('click', 'td', function () {
+            $('[data-toggle="tooltip"]').popover({html: true});
+        } );
+    } );
+</script>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"> Listing all ELB {{ region }}</h3>
+	</div>
+	<div class="panel-body">
+		<table id="ec2table" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Scheme</th>
+					<th>Name</th>
+					<th>DNS</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for elb in results %}
+				<tr>
+					<td><i class="fa fa-map-signs"></i> {{ elb[0] }}</td>
+					<td>{{ elb[1] }}</td>
+                    <td>{{ elb[2] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endif %}
+{% endblock %}

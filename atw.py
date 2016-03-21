@@ -17,7 +17,7 @@ atw = Atw()
 # EC2 List All
 @app.route("/ec2/<region>",methods=['GET']) 
 def ec2(region):
-	try:	
+	try:
 		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,menu=atw.menu())
 	except:
 		print "Error - Can't list all EC2"
@@ -29,6 +29,14 @@ def rds(region):
 		return render_template('rds.html',results=atw.rds_listAll(region),region=region,menu=atw.menu())
 	except:
 		print "Error - Can't list all RDS"
+
+# ELB List All
+@app.route("/elb/<region>",methods=['GET']) 
+def elb(region):
+	try:
+		return render_template('elb.html',results=atw.elb_listAll(region),region=region,menu=atw.menu())
+	except:
+		print "Error - Can't list all ELB"
 
 @app.route("/")
 def index():

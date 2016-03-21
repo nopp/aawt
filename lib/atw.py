@@ -100,3 +100,12 @@ class Atw:
             return rdsList
         except:
             return self.error("Error - Can't list all RDS (LIB)")
+    
+    # ELB List all
+    def elb_listAll(self,region):
+        elbClient = self.connect_client(region,"elb")
+        elbList = []
+        for elb in elbClient.describe_load_balancers()['LoadBalancerDescriptions']:
+            elbInfo = [elb['Scheme'],elb['LoadBalancerName'],elb['DNSName']]
+            elbList.append(elbInfo)
+        return elbList

@@ -28,7 +28,7 @@
                 <a class="navbar-brand" href="/">AWS Tool Web</a>
             </div>
             <div id="navbar">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav">                
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">EC2 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -37,6 +37,14 @@
 								{% endfor %}
 						</ul>
 					</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ELB <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                                {% for mnu in menu %}
+                                <li><a href="/elb/{{ mnu.split(":")[0] }}">{{ mnu.split(":")[1] }}</a></li>
+                                {% endfor %}
+                        </ul>
+                    </li>                    
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">RDS <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -44,7 +52,7 @@
 								<li><a href="/rds/{{ mnu.split(":")[0] }}">{{ mnu.split(":")[1] }}</a></li>
 								{% endfor %}
 						</ul>
-					</li>
+					</li>                  
                 </ul>
             </div>
         </div>
