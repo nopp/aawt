@@ -14,6 +14,10 @@ app.secret_key = 'BYG>.L*((*$jj2h>#'
 
 atw = Atw()
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 # EC2 List All
 @app.route("/ec2/<region>",methods=['GET']) 
 def ec2(region):
