@@ -11,29 +11,21 @@
 </script>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"> Listing all ELB {{ region }}</h3>
+		<h3 class="panel-title"> Listing all users</h3>
 	</div>
 	<div class="panel-body">
 		<table id="ec2table" class="table table-striped">
 			<thead>
 				<tr>
-					<th>Scheme</th>
-					<th>Name</th>
-					<th>Members</th>
-					<th>DNS</th>
+					<th>Username</th>
+					<th>Access key</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for elb in results %}
+				{% for iam in results %}
 				<tr>
-					<td><i class="fa fa-map-signs"></i> {{ elb[0] }}</td>
-					<td>{{ elb[1] }}</td>
-					<td>
-					{% for instance in elb[3] %}
-						{{ instance['InstanceId'] }}<br>
-					{% endfor %}
-					</td>
-                    <td>{{ elb[2] }}</td>
+					<td><i class="fa fa-user"></i> {{ iam[0] }}</td>
+					<td>{{ iam[1] }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
