@@ -18,8 +18,9 @@
 		<table id="ec2table" class="table table-striped">
 			<thead>
 				<tr>
-					<th>Reserved id</th>
-					<th>Instance type</th>
+					<th>Id</th>
+					<th>Reserved type</th>
+					<th>Type</th>
 					<th>Zone</th>
 					<th>Start</th>
 					<th>End</th>
@@ -33,6 +34,7 @@
 				{% for ec2r in results %}
 				<tr>
 					<td>{{ ec2r[9] }}</td>
+					<td>{{ ec2r[1] }}</td>
 					<td>{{ ec2r[2] }}</td>
 					<td>{{ ec2r[3] }}</td>
 					<td>{{ ec2r[6] }}</td>
