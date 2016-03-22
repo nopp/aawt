@@ -152,7 +152,7 @@ class Atw:
         try:
             iamList = []
             for user in iamClient.list_users()['Users']:
-                iamInfo = [iamClient.list_access_keys(UserName=user['UserName'])['AccessKeyMetadata'][0]['UserName'],iamClient.list_access_keys(UserName=user['UserName'])['AccessKeyMetadata'][0]['AccessKeyId']]
+                iamInfo = [iamClient.list_access_keys(UserName=user['UserName'])['AccessKeyMetadata'][0]['UserName'],iamClient.list_access_keys(UserName=user['UserName'])['AccessKeyMetadata'][0]['AccessKeyId'][-5:]]
                 iamList.append(iamInfo)
             return iamList
         except:
