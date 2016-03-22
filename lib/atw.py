@@ -115,7 +115,7 @@ class Atw:
             totalReserved = 0
             for ec2Reserved in ec2r.describe_reserved_instances()['ReservedInstances']:
                 if ec2Reserved['State'] == "active":
-                    reservedInfo = [ec2Reserved['InstanceCount'],ec2Reserved['OfferingType'],ec2Reserved['InstanceType'],ec2Reserved['AvailabilityZone'],ec2Reserved['ProductDescription'],ec2Reserved['State'],ec2Reserved['Start'].strftime("%d/%m/%Y"),ec2Reserved['End'].strftime("%d/%m/%Y"),(ec2Reserved['End'].year-ec2Reserved['Start'].year),ec2Reserved['ReservedInstancesId']]
+                    reservedInfo = [ec2Reserved['InstanceCount'],ec2Reserved['OfferingType'],ec2Reserved['InstanceType'],ec2Reserved['AvailabilityZone'],ec2Reserved['ProductDescription'],ec2Reserved['State'],ec2Reserved['Start'].strftime("%d/%m/%Y"),ec2Reserved['End'].strftime("%d/%m/%Y"),(ec2Reserved['End'].year-ec2Reserved['Start'].year),ec2Reserved['ReservedInstancesId'].split("-")[0]]
                     totalReserved = totalReserved+ec2Reserved['InstanceCount']
                     reservedList.append(reservedInfo)
             return reservedList,totalReserved
