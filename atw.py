@@ -18,6 +18,10 @@ atw = Atw()
 def page_not_found(e):
     return render_template('404.html'), 404
 
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('500.html'), 500
+
 # EC2 List All
 @app.route("/ec2/<region>",methods=['GET']) 
 def ec2(region):
