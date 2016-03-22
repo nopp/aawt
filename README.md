@@ -3,6 +3,14 @@
 Required
 ========
 	Python + Flask + Boto3
+	
+DONE
+====
+* EC2
+* EC2 Reserved
+* ELB
+* RDS
+* IAM
 
 Install
 =======
