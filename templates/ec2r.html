@@ -1,53 +1,55 @@
 {% extends "layout.html" %}
 {% block body %}
-{% if results %}
-<script type="text/javascript" class="init">
-    $(document).ready(function() {
-        $('#ec2table').dataTable();
-        $('#ec2table tbody').on('click', 'td', function () {
-            $('[data-toggle="tooltip"]').popover({html: true});
-        } );
-    } );
-</script>
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title"> Listing all ec2 reserved</h3>
+	{% if results %}
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+	        $('#ec2table').dataTable();
+	        $('#ec2table tbody').on('click', 'td', function () {
+	            $('[data-toggle="tooltip"]').popover({html: true});
+	        } );
+	    } );
+	</script>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"> Listing all ec2 reserved</h3>
+		</div>
+		<div class="panel-body">
+			<div class="alert alert-info" role="alert"><b>Total EC2 reserved {{ total }}</b></div>
+			<table id="ec2table" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Reserved type</th>
+						<th>Type</th>
+						<th>Zone</th>
+						<th>Start</th>
+						<th>End</th>
+						<th>Count</th>
+						<th>Description</th>
+						<th>Term</th>
+						<th>State</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for ec2r in results %}
+					<tr>
+						<td>{{ ec2r[9] }}</td>
+						<td>{{ ec2r[1] }}</td>
+						<td>{{ ec2r[2] }}</td>
+						<td>{{ ec2r[3] }}</td>
+						<td>{{ ec2r[6] }}</td>
+						<td>{{ ec2r[7] }}</td>
+						<td>{{ ec2r[0] }}</td>
+						<td>{{ ec2r[4] }}</td>
+						<td>{{ ec2r[8] }} year(s)</td>
+						<td><span class="label label-success">{{ ec2r[5] }}</span></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<div class="panel-body">
-		<div class="alert alert-info" role="alert"><b>Total EC2 reserved {{ total }}</b></div>
-		<table id="ec2table" class="table table-striped">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Reserved type</th>
-					<th>Type</th>
-					<th>Zone</th>
-					<th>Start</th>
-					<th>End</th>
-					<th>Count</th>
-					<th>Description</th>
-					<th>Term</th>
-					<th>State</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for ec2r in results %}
-				<tr>
-					<td>{{ ec2r[9] }}</td>
-					<td>{{ ec2r[1] }}</td>
-					<td>{{ ec2r[2] }}</td>
-					<td>{{ ec2r[3] }}</td>
-					<td>{{ ec2r[6] }}</td>
-					<td>{{ ec2r[7] }}</td>
-					<td>{{ ec2r[0] }}</td>
-					<td>{{ ec2r[4] }}</td>
-					<td>{{ ec2r[8] }} year(s)</td>
-					<td><span class="label label-success">{{ ec2r[5] }}</span></td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-</div>
-{% endif %}
+	{% else %}
+		<div class="alert alert-warning" role="alert"><b>Doesn't have reserved instances on this region {{ region }}</b></div>
+	{% endif %}
 {% endblock %}
