@@ -152,7 +152,10 @@ class Atw:
         try:
             iamList = []
             for user in iamClient.list_users()['Users']:
-                iamInfo = [iamClient.list_access_keys(UserName=user['UserName'])['AccessKeyMetadata'][0]['UserName'],iamClient.list_access_keys(UserName=user['UserName'])['AccessKeyMetadata'][0]['AccessKeyId'][-5:]]
+                keys = []
+                for awskey in iamClient.list_access_keys(UserName=user['UserName'])['AccessKeyMetadata']:
+                    keys.append(awskey['AccessKeyId'])
+                iamInfo = [user['UserName'],keys]
                 iamList.append(iamInfo)
             return iamList
         except:
