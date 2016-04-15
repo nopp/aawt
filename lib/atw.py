@@ -1,3 +1,4 @@
+
 #
 # ATW - AWS Tool Web
 #
@@ -174,8 +175,8 @@ class Atw:
             total = 0
             for vol in ebsClient.describe_volumes()['Volumes']:
                 total = total+vol['Size']
-                ebsInfo = [vol['VolumeId'],ebsType[vol['VolumeType']],vol['Size'],vol['AvailabilityZone']]
+                ebsInfo = [vol['VolumeId'],ebsType[vol['VolumeType']],vol['Size'],vol['AvailabilityZone'],vol['State'],vol['Attachments'][0]['InstanceId']]
                 ebsList.append(ebsInfo)
             return ebsList,total
         except:
-            return self.error("ErrorLib - Can't list all ebs.")            
+            return self.error("ErrorLib - Can't list all ebs.")

@@ -30,6 +30,15 @@ def ec2(region):
 	except:
 		print "ErrorFlask - Can't list all EC2."
 
+# EC2 Info
+@app.route("/ec2info/<region>/<id>",methods=['GET']) 
+def ec2Info(region,id):
+	#try:
+	print ">>>>>>>> "+region,id
+	return render_template('ec2info.html',region=region,id=id,menu=atw.menu())
+	#except:
+	#	print "ErrorFlask - Can't return EC2 info."		
+
 # RDS List All
 @app.route("/rds/<region>",methods=['GET'])
 def rds(region):

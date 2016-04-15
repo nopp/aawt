@@ -11,7 +11,7 @@
 	</script>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title"> Listing all EC2 {{ region }}</h3>
+			<h3 class="panel-title"> Listing all EC2 [{{ region }}]</h3>
 		</div>
 		<div class="panel-body">
 			<table id="ec2table" class="table table-striped">
@@ -32,9 +32,9 @@
 					<tr>
 						<td>
 						{% if ec2[8] == None %}
-							<i class="fa fa-linux"></i> {{ ec2[0] }}
+							<i class="fa fa-linux"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2[1] }}">{{ ec2[0] }}</a>
 						{% else %}
-							<i class="fa fa-windows"></i> {{ ec2[0] }}
+							<i class="fa fa-windows"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2[1] }}">{{ ec2[0] }}</a>
 						{% endif %}
 						</td>
 						<td>{{ ec2[1] }}</td>

@@ -18,19 +18,27 @@
 			<table id="ec2table" class="table table-striped">
 				<thead>
 					<tr>
-						<th>Id</th>
+						<th>EBS Id</th>
+						<th>EC2 Id</th>
 						<th>Zone</th>
 						<th>Type</th>
 						<th>Size</th>
+						<th>State</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for ebs in results %}
 					<tr>
 						<td>{{ ebs[0] }}</td>
+						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ebs[5] }}">{{ ebs[5] }}</a></td>
 						<td>{{ ebs[3] }}</td>
 						<td>{{ ebs[1] }}</td>
-						<td><span class="label label-info">{{ ebs[2] }} GB</span></td>
+						<td>{{ ebs[2] }} GB</td>
+						{% if ebs[4] == "in-use" %}
+							<td><span class="label label-success">{{ ebs[4] }}</span></td>
+						{% else %}
+							<td><span class="label label-info">{{ ebs[4] }}</span></td>
+						{% endif %}
 					</tr>
 					{% endfor %}
 				</tbody>
