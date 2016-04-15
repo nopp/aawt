@@ -8,32 +8,29 @@
 	            $('[data-toggle="tooltip"]').popover({html: true});
 	        } );
 	    } );
-	</script>
+	</script>	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title"> Listing all ELB [{{ region }}]</h3>
+			<h3 class="panel-title"> Listing all EBS [{{ region }}]</h3>
 		</div>
 		<div class="panel-body">
+			<div class="alert alert-info" role="alert"><b>Total EBS {{ total }} GB</b></div>
 			<table id="ec2table" class="table table-striped">
 				<thead>
 					<tr>
-						<th>Scheme</th>
-						<th>Name</th>
-						<th>Members</th>
-						<th>DNS</th>
+						<th>Id</th>
+						<th>Zone</th>
+						<th>Type</th>
+						<th>Size</th>
 					</tr>
 				</thead>
 				<tbody>
-					{% for elb in results %}
+					{% for ebs in results %}
 					<tr>
-						<td><i class="fa fa-map-signs"></i> {{ elb[0] }}</td>
-						<td>{{ elb[1] }}</td>
-						<td>
-						{% for instance in elb[3] %}
-							{{ instance['InstanceId'] }}<br>
-						{% endfor %}
-						</td>
-	                    <td>{{ elb[2] }}</td>
+						<td>{{ ebs[0] }}</td>
+						<td>{{ ebs[3] }}</td>
+						<td>{{ ebs[1] }}</td>
+						<td><span class="label label-info">{{ ebs[2] }} GB</span></td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -41,6 +38,6 @@
 		</div>
 	</div>
 	{% else %}
-		<div class="alert alert-warning" role="alert"><b>Doesn't have load balancers on this region {{ region }}</b></div>
+		<div class="alert alert-warning" role="alert"><b>Doesn't have EBS on this region {{ region }}</b></div>
 	{% endif %}
 {% endblock %}

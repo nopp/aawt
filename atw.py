@@ -16,11 +16,11 @@ atw = Atw()
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('404.html',menu=atw.menu()), 404
 
 @app.errorhandler(500)
 def page_not_found(e):
-    return render_template('500.html'), 500
+    return render_template('500.html',menu=atw.menu()), 500
 
 # EC2 List All
 @app.route("/ec2/<region>",methods=['GET']) 
@@ -62,6 +62,15 @@ def ec2r(region):
 		return render_template('ec2r.html',results=rtn,total=total,region=region,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all EC2 reserved."
+
+# EBS List all
+@app.route("/ebs/<region>",methods=['GET']) 
+def ebs(region):
+	try:
+		rtn,total = atw.ebs_listAll(region)
+		return render_template('ebs.html',results=rtn,region=region,total=total,menu=atw.menu())
+	except:
+		print "ErrorFlask - Can't list all ebs."
 
 @app.route("/")
 def index():

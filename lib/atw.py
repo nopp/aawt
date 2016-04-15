@@ -160,3 +160,22 @@ class Atw:
             return iamList
         except:
             return self.error("ErrorLib - Can't list all users.")
+
+    # EBS List all
+    def ebs_listAll(self,region):
+        ebsClient = self.connect_client(region,"ec2")
+        try:
+            ebsType = {
+                "gp2": 'General Purpose SSD',
+                "io1": 'Provisioned IOPS SSD',
+                "standard": 'Magnetic',
+            }
+            ebsList = []
+            total = 0
+            for vol in ebsClient.describe_volumes()['Volumes']:
+                total = total+vol['Size']
+                ebsInfo = [vol['VolumeId'],ebsType[vol['VolumeType']],vol['Size'],vol['AvailabilityZone']]
+                ebsList.append(ebsInfo)
+            return ebsList,total
+        except:
+            return self.error("ErrorLib - Can't list all ebs.")            
