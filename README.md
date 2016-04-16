@@ -8,6 +8,7 @@ DONE
 ====
 * EC2
 * EC2 Reserved
+* EBS
 * ELB
 * RDS
 * IAM
