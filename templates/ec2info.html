@@ -1,19 +1,54 @@
 {% extends "layout.html" %}
 {% block body %}
-<script type="text/javascript" class="init">
-    $(document).ready(function() {
-        $('#ec2table').dataTable();
-        $('#ec2table tbody').on('click', 'td', function () {
-            $('[data-toggle="tooltip"]').popover({html: true});
-        } );
-    } );
-</script>
+{% if info['platform'] == None %}
+	{% if info['state'] == "running" %}
+		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ info['name'] }} <span class="label label-success">{{ info['state'] }}</span></h3>
+		<h6>Launched at {{ info['launch_time'] }}</h6>
+	{% else %}
+		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ info['name'] }} <span class="label label-success">{{ info['state'] }}</span></h3>
+		<h6>Launched at {{ info['launch_time'] }}</h6>
+	{% endif %}
+{% else %}
+	{% if info['state'] == "running" %}
+		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ info['name'] }} <span class="label label-success">{{ info['state'] }}</span></h3>
+		<h6>Launched at {{ info['launch_time'] }}</h6>
+	{% else %}
+		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ info['name'] }} <span class="label label-success">{{ info['state'] }}</span></h3>
+		<h6>Launched at {{ info['launch_time'] }}</h6>
+	{% endif %}
+{% endif %}
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title"> EC2 {{ id }} [{{ region }}]</h3>
-	</div>
 	<div class="panel-body">
-		soon!
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Instance ID</span>
+					<div class="form-control">{{ id }}</div>
+					<span class="input-group-addon" id="basic-addon1">Image ID</span>
+					<div class="form-control">{{ info['image_id'] }}</div>
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Type</span>
+					<div class="form-control">{{ info['instance_type'] }}</div>
+					<span class="input-group-addon" id="basic-addon1">Zone</span>
+					<div class="form-control">{{ info['placement'] }}</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Vpc ID</span>
+					<div class="form-control">{{ info['vpc']['vpc_id'] }}</div>
+					<span class="input-group-addon" id="basic-addon1">Subnet</span>
+					<div class="form-control">{{ info['subnet_id'] }}</div>
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Private IP</span>
+					<div class="form-control">{{ info['private_ip_address'] }}</div>
+					<span class="input-group-addon" id="basic-addon1">Public IP</span>
+					<div class="form-control">{{ info['public_ip_address'] }}</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

@@ -29,15 +29,15 @@
 				<tbody>
 					{% for ebs in results %}
 					<tr>
-						<td>{{ ebs[0] }}</td>
-						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ebs[5] }}">{{ ebs[5] }}</a></td>
-						<td>{{ ebs[3] }}</td>
-						<td>{{ ebs[1] }}</td>
-						<td>{{ ebs[2] }} GB</td>
-						{% if ebs[4] == "in-use" %}
-							<td><span class="label label-success">{{ ebs[4] }}</span></td>
+						<td>{{ ebs['VolumeId'] }}</td>
+						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ebs['InstanceId'] }}">{{ ebs['InstanceId'] }}</a></td>
+						<td>{{ ebs['AvailabilityZone'] }}</td>
+						<td>{{ ebs['VolumeType'] }}</td>
+						<td>{{ ebs['Size'] }} GB</td>
+						{% if ebs['State'] == "in-use" %}
+							<td><span class="label label-success">{{ ebs['State'] }}</span></td>
 						{% else %}
-							<td><span class="label label-info">{{ ebs[4] }}</span></td>
+							<td><span class="label label-info">{{ ebs['State'] }}</span></td>
 						{% endif %}
 					</tr>
 					{% endfor %}

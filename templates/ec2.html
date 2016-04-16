@@ -31,24 +31,24 @@
 					{% for ec2 in results %}
 					<tr>
 						<td>
-						{% if ec2[8] == None %}
-							<i class="fa fa-linux"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2[1] }}">{{ ec2[0] }}</a>
+						{% if ec2['platform'] == None %}
+							<i class="fa fa-linux"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ ec2['name'] }}</a>
 						{% else %}
-							<i class="fa fa-windows"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2[1] }}">{{ ec2[0] }}</a>
+							<i class="fa fa-windows"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ ec2['name'] }}</a>
 						{% endif %}
 						</td>
-						<td>{{ ec2[1] }}</td>
-						<td>{{ ec2[3] }}</td>
-						<td>{{ ec2[5] }}</td>
-						<td>{{ ec2[2] }}</td>
-						<td>{{ ec2[7] }}</td>
-						{% if ec2[4] == "running" %}
-						<td><span class="label label-success">{{ ec2[4] }}</span></td>
+						<td>{{ ec2['instance_id'] }}</td>
+						<td>{{ ec2['instance_type'] }}</td>
+						<td>{{ ec2['placement'] }}</td>
+						<td>{{ ec2['private_ip_address'] }}</td>
+						<td>{{ ec2['public_ip_address'] }}</td>
+						{% if ec2['state'] == "running" %}
+						<td><span class="label label-success">{{ ec2['state'] }}</span></td>
 						{% else %}
-						<td><span class="label label-danger">{{ ec2[4] }}</span></td>
+						<td><span class="label label-danger">{{ ec2['state'] }}</span></td>
 						{% endif %}
 						<td style="display:none;">
-						{% for tag in ec2[6] %}
+						{% for tag in ec2['tagList'] %}
 							{{ tag }}<br>
 						{% endfor %}
 						</td>

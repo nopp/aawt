@@ -33,16 +33,16 @@
 				<tbody>
 					{% for ec2r in results %}
 					<tr>
-						<td>{{ ec2r[9] }}</td>
-						<td>{{ ec2r[1] }}</td>
-						<td>{{ ec2r[2] }}</td>
-						<td>{{ ec2r[3] }}</td>
-						<td>{{ ec2r[6] }}</td>
-						<td>{{ ec2r[7] }}</td>
-						<td>{{ ec2r[0] }}</td>
-						<td>{{ ec2r[4] }}</td>
-						<td>{{ ec2r[8] }} year(s)</td>
-						<td><span class="label label-success">{{ ec2r[5] }}</span></td>
+						<td>{{ ec2r['ReservedInstancesId'] }}</td>
+						<td>{{ ec2r['InstanceType'] }}</td>
+						<td>{{ ec2r['OfferingType'] }}</td>
+						<td>{{ ec2r['AvailabilityZone'] }}</td>
+						<td>{{ ec2r['Start'] }}</td>
+						<td>{{ ec2r['End'] }}</td>
+						<td>{{ ec2r['InstanceCount'] }}</td>
+						<td>{{ ec2r['ProductDescription'] }}</td>
+						<td>{{ ec2r['Term'] }} year(s)</td>
+						<td><span class="label label-success">{{ ec2r['State'] }}</span></td>
 					</tr>
 					{% endfor %}
 				</tbody>

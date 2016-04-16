@@ -26,14 +26,14 @@
 				<tbody>
 					{% for elb in results %}
 					<tr>
-						<td><i class="fa fa-map-signs"></i> {{ elb[0] }}</td>
-						<td>{{ elb[1] }}</td>
+						<td><i class="fa fa-map-signs"></i> {{ elb['Scheme'] }}</td>
+						<td>{{ elb['LoadBalancerName'] }}</td>
 						<td>
-						{% for instance in elb[3] %}
+						{% for instance in elb['Instances'] %}
 							{{ instance['InstanceId'] }}<br>
 						{% endfor %}
 						</td>
-	                    <td>{{ elb[2] }}</td>
+	                    <td>{{ elb['DNSName'] }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
