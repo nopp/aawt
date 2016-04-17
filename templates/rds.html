@@ -28,7 +28,7 @@
 				<tbody>
 					{% for rds in results %}
 					<tr>
-						<td><i class="fa fa-database"></i> {{ rds['Name'] }}</td>
+						<td><i class="fa fa-database"></i> {{ rds['DBName'] }}</td>
 						<td>{{ rds['Engine'] }}</td>
 	                    <td>{{ rds['MasterUsername'] }}</td>
 						<td>{{ rds['Endpoint']['Address'] }}</td>
