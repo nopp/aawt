@@ -31,8 +31,8 @@
 						<td><i class="fa fa-database"></i> {{ rds['Name'] }}</td>
 						<td>{{ rds['Engine'] }}</td>
 	                    <td>{{ rds['MasterUsername'] }}</td>
-						<td>{{ rds['Endpoint'] }}</td>
-						<td>{{ rds['Port'] }}</td>
+						<td>{{ rds['Endpoint']['Address'] }}</td>
+						<td>{{ rds['Endpoint']['Port'] }}</td>
 	                    {% if rds['DBInstanceStatus'] == "available" %}
 	                    <td><span class="label label-success">{{ rds['DBInstanceStatus'] }}</span></td>
 	                    {% else %}

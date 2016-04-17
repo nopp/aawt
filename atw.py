@@ -26,7 +26,7 @@ def page_not_found(e):
 @app.route("/ec2/<region>",methods=['GET']) 
 def ec2(region):
 	try:
-		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,menu=atw.menu())
+		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,atw=atw,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all EC2."
 
@@ -34,7 +34,7 @@ def ec2(region):
 @app.route("/ec2info/<region>/<id>",methods=['GET']) 
 def ec2Info(region,id):
 	try:	
-		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),menu=atw.menu())
+		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't return EC2 info."		
 

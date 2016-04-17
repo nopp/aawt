@@ -26,22 +26,20 @@
 						<th>End</th>
 						<th>Count</th>
 						<th>Description</th>
-						<th>Term</th>
 						<th>State</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for ec2r in results %}
 					<tr>
-						<td>{{ ec2r['ReservedInstancesId'] }}</td>
+						<td>{{ ec2r['ReservedInstancesId'].split("-")[0] }}</td>
 						<td>{{ ec2r['InstanceType'] }}</td>
 						<td>{{ ec2r['OfferingType'] }}</td>
 						<td>{{ ec2r['AvailabilityZone'] }}</td>
-						<td>{{ ec2r['Start'] }}</td>
-						<td>{{ ec2r['End'] }}</td>
+						<td>{{ ec2r['Start'].strftime("%d/%m/%Y") }}</td>
+						<td>{{ ec2r['End'].strftime("%d/%m/%Y") }}</td>
 						<td>{{ ec2r['InstanceCount'] }}</td>
 						<td>{{ ec2r['ProductDescription'] }}</td>
-						<td>{{ ec2r['Term'] }} year(s)</td>
 						<td><span class="label label-success">{{ ec2r['State'] }}</span></td>
 					</tr>
 					{% endfor %}

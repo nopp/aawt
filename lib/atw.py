@@ -52,23 +52,7 @@ class Atw:
             ec2_res = self.connect_resource(region,"ec2")
         try:
             instance = ec2_res.Instance(id)
-            ec2Info = {}
-            ec2Info['name'] = self.returnTagEC2(self.returnTags(instance.tags),"Name")
-            ec2Info['instance_id'] = id
-            ec2Info['image_id'] = instance.image_id
-            ec2Info['instance_type'] = instance.instance_type
-            ec2Info['launch_time'] = instance.launch_time.strftime('%d/%m/%Y %H:%M:%S')
-            ec2Info['network_interfaces'] = instance.network_interfaces
-            ec2Info['platform'] = instance.platform
-            ec2Info['private_ip_address'] = instance.private_ip_address
-            ec2Info['public_ip_address'] = instance.public_ip_address
-            ec2Info['security_groups'] = instance.security_groups
-            ec2Info['state'] = instance.state['Name']
-            ec2Info['subnet_id'] = instance.subnet_id
-            ec2Info['vpc'] = instance.vpc
-            ec2Info['tagList'] = self.returnTags(instance.tags)
-            ec2Info['placement'] = instance.placement['AvailabilityZone']
-            return ec2Info
+            return instance
         except:
             return self.error("ErrorLib - Can't return ec2 info.")
 
@@ -99,17 +83,7 @@ class Atw:
         try:
             ec2List = []
             for ec2 in ec2_res.instances.all():
-                ec2Info = {}
-                ec2Info['name'] = self.returnTagEC2(self.returnTags(ec2.tags),"Name")
-                ec2Info['instance_id'] = ec2.instance_id
-                ec2Info['instance_type'] = ec2.instance_type
-                ec2Info['platform'] = ec2.platform
-                ec2Info['private_ip_address'] = ec2.private_ip_address
-                ec2Info['public_ip_address'] = ec2.public_ip_address
-                ec2Info['state'] = ec2.state['Name']
-                ec2Info['tagList'] = self.returnTags(ec2.tags)
-                ec2Info['placement'] = ec2.placement['AvailabilityZone']
-                ec2List.append(ec2Info)
+                ec2List.append(ec2)
             return ec2List
         except:
             return self.error("ErrorLib - Can't list all ec2.")
@@ -150,19 +124,8 @@ class Atw:
             totalReserved = 0
             for ec2Reserved in ec2r.describe_reserved_instances()['ReservedInstances']:
                 if ec2Reserved['State'] == "active":
-                    reservedInfo = {}
-                    reservedInfo['InstanceCount'] = ec2Reserved['InstanceCount']
-                    reservedInfo['OfferingType'] = ec2Reserved['OfferingType']
-                    reservedInfo['InstanceType'] = ec2Reserved['InstanceType']
-                    reservedInfo['AvailabilityZone'] = ec2Reserved['AvailabilityZone']
-                    reservedInfo['ProductDescription'] = ec2Reserved['ProductDescription']
-                    reservedInfo['State'] = ec2Reserved['State']
-                    reservedInfo['Start'] = ec2Reserved['Start'].strftime("%d/%m/%Y")
-                    reservedInfo['End'] = ec2Reserved['End'].strftime("%d/%m/%Y")
-                    reservedInfo['Term'] = ec2Reserved['End'].year-ec2Reserved['Start'].year
-                    reservedInfo['ReservedInstancesId'] = ec2Reserved['ReservedInstancesId'].split("-")[0]
                     totalReserved = totalReserved+ec2Reserved['InstanceCount']
-                    reservedList.append(reservedInfo)
+                    reservedList.append(ec2Reserved)
             return reservedList,totalReserved
         except:
             return self.error("ErrorLib - Can't list all EC2 reserved.")
@@ -173,14 +136,7 @@ class Atw:
         try:
             rdsList = []
             for rds in rdsClient.describe_db_instances()['DBInstances']:
-                rdsIntance = {}
-                rdsIntance['Name'] = rds['DBName']
-                rdsIntance['Engine'] = rds['Engine']
-                rdsIntance['MasterUsername'] = rds['MasterUsername']
-                rdsIntance['Endpoint'] = rds['Endpoint']['Address']
-                rdsIntance['Port'] = rds['Endpoint']['Port']
-                rdsIntance['DBInstanceStatus'] = rds['DBInstanceStatus']
-                rdsList.append(rdsIntance)
+                rdsList.append(rds)
             return rdsList
         except:
             return self.error("ErrorLib - Can't list all RDS.")
@@ -191,12 +147,7 @@ class Atw:
         try:
             elbList = []
             for elb in elbClient.describe_load_balancers()['LoadBalancerDescriptions']:
-                elbInfo = {}
-                elbInfo['Scheme'] = elb['Scheme']
-                elbInfo['LoadBalancerName'] = elb['LoadBalancerName']
-                elbInfo['DNSName'] = elb['DNSName']
-                elbInfo['Instances'] = elb['Instances']
-                elbList.append(elbInfo)
+                elbList.append(elb)
             return elbList
         except:
             return self.error("ErrorLib - Can't list all elb.")
@@ -227,16 +178,9 @@ class Atw:
             }
             ebsList = []
             total = 0
-            for vol in ebsClient.describe_volumes()['Volumes']:
-                ebsInfo = {}
-                total = total+vol['Size']
-                ebsInfo['VolumeId'] = vol['VolumeId']
-                ebsInfo['VolumeType'] = ebsType[vol['VolumeType']]
-                ebsInfo['Size'] = vol['Size']
-                ebsInfo['AvailabilityZone'] = vol['AvailabilityZone']
-                ebsInfo['State'] = vol['State']
-                ebsInfo['InstanceId'] = vol['Attachments'][0]['InstanceId']
-                ebsList.append(ebsInfo)
+            for ebs in ebsClient.describe_volumes()['Volumes']:
+                total = total+ebs['Size']
+                ebsList.append(ebs)
             return ebsList,total
         except:
             return self.error("ErrorLib - Can't list all ebs.")

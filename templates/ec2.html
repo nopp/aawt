@@ -32,20 +32,20 @@
 					<tr>
 						<td>
 						{% if ec2['platform'] == None %}
-							<i class="fa fa-linux"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ ec2['name'] }}</a>
+							<i class="fa fa-linux"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}</a>
 						{% else %}
-							<i class="fa fa-windows"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ ec2['name'] }}</a>
+							<i class="fa fa-windows"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}</a>
 						{% endif %}
 						</td>
 						<td>{{ ec2['instance_id'] }}</td>
 						<td>{{ ec2['instance_type'] }}</td>
-						<td>{{ ec2['placement'] }}</td>
+						<td>{{ ec2['placement']['AvailabilityZone'] }}</td>
 						<td>{{ ec2['private_ip_address'] }}</td>
 						<td>{{ ec2['public_ip_address'] }}</td>
-						{% if ec2['state'] == "running" %}
-						<td><span class="label label-success">{{ ec2['state'] }}</span></td>
+						{% if ec2['state']['Name'] == "running" %}
+						<td><span class="label label-success">{{ ec2['state']['Name'] }}</span></td>
 						{% else %}
-						<td><span class="label label-danger">{{ ec2['state'] }}</span></td>
+						<td><span class="label label-danger">{{ ec2['state']['Name'] }}</span></td>
 						{% endif %}
 						<td style="display:none;">
 						{% for tag in ec2['tagList'] %}
