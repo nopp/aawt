@@ -33,8 +33,8 @@
 					{% for ec2r in results %}
 					<tr>
 						<td>{{ ec2r['ReservedInstancesId'].split("-")[0] }}</td>
-						<td>{{ ec2r['InstanceType'] }}</td>
 						<td>{{ ec2r['OfferingType'] }}</td>
+						<td>{{ ec2r['InstanceType'] }}</td>
 						<td>{{ ec2r['AvailabilityZone'] }}</td>
 						<td>{{ ec2r['Start'].strftime("%d/%m/%Y") }}</td>
 						<td>{{ ec2r['End'].strftime("%d/%m/%Y") }}</td>
