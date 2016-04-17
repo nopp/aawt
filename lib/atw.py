@@ -12,7 +12,7 @@ config.read('/etc/atw/config.cfg')
 class Atw:
 
     access_key = config.get('conf','accessKey')
-    secret_key = config.get('conf','secretKey')    
+    secret_key = config.get('conf','secretKey')
     
     # This is a little hammer, I'll fix this soon :D    
     def menu(self):
@@ -171,11 +171,6 @@ class Atw:
     def ebs_listAll(self,region):
         ebsClient = self.connect_client(region,"ec2")
         try:
-            ebsType = {
-                "gp2": 'General Purpose SSD',
-                "io1": 'Provisioned IOPS SSD',
-                "standard": 'Magnetic',
-            }
             ebsList = []
             total = 0
             for ebs in ebsClient.describe_volumes()['Volumes']:
