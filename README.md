@@ -20,6 +20,7 @@ Install
 	# yum install python-pip -y
 	# pip install flask
 	# pip install boto3
+	# pip install pygal
 	# git clone https://github.com/nopp/atw.git
 	# cd atw
 	-> configure the application
