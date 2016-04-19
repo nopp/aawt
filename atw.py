@@ -1,6 +1,7 @@
 #
 # ATW - AWS Tool Web
 #
+import pygal
 import logging
 import ConfigParser
 from flask import *
@@ -26,14 +27,14 @@ def page_not_found(e):
 @app.route("/ec2/<region>",methods=['GET']) 
 def ec2(region):
 	try:
-		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,atw=atw,menu=atw.menu())
+		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,atw=atw,charge=atw.charge_service('AmazonEC2'),menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all EC2."
 
 # EC2 Info
 @app.route("/ec2info/<region>/<id>",methods=['GET']) 
 def ec2Info(region,id):
-	try:	
+	try:
 		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't return EC2 info."		
@@ -42,7 +43,7 @@ def ec2Info(region,id):
 @app.route("/rds/<region>",methods=['GET'])
 def rds(region):
 	try:
-		return render_template('rds.html',results=atw.rds_listAll(region),region=region,menu=atw.menu())
+		return render_template('rds.html',results=atw.rds_listAll(region),region=region,charge=atw.charge_service('AmazonRDS'),menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all RDS."
 
@@ -82,7 +83,7 @@ def ebs(region):
 
 @app.route("/")
 def index():
-	return render_template('index.html',menu=atw.menu(),atw=atw)
+	return render_template('index.html',menu=atw.menu(),charge=atw.charge_service('',"total"),atw=atw)
 
 if __name__ == '__main__':
 	logging.basicConfig(filename='atw.log',level=logging.INFO)

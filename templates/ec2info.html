@@ -20,6 +20,7 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="row">
+			<div class="col-xs-10">Instance info</div>
 			<div class="col-xs-6">
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Instance ID</span>
@@ -27,6 +28,8 @@
 					<span class="input-group-addon" id="basic-addon1">Image ID</span>
 					<div class="form-control">{{ info['image_id'] }}</div>
 				</div>
+			</div>
+			<div class="col-xs-6">
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Type</span>
 					<div class="form-control">{{ info['instance_type'] }}</div>
@@ -34,21 +37,45 @@
 					<div class="form-control">{{ info['placement']['AvailabilityZone'] }}</div>
 				</div>
 			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-10">Network</div>
 			<div class="col-xs-6">
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Vpc ID</span>
 					<div class="form-control">{{ info['vpc']['vpc_id'] }}</div>
 					<span class="input-group-addon" id="basic-addon1">Subnet</span>
-					<div class="form-control">{{ info['subnet_id'] }}</div>
+					<div class="form-control">{{ info['subnet_id'] }}</div>				
 				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Private DNS</span>
+					<div class="form-control">{{ info['private_dns_name'] }}</div>
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Network interface</span>
+					<div class="form-control">
+					{% for inet in info['network_interfaces'] %}
+						{{ inet.id }}
+					{% endfor %}
+					</div>
+				</div>				
+			</div>
+			<div class="col-xs-6">
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Private IP</span>
 					<div class="form-control">{{ info['private_ip_address'] }}</div>
 					<span class="input-group-addon" id="basic-addon1">Public IP</span>
 					<div class="form-control">{{ info['public_ip_address'] }}</div>
 				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Public DNS</span>
+					<div class="form-control">{{ info['public_dns_name'] }}</div>
+				</div>				
 			</div>
 		</div>
+		<br>
+		Soon, more infomations!
 	</div>
 </div>
 {% endblock %}

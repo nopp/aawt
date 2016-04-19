@@ -3,6 +3,7 @@
 # ATW - AWS Tool Web
 #
 import ConfigParser
+import datetime
 import boto3
 import sys
 
@@ -179,3 +180,32 @@ class Atw:
             return ebsList,total
         except:
             return self.error("ErrorLib - Can't list all ebs.")
+
+    # Billing
+    def charge_service(self,service,option=None):
+        chargeClient = self.connect_client('us-east-1','cloudwatch')
+        try:
+            if option == "total":
+                response = chargeClient.get_metric_statistics(
+                    Namespace='AWS/Billing',
+                    MetricName='EstimatedCharges',
+                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
+                    EndTime=datetime.datetime.now(),
+                    Period=300,
+                    Statistics=['Maximum'],
+                    Dimensions=[{'Name':'Currency','Value':'USD'}]
+                )
+            else:
+                response = chargeClient.get_metric_statistics(
+                    Namespace='AWS/Billing',
+                    MetricName='EstimatedCharges',
+                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
+                    EndTime=datetime.datetime.now(),
+                    Period=300,
+                    Statistics=['Maximum'],
+                    # Services AmazonEC2, AmazonRDS ....
+                    Dimensions=[{'Name':'ServiceName','Value':service},{'Name':'Currency','Value':'USD'}]
+                )                
+            return response['Datapoints'][0]['Maximum']
+        except:
+            return self.error("ErrorLib - Can't get "+service+" charge.")
