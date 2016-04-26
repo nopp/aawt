@@ -51,11 +51,11 @@ class Atw:
     def ec2_info(self,region,id,ec2_res):
         if ec2_res == "":
             ec2_res = self.connect_resource(region,"ec2")
-        try:
-            instance = ec2_res.Instance(id)
-            return instance
-        except:
-            return self.error("ErrorLib - Can't return ec2 info.")
+        #try:
+        instance = ec2_res.Instance(id)
+        return instance
+        #except:
+        #    return self.error("ErrorLib - Can't return ec2 info.")
 
     # Return EC2 Tags
     def returnTags(self,tags):

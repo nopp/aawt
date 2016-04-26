@@ -52,7 +52,7 @@ def rds(region):
 @app.route("/elb/<region>",methods=['GET']) 
 def elb(region):
 	try:
-		return render_template('elb.html',results=atw.elb_listAll(region),region=region,menu=atw.menu())
+		return render_template('elb.html',results=atw.elb_listAll(region),region=region,atw=atw,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all ELB."
 
