@@ -92,23 +92,6 @@ def ebs(region):
 	except:
 		print "ErrorFlask - Can't list all ebs."
 
-#@app.route("/teste")
-#def teste():
-#	bar_chart = pygal.Line(width=600, height=400,explicit_size=True, title="teste",x_label_rotation=20)
-#	bar_chart.add('CPU %', atw.teste("data"))
-#	bar_chart.x_labels = atw.teste("date")
-#	html = """
-#		<html>
-#			<head>
-#				<title>%s</title>
-#			</head>
-#			<body>
-#				%s
-#			</body>
-#		</html>
-#	""" % ("teste", bar_chart.render())	
-#	return html
-
 @app.route("/teste")
 def teste():
 	return atw.teste("i-c86b0d2b").render()
