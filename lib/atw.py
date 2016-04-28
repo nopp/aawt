@@ -1,11 +1,13 @@
-
 #
 # ATW - AWS Tool Web
 #
 import ConfigParser
 import datetime
 import boto3
+import pygal
 import sys
+from pygal.style import BlueStyle
+from pygal.style import Style
 
 config = ConfigParser.RawConfigParser()
 config.read('/etc/atw/config.cfg')
@@ -52,8 +54,8 @@ class Atw:
         if ec2_res == "":
             ec2_res = self.connect_resource(region,"ec2")
         try:
-        	instance = ec2_res.Instance(id)
-        	return instance
+            instance = ec2_res.Instance(id)
+            return instance
         except:
             return self.error("ErrorLib - Can't return ec2 info.")
 
@@ -191,7 +193,7 @@ class Atw:
                     MetricName='EstimatedCharges',
                     StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
                     EndTime=datetime.datetime.now(),
-                    Period=300,
+                    Period=21600,
                     Statistics=['Maximum'],
                     Dimensions=[{'Name':'Currency','Value':'USD'}]
                 )
@@ -201,11 +203,64 @@ class Atw:
                     MetricName='EstimatedCharges',
                     StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
                     EndTime=datetime.datetime.now(),
-                    Period=300,
+                    Period=43200,
                     Statistics=['Maximum'],
                     # Services AmazonEC2, AmazonRDS ....
                     Dimensions=[{'Name':'ServiceName','Value':service},{'Name':'Currency','Value':'USD'}]
-                )                
+                )
             return response['Datapoints'][0]['Maximum']
         except:
             return self.error("ErrorLib - Can't get "+service+" charge.")
+
+    def bytesto(self,bytes,to,bsize=1024):
+        """convert bytes to megabytes, etc.
+           sample code:
+               print('mb= ' + str(bytesto(314575262000000, 'm')))
+
+           sample output: 
+               mb= 300002347.946
+        """
+
+        a = {'k' : 1, 'm': 2, 'g' : 3, 't' : 4, 'p' : 5, 'e' : 6 }
+        r = float(bytes)
+        for i in range(a[to]):
+            r = r / bsize
+        return(r)
+
+    def chart(self,region,id,metric,unit):
+        chargeClient = self.connect_client(region,'cloudwatch')
+        response = chargeClient.get_metric_statistics(
+                Namespace='AWS/EC2',
+                MetricName=metric,
+                StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
+                EndTime=datetime.datetime.now(),
+                Period=300,
+                Statistics=['Average'],
+                Dimensions=[{'Name':'InstanceId','Value':id}],
+                Unit=unit
+            )
+        dataChart = {}
+        for endpoint in response['Datapoints']:
+            if unit == "Bytes":
+                dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),self.bytesto(endpoint['Average'],"m")]
+            else:
+                dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),endpoint['Average']]
+        dataX = []
+        dateX = []
+        for key in sorted(dataChart):
+            dateX.append(dataChart[key][0])
+            dataX.append(dataChart[key][1])
+        custom_style = Style(
+          background='transparent',
+          opacity='.6',
+          opacity_hover='.9',
+          transition='400ms ease-in')            
+        bar_chart = pygal.Line(width=530, height=320,explicit_size=True, title=metric,x_label_rotation=60,style=custom_style,human_readable=True,pretty_print=True,tooltip_border_radius=10)
+        if unit == "Bytes":
+            bar_chart.add("MB", dataX)
+        elif unit == "Percent":
+            bar_chart.add("%", dataX)
+        else:
+            bar_chart.add(unit, dataX)
+        bar_chart.x_labels = dateX
+        return bar_chart

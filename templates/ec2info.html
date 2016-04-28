@@ -2,80 +2,63 @@
 {% block body %}
 {% if info['platform'] == None %}
 	{% if info['state']['Name'] == "running" %}
-		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
+		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h3>
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
+		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% else %}
 		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
+		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% endif %}
 {% else %}
 	{% if info['state']['Name'] == "running" %}
 		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
+		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% else %}
 		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
+		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% endif %}
 {% endif %}
-<div class="panel panel-default">
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-xs-10">Instance info</div>
-			<div class="col-xs-6">
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Instance ID</span>
-					<div class="form-control">{{ info['id'] }}</div>
-					<span class="input-group-addon" id="basic-addon1">Image ID</span>
-					<div class="form-control">{{ info['image_id'] }}</div>
+<div class="row">
+	<div class="col-xs-6">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6"><b>Instance ID</b> {{ info['id'] }}</div>
+					<div class="col-md-6"><b>Image ID</b> {{ info['image_id'] }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6"><b>Type</b> {{ info['instance_type'] }}</div>
+					<div class="col-md-6"><b>Zone</b> {{ info['placement']['AvailabilityZone'] }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6"><b>Vpc ID</b> {{ info['vpc']['vpc_id'] }}</div>
+					<div class="col-md-6"><b>Subnet</b> {{ info['subnet_id'] }}</div>
 				</div>
 			</div>
-			<div class="col-xs-6">
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Type</span>
-					<div class="form-control">{{ info['instance_type'] }}</div>
-					<span class="input-group-addon" id="basic-addon1">Zone</span>
-					<div class="form-control">{{ info['placement']['AvailabilityZone'] }}</div>
+		</div>						
+	</div>
+	<div class="col-xs-6">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-10"><b>Private DNS</b> {{ info['private_dns_name'] }}</div>
 				</div>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-xs-10">Network</div>
-			<div class="col-xs-6">
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Vpc ID</span>
-					<div class="form-control">{{ info['vpc']['vpc_id'] }}</div>
-					<span class="input-group-addon" id="basic-addon1">Subnet</span>
-					<div class="form-control">{{ info['subnet_id'] }}</div>				
+				<div class="row">
+					<div class="col-md-10"><b>Public DNS</b> {{ info['public_dns_name'] }}</div>
 				</div>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Private DNS</span>
-					<div class="form-control">{{ info['private_dns_name'] }}</div>
-				</div>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Network interface</span>
-					<div class="form-control">
-					{% for inet in info['network_interfaces'] %}
-						{{ inet.id }}
-					{% endfor %}
-					</div>
-				</div>				
-			</div>
-			<div class="col-xs-6">
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Private IP</span>
-					<div class="form-control">{{ info['private_ip_address'] }}</div>
-					<span class="input-group-addon" id="basic-addon1">Public IP</span>
-					<div class="form-control">{{ info['public_ip_address'] }}</div>
-				</div>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Public DNS</span>
-					<div class="form-control">{{ info['public_dns_name'] }}</div>
-				</div>				
+				<div class="row">
+					<div class="col-md-10">
+						<b>Network interface</b>
+						{% for inet in info['network_interfaces'] %}
+							{{ inet.id }}
+						{% endfor %}
+					</div>		
+				</div>	
 			</div>
 		</div>
-		<br>
-		Soon, more infomations!
 	</div>
 </div>
 {% endblock %}

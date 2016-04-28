@@ -21,6 +21,7 @@ Install
 	# pip install flask
 	# pip install boto3
 	# pip install pygal
+	# pip install cairosvg
 	# git clone https://github.com/nopp/atw.git
 	# cd atw
 	-> configure the application

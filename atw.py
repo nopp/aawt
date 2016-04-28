@@ -2,7 +2,6 @@
 # ATW - AWS Tool Web
 #
 import math
-import pygal
 import logging
 import ConfigParser
 from flask import *
@@ -38,7 +37,18 @@ def ec2Info(region,id):
 	try:
 		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,menu=atw.menu())
 	except:
-		print "ErrorFlask - Can't return EC2 info."		
+		print "ErrorFlask - Can't return EC2 info."
+
+# EC2 Charts
+@app.route("/ec2charts/<region>/<id>",methods=['GET']) 
+def ec2Charts(region,id):
+	try:
+		cpuChart = atw.chart(region,id,"CPUUtilization","Percent").render(is_unicode=True)
+		networkInChart = atw.chart(region,id,"NetworkIn","Bytes").render(is_unicode=True)
+		networkOutChart = atw.chart(region,id,"NetworkOut","Bytes").render(is_unicode=True)
+		return render_template('ec2charts.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,cpuChart=cpuChart,networkInChart=networkInChart,networkOutChart=networkOutChart,menu=atw.menu())
+	except:
+		print "ErrorFlask - Can't return EC2 charts."			
 
 # RDS List All
 @app.route("/rds/<region>",methods=['GET'])
@@ -81,6 +91,27 @@ def ebs(region):
 		return render_template('ebs.html',results=rtn,region=region,total=total,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all ebs."
+
+#@app.route("/teste")
+#def teste():
+#	bar_chart = pygal.Line(width=600, height=400,explicit_size=True, title="teste",x_label_rotation=20)
+#	bar_chart.add('CPU %', atw.teste("data"))
+#	bar_chart.x_labels = atw.teste("date")
+#	html = """
+#		<html>
+#			<head>
+#				<title>%s</title>
+#			</head>
+#			<body>
+#				%s
+#			</body>
+#		</html>
+#	""" % ("teste", bar_chart.render())	
+#	return html
+
+@app.route("/teste")
+def teste():
+	return atw.teste("i-c86b0d2b").render()
 
 @app.route("/")
 def index():

@@ -19,6 +19,7 @@
 				<thead>
 					<tr>
 						<th>Name</th>
+						<th>Actions</th>
 						<th>Instance ID</th>
 						<th>Type</th>
 						<th>Zone</th>
@@ -33,11 +34,12 @@
 					<tr>
 						<td>
 						{% if ec2['platform'] == None %}
-							<i class="fa fa-linux"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}</a>
+							<i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}
 						{% else %}
-							<i class="fa fa-windows"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}">{{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}</a>
+							<i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}
 						{% endif %}
 						</td>
+						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-info-circle" aria-hidden="true"></i></a> <a id="ec2" href="/ec2charts/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></td>
 						<td>{{ ec2['instance_id'] }}</td>
 						<td>{{ ec2['instance_type'] }}</td>
 						<td>{{ ec2['placement']['AvailabilityZone'] }}</td>

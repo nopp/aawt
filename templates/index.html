@@ -1,33 +1,4 @@
 {% extends "layout.html" %}
 {% block body %}
 	<div class="alert alert-info" role="alert">Current charge <b>USD {{ charge }}</b></div>
-	<div class="row">
-        {% for mnu in menu %}
-        <div class="col-lg-6">
-			<div class="panel panel-default">
-				<div class="panel-heading">DC {{ mnu.split(":")[1] }}</div>
-				<div class="panel-body">
-					<table class="table">
-					  <thead>
-						<tr>
-						  <th></th>
-						  <th>Total</th>
-						</tr>
-					  </thead>
-					  <tbody>
-						<tr>
-						  <td><i class="fa fa-server"></i> EC2</td>
-                          <td><span class="badge">{{ atw.ec2_total(mnu.split(":")[0]) }} instances</span></td>
-						</tr>
-						<tr>
-						  <td><i class="fa fa-hdd-o"></i> EBS</td>
-						  <td><span class="badge">{{ atw.ec2_totalEbs(mnu.split(":")[0],"total") }} volumes ({{ atw.ec2_totalEbs(mnu.split(":")[0],"size") }} GB)</span></td>
-						</tr>
-					  </tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-        {% endfor %}
-	</div>
 {% endblock %}
