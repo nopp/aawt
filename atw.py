@@ -92,13 +92,13 @@ def ebs(region):
 	except:
 		print "ErrorFlask - Can't list all ebs."
 
-@app.route("/teste")
-def teste():
-	return atw.teste("i-c86b0d2b").render()
-
+# Index
 @app.route("/")
 def index():
-	return render_template('index.html',menu=atw.menu(),charge=format(atw.charge_service('',"total"), ',.2f'),atw=atw)
+	try:
+		return render_template('index.html',menu=atw.menu(),charge=format(atw.charge_service('',"total"), ',.2f'),atw=atw)
+	except:
+		print "ErrorFlask - Can't render index."		
 
 if __name__ == '__main__':
 	logging.basicConfig(filename='atw.log',level=logging.INFO)

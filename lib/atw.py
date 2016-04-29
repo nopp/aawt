@@ -6,7 +6,6 @@ import datetime
 import boto3
 import pygal
 import sys
-from pygal.style import BlueStyle
 from pygal.style import Style
 
 config = ConfigParser.RawConfigParser()
@@ -19,10 +18,12 @@ class Atw:
     
     # This is a little hammer, I'll fix this soon :D    
     def menu(self):
-        menu = config.get('conf','regions')
-        return menu.split(",")    
-    
-    # This is a little hammer, I'll fix this soon :D
+        try:
+            menu = config.get('conf','regions')
+            return menu.split(",")
+        except:
+            return self.error("ErrorLib - can't get menu")
+
     def error(self,message):
         error = []
         eMsg = [message]
@@ -51,9 +52,9 @@ class Atw:
 
     # EC2 return info
     def ec2_info(self,region,id,ec2_res):
-        if ec2_res == "":
-            ec2_res = self.connect_resource(region,"ec2")
         try:
+            if ec2_res == "":
+                ec2_res = self.connect_resource(region,"ec2")
             instance = ec2_res.Instance(id)
             return instance
         except:
@@ -82,8 +83,8 @@ class Atw:
 
     # EC2 List all
     def ec2_listAll(self,region):
-        ec2_res = self.connect_resource(region,"ec2")
         try:
+            ec2_res = self.connect_resource(region,"ec2")
             ec2List = []
             for ec2 in ec2_res.instances.all():
                 ec2List.append(ec2)
@@ -93,8 +94,8 @@ class Atw:
 
     # EC2 total
     def ec2_total(self,region):
-        ec2_res = self.connect_resource(region,"ec2")
         try:
+            ec2_res = self.connect_resource(region,"ec2")
             total = 0
             for ec2 in ec2_res.instances.all():
                 total=total+1
@@ -104,8 +105,8 @@ class Atw:
     
     # EC2 total EBS
     def ec2_totalEbs(self,region,opt):
-        ec2 = self.connect_client(region,"ec2")
         try:
+            ec2 = self.connect_client(region,"ec2")
             total = 0
             if opt == "size":
                 # Size
@@ -119,10 +120,10 @@ class Atw:
         except:
             return self.error("ErrorLib - Can't list all ebs.")
 
-    # EC2 reserved list all active
+    # EC2 reserved - list all active
     def ec2r_listAll(self,region):
-        ec2r = self.connect_client(region,"ec2")
         try:
+            ec2r = self.connect_client(region,"ec2")
             reservedList = []
             totalReserved = 0
             for ec2Reserved in ec2r.describe_reserved_instances()['ReservedInstances']:
@@ -135,8 +136,8 @@ class Atw:
 
     # RDS List all
     def rds_listAll(self,region):
-        rdsClient = self.connect_client(region,"rds")
         try:
+            rdsClient = self.connect_client(region,"rds")
             rdsList = []
             for rds in rdsClient.describe_db_instances()['DBInstances']:
                 rdsList.append(rds)
@@ -146,8 +147,8 @@ class Atw:
     
     # ELB List all
     def elb_listAll(self,region):
-        elbClient = self.connect_client(region,"elb")
         try:
+            elbClient = self.connect_client(region,"elb")
             elbList = []
             for elb in elbClient.describe_load_balancers()['LoadBalancerDescriptions']:
                 elbList.append(elb)
@@ -157,8 +158,8 @@ class Atw:
 
     # IAM List all
     def iam_listAll(self):
-        iamClient = self.connect_client("","iam")
         try:
+            iamClient = self.connect_client("","iam")
             iamList = []
             for user in iamClient.list_users()['Users']:
                 keys = []
@@ -172,8 +173,8 @@ class Atw:
 
     # EBS List all
     def ebs_listAll(self,region):
-        ebsClient = self.connect_client(region,"ec2")
         try:
+            ebsClient = self.connect_client(region,"ec2")
             ebsList = []
             total = 0
             for ebs in ebsClient.describe_volumes()['Volumes']:
@@ -185,8 +186,8 @@ class Atw:
 
     # Billing
     def charge_service(self,service,option=None):
-        chargeClient = self.connect_client('us-east-1','cloudwatch')
         try:
+            chargeClient = self.connect_client('us-east-1','cloudwatch')
             if option == "total":
                 response = chargeClient.get_metric_statistics(
                     Namespace='AWS/Billing',
@@ -212,55 +213,53 @@ class Atw:
         except:
             return self.error("ErrorLib - Can't get "+service+" charge.")
 
-    def bytesto(self,bytes,to,bsize=1024):
-        """convert bytes to megabytes, etc.
-           sample code:
-               print('mb= ' + str(bytesto(314575262000000, 'm')))
-
-           sample output: 
-               mb= 300002347.946
-        """
-
-        a = {'k' : 1, 'm': 2, 'g' : 3, 't' : 4, 'p' : 5, 'e' : 6 }
-        r = float(bytes)
-        for i in range(a[to]):
-            r = r / bsize
-        return(r)
+    def bytes_to(self,bytes,to,bsize=1024):
+        try:
+            a = {'k' : 1, 'm': 2, 'g' : 3, 't' : 4, 'p' : 5, 'e' : 6 }
+            r = float(bytes)
+            for i in range(a[to]):
+                r = r / bsize
+            return(r)
+        except:
+            return self.error("ErrorLib - Can't change bytes to "+to)
 
     def chart(self,region,id,metric,unit):
-        chargeClient = self.connect_client(region,'cloudwatch')
-        response = chargeClient.get_metric_statistics(
-                Namespace='AWS/EC2',
-                MetricName=metric,
-                StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
-                EndTime=datetime.datetime.now(),
-                Period=300,
-                Statistics=['Average'],
-                Dimensions=[{'Name':'InstanceId','Value':id}],
-                Unit=unit
-            )
-        dataChart = {}
-        for endpoint in response['Datapoints']:
+        try:
+            chargeClient = self.connect_client(region,'cloudwatch')
+            response = chargeClient.get_metric_statistics(
+                    Namespace='AWS/EC2',
+                    MetricName=metric,
+                    StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
+                    EndTime=datetime.datetime.now(),
+                    Period=300,
+                    Statistics=['Average'],
+                    Dimensions=[{'Name':'InstanceId','Value':id}],
+                    Unit=unit
+                )
+            dataChart = {}
+            for endpoint in response['Datapoints']:
+                if unit == "Bytes":
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),self.bytes_to(endpoint['Average'],"m")]
+                else:
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),endpoint['Average']]
+            dataX = []
+            dateX = []
+            for key in sorted(dataChart):
+                dateX.append(dataChart[key][0])
+                dataX.append(dataChart[key][1])
+            custom_style = Style(
+              background='transparent',
+              opacity='.6',
+              opacity_hover='.9',
+              transition='400ms ease-in')            
+            bar_chart = pygal.Line(width=530, height=320,explicit_size=True, title=metric,x_label_rotation=60,style=custom_style,human_readable=True,pretty_print=True,tooltip_border_radius=10)
             if unit == "Bytes":
-                dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),self.bytesto(endpoint['Average'],"m")]
+                bar_chart.add("MB", dataX)
+            elif unit == "Percent":
+                bar_chart.add("%", dataX)
             else:
-                dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),endpoint['Average']]
-        dataX = []
-        dateX = []
-        for key in sorted(dataChart):
-            dateX.append(dataChart[key][0])
-            dataX.append(dataChart[key][1])
-        custom_style = Style(
-          background='transparent',
-          opacity='.6',
-          opacity_hover='.9',
-          transition='400ms ease-in')            
-        bar_chart = pygal.Line(width=530, height=320,explicit_size=True, title=metric,x_label_rotation=60,style=custom_style,human_readable=True,pretty_print=True,tooltip_border_radius=10)
-        if unit == "Bytes":
-            bar_chart.add("MB", dataX)
-        elif unit == "Percent":
-            bar_chart.add("%", dataX)
-        else:
-            bar_chart.add(unit, dataX)
-        bar_chart.x_labels = dateX
-        return bar_chart
+                bar_chart.add(unit, dataX)
+            bar_chart.x_labels = dateX
+            return bar_chart
+        except:
+            return self.error("ErrorLib - Can't get chart.")

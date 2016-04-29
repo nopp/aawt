@@ -6,7 +6,7 @@
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
 		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% else %}
-		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
+		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
 		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% endif %}
@@ -16,7 +16,7 @@
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
 		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% else %}
-		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
+		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
 		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
 		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
 	{% endif %}
