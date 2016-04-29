@@ -51,7 +51,7 @@
 						<td><span class="label label-danger">{{ ec2['state']['Name'] }}</span></td>
 						{% endif %}
 						<td style="display:none;">
-						{% for tag in ec2['tagList'] %}
+						{% for tag in ec2.tags %}
 							{{ tag }}<br>
 						{% endfor %}
 						</td>
