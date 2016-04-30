@@ -40,7 +40,7 @@ Configure
 	* CloudWatchReadOnlyAccess
 	You need to enable "Monitor your estimated charges"
 	* Billing & Cost Management > Preferences > Check "Receive Billing Alerts"
-	Obs:. this will works only 1day later.
+	Obs:. this will works only some hours later.
 
 	Server:
 	=======
