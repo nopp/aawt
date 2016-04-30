@@ -185,9 +185,9 @@ class Atw:
                 response = chargeClient.get_metric_statistics(
                     Namespace='AWS/Billing',
                     MetricName='EstimatedCharges',
-                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=30),
+                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
                     EndTime=datetime.datetime.now(),
-                    Period=300,
+                    Period=21600,
                     Statistics=['Maximum'],
                     Dimensions=[{'Name':'Currency','Value':'USD'}]
                 )
@@ -195,9 +195,9 @@ class Atw:
                 response = chargeClient.get_metric_statistics(
                     Namespace='AWS/Billing',
                     MetricName='EstimatedCharges',
-                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=30),
+                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
                     EndTime=datetime.datetime.now(),
-                    Period=300,
+                    Period=21600,
                     Statistics=['Maximum'],
                     # Services AmazonEC2, AmazonRDS ....
                     Dimensions=[{'Name':'ServiceName','Value':service},{'Name':'Currency','Value':'USD'}]
