@@ -27,7 +27,11 @@ def page_not_found(e):
 @app.route("/ec2/<region>",methods=['GET']) 
 def ec2(region):
 	try:
-		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,atw=atw,charge=format(atw.charge_service('AmazonEC2'), ',.2f'),menu=atw.menu())
+		if atw.charge_service('AmazonEC2') == "ErrorLib - Not charges yet.":
+			charge = "Not charges yet."
+		else:
+			charge = format(atw.charge_service('AmazonEC2'), ',.2f')
+		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,atw=atw,charge=charge,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all EC2."
 
@@ -54,7 +58,11 @@ def ec2Charts(region,id):
 @app.route("/rds/<region>",methods=['GET'])
 def rds(region):
 	try:
-		return render_template('rds.html',results=atw.rds_listAll(region),region=region,charge=format(atw.charge_service('AmazonRDS'), ',.2f'),menu=atw.menu())
+		if atw.charge_service('AmazonRDS') == "ErrorLib - Not charges yet.":
+			charge = "Not charges yet."
+		else:
+			charge = format(atw.charge_service('AmazonRDS'), ',.2f')
+		return render_template('rds.html',results=atw.rds_listAll(region),region=region,charge=charge,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all RDS."
 
@@ -96,7 +104,11 @@ def ebs(region):
 @app.route("/")
 def index():
 	try:
-		return render_template('index.html',menu=atw.menu(),charge=format(atw.charge_service('',"total"), ',.2f'),atw=atw)
+		if atw.charge_service('',"total") == "ErrorLib - Not charges yet.":
+			charge = "Not charges yet."
+		else:
+			charge = format(atw.charge_service('',"total"), ',.2f')
+		return render_template('index.html',menu=atw.menu(),charge=charge,atw=atw)
 	except:
 		print "ErrorFlask - Can't render index."		
 

@@ -15,20 +15,13 @@ class Atw:
 
     access_key = config.get('conf','accessKey')
     secret_key = config.get('conf','secretKey')
-    
-    # This is a little hammer, I'll fix this soon :D    
+     
     def menu(self):
         try:
             menu = config.get('conf','regions')
             return menu.split(",")
         except:
-            return self.error("ErrorLib - can't get menu")
-
-    def error(self,message):
-        error = []
-        eMsg = [message]
-        error.append(eMsg)
-        return error
+            return "ErrorLib - can't get menu."
 
     # Connect to resource
     def connect_resource(self,region,resource):
@@ -37,7 +30,7 @@ class Atw:
             conn = session.resource(resource)
             return conn
         except:			
-            return self.error("ErrorLib - can't connect to "+resource+".")
+            return "ErrorLib - can't connect to "+resource+"."
 
     # Connect to client
     def connect_client(self,region,client):
@@ -48,7 +41,7 @@ class Atw:
                 conn = boto3.client(client,aws_access_key_id=self.access_key,aws_secret_access_key=self.secret_key,region_name=region)
             return conn
         except:
-            return self.error("ErrorLib - can't connect to "+client+".")
+            return "ErrorLib - can't connect to "+client+"."
 
     # EC2 return info
     def ec2_info(self,region,id,ec2_res):
@@ -58,7 +51,7 @@ class Atw:
             instance = ec2_res.Instance(id)
             return instance
         except:
-            return self.error("ErrorLib - Can't return ec2 info.")
+            return "ErrorLib - Can't return EC2 info."
 
     # Return EC2 Tags
     def returnTags(self,tags):
@@ -70,7 +63,7 @@ class Atw:
                 ec2Tags.append(tag)
             return ec2Tags
         except:
-            return self.error("ErrorLib - Can't return all tags.")
+            return "ErrorLib - Can't return all TAGS."
 
     # Return value by Tag
     def returnTagEC2(self,ec2Tags,tag):
@@ -79,7 +72,7 @@ class Atw:
                 if ec2Tags[i].keys()[0] == tag:
                     return ec2Tags[i].values()[0]
         except:
-            return self.error("ErrorLib - Can't return tag "+tag+".")
+            return "ErrorLib - Can't return tag "+tag+"."
 
     # EC2 List all
     def ec2_listAll(self,region):
@@ -90,7 +83,7 @@ class Atw:
                 ec2List.append(ec2)
             return ec2List
         except:
-            return self.error("ErrorLib - Can't list all ec2.")
+            return "ErrorLib - Can't list all EC2."
 
     # EC2 total
     def ec2_total(self,region):
@@ -101,7 +94,7 @@ class Atw:
                 total=total+1
             return total
         except:
-            return self.error("ErrorLib - Can't return total of ec2.")
+            return "ErrorLib - Can't return total of EC2."
     
     # EC2 total EBS
     def ec2_totalEbs(self,region,opt):
@@ -118,7 +111,7 @@ class Atw:
                     total = total+1
             return total
         except:
-            return self.error("ErrorLib - Can't list all ebs.")
+            return "ErrorLib - Can't list all EBS."
 
     # EC2 reserved - list all active
     def ec2r_listAll(self,region):
@@ -132,7 +125,7 @@ class Atw:
                     reservedList.append(ec2Reserved)
             return reservedList,totalReserved
         except:
-            return self.error("ErrorLib - Can't list all EC2 reserved.")
+            return "ErrorLib - Can't list all EC2 reserved."
 
     # RDS List all
     def rds_listAll(self,region):
@@ -143,7 +136,7 @@ class Atw:
                 rdsList.append(rds)
             return rdsList
         except:
-            return self.error("ErrorLib - Can't list all RDS.")
+           return "ErrorLib - Can't list all RDS."
     
     # ELB List all
     def elb_listAll(self,region):
@@ -154,7 +147,7 @@ class Atw:
                 elbList.append(elb)
             return elbList
         except:
-            return self.error("ErrorLib - Can't list all elb.")
+            return "ErrorLib - Can't list all ELB."
 
     # IAM List all
     def iam_listAll(self):
@@ -169,7 +162,7 @@ class Atw:
                 iamList.append(iamInfo)
             return iamList
         except:
-            return self.error("ErrorLib - Can't list all users.")
+            return "ErrorLib - Can't list all users."
 
     # EBS List all
     def ebs_listAll(self,region):
@@ -182,7 +175,7 @@ class Atw:
                 ebsList.append(ebs)
             return ebsList,total
         except:
-            return self.error("ErrorLib - Can't list all ebs.")
+            return "ErrorLib - Can't list all EBS."
 
     # Billing
     def charge_service(self,service,option=None):
@@ -192,9 +185,9 @@ class Atw:
                 response = chargeClient.get_metric_statistics(
                     Namespace='AWS/Billing',
                     MetricName='EstimatedCharges',
-                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
+                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=30),
                     EndTime=datetime.datetime.now(),
-                    Period=21600,
+                    Period=300,
                     Statistics=['Maximum'],
                     Dimensions=[{'Name':'Currency','Value':'USD'}]
                 )
@@ -202,27 +195,29 @@ class Atw:
                 response = chargeClient.get_metric_statistics(
                     Namespace='AWS/Billing',
                     MetricName='EstimatedCharges',
-                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
+                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=30),
                     EndTime=datetime.datetime.now(),
-                    Period=43200,
+                    Period=300,
                     Statistics=['Maximum'],
                     # Services AmazonEC2, AmazonRDS ....
                     Dimensions=[{'Name':'ServiceName','Value':service},{'Name':'Currency','Value':'USD'}]
                 )
             return response['Datapoints'][0]['Maximum']
         except:
-            return self.error("ErrorLib - Can't get "+service+" charge.")
-
+            return "ErrorLib - Not charges yet."
+            
+    # Convert bytes to ?
     def bytes_to(self,bytes,to,bsize=1024):
         try:
-            a = {'k' : 1, 'm': 2, 'g' : 3, 't' : 4, 'p' : 5, 'e' : 6 }
-            r = float(bytes)
-            for i in range(a[to]):
-                r = r / bsize
-            return(r)
+            convertOptions = {'k' : 1, 'm': 2, 'g' : 3, 't' : 4, 'p' : 5, 'e' : 6 }
+            newType = float(bytes)
+            for i in range(convertOptions[to]):
+                newType = newType / bsize
+            return(newType)
         except:
-            return self.error("ErrorLib - Can't change bytes to "+to)
+            return "ErrorLib - Can't convert bytes to "+to
 
+    # Return chart from cloudwatch
     def chart(self,region,id,metric,unit):
         try:
             chargeClient = self.connect_client(region,'cloudwatch')
@@ -262,4 +257,4 @@ class Atw:
             bar_chart.x_labels = dateX
             return bar_chart
         except:
-            return self.error("ErrorLib - Can't get chart.")
+            return "ErrorLib - Can't return chart."
