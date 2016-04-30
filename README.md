@@ -31,7 +31,7 @@ Configure
 =========
 
 	Amazon AWS:
-    ==========
+	===========
 	Create an user atw with access_key and private_key
 	Attach policy below on atw user:
 	* AmazonEC2ReadOnlyAccess
@@ -41,16 +41,15 @@ Configure
 	You need to enable "Monitor your estimated charges"
 	* Billing & Cost Management > Preferences > Check "Receive Billing Alerts"
 
+	Server:
+	=======
 	Create a file /etc/atw/config.cfg with:
-	=======================================
-
-	[conf]
-	regions = sa-east-1:Sao Paulo,us-east-1:Virginia # You need to use this "pattern"
-	accessKey = yourAccessKeyWithReadOnly
-	secretKey = yourPrivateKeyWithReadOnly
-	ip = ipOfYourATWServer
-	port = portOfYourATWServer
-
+		[conf]
+		regions = sa-east-1:Sao Paulo,us-east-1:Virginia # You need to use this "pattern"
+		accessKey = yourAccessKeyWithReadOnly
+		secretKey = yourPrivateKeyWithReadOnly
+		ip = ipOfYourATWServer
+		port = portOfYourATWServer
 
 Screenshot
 ==========
