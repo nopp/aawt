@@ -227,16 +227,16 @@ class Atw:
                     StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
                     EndTime=datetime.datetime.now(),
                     Period=300,
-                    Statistics=['Average'],
-                    Dimensions=[{'Name':'InstanceId','Value':id}],
+                    Statistics=['Maximum'],
+                    Dimensions=[{'Name':'InstanceId','Value':'i-c86b0d2b'}],
                     Unit=unit
                 )
             dataChart = {}
             for endpoint in response['Datapoints']:
                 if unit == "Bytes":
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),self.bytes_to(endpoint['Average'],"m")]
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),self.bytes_to(endpoint['Maximum'],"m")]
                 else:
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),endpoint['Average']]
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),endpoint['Maximum']]
             dataX = []
             dateX = []
             for key in sorted(dataChart):
