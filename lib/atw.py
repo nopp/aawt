@@ -228,7 +228,7 @@ class Atw:
                     EndTime=datetime.datetime.now(),
                     Period=300,
                     Statistics=['Maximum'],
-                    Dimensions=[{'Name':'InstanceId','Value':'i-c86b0d2b'}],
+                    Dimensions=[{'Name':'InstanceId','Value':id}],
                     Unit=unit
                 )
             dataChart = {}
