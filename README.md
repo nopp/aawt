@@ -55,3 +55,5 @@ Configure
 Screenshot
 ==========
 ![Image Alt](http://i65.tinypic.com/2ynmiz4.png)
+
+![Image Alt](http://i64.tinypic.com/zwkbd0.png)
