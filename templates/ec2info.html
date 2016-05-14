@@ -1,53 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script>
-$(document).ready(function(){
-    $("ul#tabs li").click(function(e){
-        if (!$(this).hasClass("active")) {
-            var tabNum = $(this).index();
-            var nthChild = tabNum+1;
-            $("ul#tabs li.active").removeClass("active");
-            $(this).addClass("active");
-            $("ul#tab li.active").removeClass("active");
-            $("ul#tab li:nth-child("+nthChild+")").addClass("active");
-        }
-    });
-});
-</script>
-<style type="text/css">
-ul#tabs {
-    list-style-type: none;
-    padding: 0;
-    text-align: left;
-}
-ul#tabs li {
-    display: inline-block;
-    background-color: #CCCCCC;
-    padding: 5px 20px;
-    margin-bottom: 4px;
-    color: #000000;
-    cursor: pointer;
-}
-ul#tabs li:hover {
-    background-color: #666666;
-}
-ul#tabs li.active {
-    background-color: #333333;
-    color: #ffffff;
-}
-ul#tab {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-ul#tab li {
-    display: none;
-}
-ul#tab li.active {
-    display: block;
-}
-</style>
+<script src="/static/js/tabs.js"></script>
+<link rel="stylesheet" href="/static/style.css">
 {% if info['platform'] == None %}
 	{% if info['state']['Name'] == "running" %}
 		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h3>
