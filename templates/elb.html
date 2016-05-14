@@ -18,6 +18,7 @@
 				<thead>
 					<tr>
 						<th>Scheme</th>
+						<th>Info</th>
 						<th>Name</th>
 						<th>Members</th>
 						<th>DNS</th>
@@ -27,6 +28,7 @@
 					{% for elb in results %}
 					<tr>
 						<td><i class="fa fa-map-signs"></i> {{ elb['Scheme'] }}</td>
+						<td><i class="fa fa-area-chart" aria-hidden="true"></i></td>
 						<td>{{ elb['LoadBalancerName'] }}</td>
 						<td>
 						{% for instance in elb['Instances'] %}
