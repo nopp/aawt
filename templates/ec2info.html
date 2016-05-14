@@ -1,64 +1,124 @@
 {% extends "layout.html" %}
 {% block body %}
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+$(document).ready(function(){
+    $("ul#tabs li").click(function(e){
+        if (!$(this).hasClass("active")) {
+            var tabNum = $(this).index();
+            var nthChild = tabNum+1;
+            $("ul#tabs li.active").removeClass("active");
+            $(this).addClass("active");
+            $("ul#tab li.active").removeClass("active");
+            $("ul#tab li:nth-child("+nthChild+")").addClass("active");
+        }
+    });
+});
+</script>
+<style type="text/css">
+ul#tabs {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+ul#tabs li {
+    display: inline-block;
+    background-color: #CCCCCC;
+    padding: 5px 20px;
+    margin-bottom: 4px;
+    color: #000000;
+    cursor: pointer;
+}
+ul#tabs li:hover {
+    background-color: #666666;
+}
+ul#tabs li.active {
+    background-color: #333333;
+    color: #ffffff;
+}
+ul#tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul#tab li {
+    display: none;
+}
+ul#tab li.active {
+    display: block;
+}
+</style>
 {% if info['platform'] == None %}
 	{% if info['state']['Name'] == "running" %}
 		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h3>
-		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
-		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
+		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
 		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
-		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
-		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
+		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% else %}
 	{% if info['state']['Name'] == "running" %}
 		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
-		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
-		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
+		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
 		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
-		<h6>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h6>
-		<h6>Actions: <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></h6>
+		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% endif %}
-<div class="row">
-	<div class="col-xs-6">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-6"><b>Instance ID</b> {{ info['id'] }}</div>
-					<div class="col-md-6"><b>Image ID</b> {{ info['image_id'] }}</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6"><b>Type</b> {{ info['instance_type'] }}</div>
-					<div class="col-md-6"><b>Zone</b> {{ info['placement']['AvailabilityZone'] }}</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6"><b>Vpc ID</b> {{ info['vpc']['vpc_id'] }}</div>
-					<div class="col-md-6"><b>Subnet</b> {{ info['subnet_id'] }}</div>
-				</div>
+<ul id="tabs">
+    <li class="active">Info</li>
+    <li>Tags</li>
+    &nbsp;&nbsp;&nbsp;<a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i></a>
+</ul>
+<ul id="tab">
+    <li class="active">
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6"><b>Instance ID</b> {{ info['id'] }}</div>
+							<div class="col-md-6"><b>Image ID</b> {{ info['image_id'] }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6"><b>Type</b> {{ info['instance_type'] }}</div>
+							<div class="col-md-6"><b>Zone</b> {{ info['placement']['AvailabilityZone'] }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6"><b>Vpc ID</b> {{ info['vpc']['vpc_id'] }}</div>
+							<div class="col-md-6"><b>Subnet</b> {{ info['subnet_id'] }}</div>
+						</div>
+					</div>
+				</div>						
 			</div>
-		</div>						
-	</div>
-	<div class="col-xs-6">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-10"><b>Private DNS</b> {{ info['private_dns_name'] }}</div>
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-10"><b>Private DNS</b> {{ info['private_dns_name'] }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-10"><b>Public DNS</b> {{ info['public_dns_name'] }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-10">
+								<b>Network interface</b>
+								{% for inet in info['network_interfaces'] %}
+									{{ inet.id }}
+								{% endfor %}
+							</div>		
+						</div>	
+					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-10"><b>Public DNS</b> {{ info['public_dns_name'] }}</div>
-				</div>
-				<div class="row">
-					<div class="col-md-10">
-						<b>Network interface</b>
-						{% for inet in info['network_interfaces'] %}
-							{{ inet.id }}
-						{% endfor %}
-					</div>		
-				</div>	
 			</div>
 		</div>
-	</div>
-</div>
+    </li>
+    <li>
+    	<h3>
+        {% for tag in info.tags %}
+			<span class="label label-primary">#{{ tag['Key'] }} : {{ tag['Value'] }}</span>&nbsp;
+		{% endfor %}
+		</h3>
+    </li>
+</ul>
 {% endblock %}
