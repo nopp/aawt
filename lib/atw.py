@@ -250,9 +250,9 @@ class Atw:
               transition='400ms ease-in')            
             bar_chart = pygal.Line(width=530, height=320,explicit_size=True, title=metric,x_label_rotation=60,style=custom_style,human_readable=True,pretty_print=True,tooltip_border_radius=10)
             if unit == "Bytes":
-                bar_chart.add("MB Average", dataX)
+                bar_chart.add("MB", dataX)
             elif unit == "Percent":
-                bar_chart.add("% Maximum", dataX)
+                bar_chart.add("%", dataX)
             else:
                 bar_chart.add(unit, dataX)
             bar_chart.x_labels = dateX
