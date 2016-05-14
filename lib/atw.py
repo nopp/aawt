@@ -222,21 +222,22 @@ class Atw:
         try:
             chargeClient = self.connect_client(region,'cloudwatch')
             response = chargeClient.get_metric_statistics(
-                    Namespace='AWS/EC2',
-                    MetricName=metric,
-                    StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
-                    EndTime=datetime.datetime.now(),
-                    Period=300,
-                    Statistics=['Maximum'],
-                    Dimensions=[{'Name':'InstanceId','Value':'i-c86b0d2b'}],
-                    Unit=unit
-                )
+                Namespace='AWS/EC2',
+                MetricName=metric,
+                StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
+                EndTime=datetime.datetime.now(),
+                Period=300,
+                Statistics=['Maximum','Minimum','Average'],
+                Dimensions=[{'Name':'InstanceId','Value':id}],
+                Unit=unit
+            )
             dataChart = {}
             for endpoint in response['Datapoints']:
                 if unit == "Bytes":
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),self.bytes_to(endpoint['Maximum'],"m")]
-                else:
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),endpoint['Maximum']]
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(self.bytes_to(endpoint['Average']
+,"m"),2)]
+                else:                 
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint['Maximum'],2)]
             dataX = []
             dateX = []
             for key in sorted(dataChart):
@@ -249,9 +250,9 @@ class Atw:
               transition='400ms ease-in')            
             bar_chart = pygal.Line(width=530, height=320,explicit_size=True, title=metric,x_label_rotation=60,style=custom_style,human_readable=True,pretty_print=True,tooltip_border_radius=10)
             if unit == "Bytes":
-                bar_chart.add("MB", dataX)
+                bar_chart.add("MB Average", dataX)
             elif unit == "Percent":
-                bar_chart.add("%", dataX)
+                bar_chart.add("% Maximum", dataX)
             else:
                 bar_chart.add(unit, dataX)
             bar_chart.x_labels = dateX
