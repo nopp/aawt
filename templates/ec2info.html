@@ -83,14 +83,6 @@
 				{{ info['key_pair']['name'] }}
 			</div>
 		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Kernel ID</h3>
-			</div>
-			<div class="panel-body">
-			{{ info['kernel_id'] }}
-			</div>
-		</div>
     </li>
     <li>
     	<h3> <!-- Tags -->
@@ -106,7 +98,50 @@
 			    <h3 class="panel-title">{{ sg['GroupName'] }} ({{ sg['GroupId'] }})</h3>
 			  </div>
 			  <div class="panel-body">
-			    Panel content
+		    	<div class="row">
+					<div class="col-xs-6">
+					  	<h3>Inbound</h3>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Protocol</th>
+									<th>Port</th>
+									<th>Source</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for sg in atw.sg_info(region,sg['GroupId']).ip_permissions %}
+									<tr>
+										<td>{{ sg['IpProtocol'] }}</td>
+										<td>{{ sg['ToPort'] }}</td>
+										<td>{{ sg['IpRanges'][0]['CidrIp'] }}</td>
+									</tr>
+				    			{% endfor %}
+					    	</tbody>
+					    </table>
+					</div>
+					<div class="col-xs-6">
+					  	<h3>Outbound</h3>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Protocol</th>
+									<th>Port</th>
+									<th>Destination</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for sg in atw.sg_info(region,sg['GroupId']).ip_permissions_egress %}
+									<tr>
+										<td>{{ sg['IpProtocol'] }}</td>
+										<td>{{ sg['ToPort'] }}</td>
+										<td>{{ sg['IpRanges'][0]['CidrIp'] }}</td>
+									</tr>
+				    			{% endfor %}
+					    	</tbody>
+					    </table>
+					</div>
+				</div>
 			  </div>
 			</div>
     	{% endfor %}
@@ -188,8 +223,32 @@
 		</div>
     </li>
     <li> <!-- Disks -->
-    	Disks soon!
-    </li>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Volume ID</th>
+							<th>Device</th>
+							<th>Zone</th>
+							<th>Type</th>
+							<th>Size</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for vol in info.volumes.all() %}
+							<tr>
+								<td>{{ vol['id'] }}</td>
+								<td>{{ vol['attachments'][0]['Device'] }}</td>
+								<td>{{ vol['availability_zone'] }}</td>
+								<td>{{ vol['volume_type'] }}</td>
+								<td>{{ vol['size'] }} GB</td>
+							</tr>
+		    			{% endfor %}
+			    	</tbody>
+			    </table>
+    		</div>
+    	</div>    </li>
     <li> <!-- Console Output -->
 		<div class="panel panel-default">
 			<div class="panel-body">

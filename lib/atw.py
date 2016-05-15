@@ -95,6 +95,14 @@ class Atw:
             return total
         except:
             return "ErrorLib - Can't return total of EC2."
+
+    # Security Group Info
+    def sg_info(self,region,id):
+        try:
+            sgResource = self.connect_resource(region,"ec2")
+            return sgResource.SecurityGroup(id)
+        except:
+            return "ErrorLib - Can't return SG info."
     
     # EC2 total EBS
     def ec2_totalEbs(self,region,opt):
@@ -176,6 +184,14 @@ class Atw:
             return ebsList,total
         except:
             return "ErrorLib - Can't list all EBS."
+
+    # EBS Info
+    def ebs_info(self,region,id):
+        try:
+            ebsResource = self.connect_resource(region,"ec2")
+            return ebsResource.Volume(id)
+        except:
+            return "ErrorLib - Can't return EBS info."
 
     # Billing
     def charge_service(self,service,option=None):
