@@ -38,6 +38,17 @@ Configure
 	* IAMReadOnlyAccess
 	* AmazonRDSReadOnlyAccess
 	* CloudWatchReadOnlyAccess
+	You need to create an inline policy to allow method "GetConsoleOutput":
+		{
+		    "Version": "2012-10-17",
+		    "Statement": [
+		        {
+		            "Effect": "Allow",
+		            "Action": "ec2:GetConsoleOutput*",
+		            "Resource": "*"
+		        }
+		    ]
+		}
 	You need to enable "Monitor your estimated charges"
 	* Billing & Cost Management > Preferences > Check "Receive Billing Alerts"
 	Obs:. this will work some hours later.
