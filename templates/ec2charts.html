@@ -5,25 +5,25 @@
 <link rel="stylesheet" href="/static/style.css">
 {% if info['platform'] == None %}
 	{% if info['state']['Name'] == "running" %}
-		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
-		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% else %}
 	{% if info['state']['Name'] == "running" %}
-		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
-		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% endif %}
 <ul id="tabs">
     <li class="active">CPU</li>
     <li>Network</li>
-    &nbsp;&nbsp;&nbsp<a id="ec2" href="/ec2info/{{ region }}/{{ info['id'] }}"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a>
+    &nbsp;&nbsp;&nbsp<a id="ec2" href="/ec2info/{{ region }}/{{ info['id'] }}"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> Info</a>
 </ul>
 <ul id="tab">
     <li class="active">

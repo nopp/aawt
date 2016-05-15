@@ -18,17 +18,16 @@
 				<thead>
 					<tr>
 						<th>Scheme</th>
-						<th>Actions</th>
 						<th>Name</th>
 						<th>Members</th>
 						<th>DNS</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for elb in results %}
 					<tr>
 						<td><i class="fa fa-map-signs"></i> {{ elb['Scheme'] }}</td>
-						<td><i class="fa fa-area-chart" aria-hidden="true"></i></td>
 						<td>{{ elb['LoadBalancerName'] }}</td>
 						<td>
 						{% for instance in elb['Instances'] %}
@@ -39,7 +38,8 @@
 							{% endif %}
 						{% endfor %}
 						</td>
-	          <td>{{ elb['DNSName'] }}</td>
+	          			<td>{{ elb['DNSName'] }}</td>
+	          			<td><i class="fa fa-area-chart" aria-hidden="true"></i></td>
 					</tr>
 					{% endfor %}
 				</tbody>

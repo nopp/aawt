@@ -19,13 +19,13 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Actions</th>
 						<th>Instance ID</th>
 						<th>Type</th>
 						<th>Zone</th>
 						<th>Private IP</th>
 						<th>Public IP</th>
 						<th>State</th>
+						<th>Actions</th>
 						<th style="display:none;">Tags</th>
 					</tr>
 				</thead>
@@ -39,7 +39,6 @@
 							<i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}
 						{% endif %}
 						</td>
-						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-info-circle" aria-hidden="true"></i></a> <a id="ec2" href="/ec2charts/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></td>
 						<td>{{ ec2['instance_id'] }}</td>
 						<td>{{ ec2['instance_type'] }}</td>
 						<td>{{ ec2['placement']['AvailabilityZone'] }}</td>
@@ -50,6 +49,7 @@
 						{% else %}
 						<td><span class="label label-danger">{{ ec2['state']['Name'] }}</span></td>
 						{% endif %}
+						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-info-circle" aria-hidden="true"></i></a> <a id="ec2" href="/ec2charts/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></td>
 						<td style="display:none;">
 						{% for tag in ec2.tags %}
 							{{ tag }}<br>

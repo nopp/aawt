@@ -5,75 +5,199 @@
 <link rel="stylesheet" href="/static/style.css">
 {% if info['platform'] == None %}
 	{% if info['state']['Name'] == "running" %}
-		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h3>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
-		<h3 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% else %}
 	{% if info['state']['Name'] == "running" %}
-		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h3>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
-		<h3 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h3>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% endif %}
 <ul id="tabs">
     <li class="active">Info</li>
     <li>Tags</li>
-    &nbsp;&nbsp;&nbsp;<a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i></a>
+    <li>Security Groups</li>
+    <li>Network</li>
+    <li>Disks</li>
+    <li>Console output</li>
+    &nbsp;&nbsp;&nbsp;<a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i> Charts</a>
 </ul>
 <ul id="tab">
     <li class="active">
-		<div class="row">
+    	<div class="row">
 			<div class="col-xs-6">
 				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-6"><b>Instance ID</b> {{ info['id'] }}</div>
-							<div class="col-md-6"><b>Image ID</b> {{ info['image_id'] }}</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6"><b>Type</b> {{ info['instance_type'] }}</div>
-							<div class="col-md-6"><b>Zone</b> {{ info['placement']['AvailabilityZone'] }}</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6"><b>Vpc ID</b> {{ info['vpc']['vpc_id'] }}</div>
-							<div class="col-md-6"><b>Subnet</b> {{ info['subnet_id'] }}</div>
-						</div>
+					<div class="panel-heading">
+						<h3 class="panel-title">Instance ID</h3>
 					</div>
-				</div>						
+					<div class="panel-body">
+					{{ info['instance_id'] }}
+					</div>
+				</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Image ID</h3>
+					</div>
 					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-10"><b>Private DNS</b> {{ info['private_dns_name'] }}</div>
-						</div>
-						<div class="row">
-							<div class="col-md-10"><b>Public DNS</b> {{ info['public_dns_name'] }}</div>
-						</div>
-						<div class="row">
-							<div class="col-md-10">
-								<b>Network interface</b>
-								{% for inet in info['network_interfaces'] %}
-									{{ inet.id }}
-								{% endfor %}
-							</div>		
-						</div>	
+					{{ info['image_id'] }}
 					</div>
 				</div>
 			</div>
 		</div>
+    	<div class="row">
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Type</h3>
+					</div>
+					<div class="panel-body">
+					{{ info['instance_type'] }}
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Hypervisor</h3>
+					</div>
+					<div class="panel-body">
+					{{ info['hypervisor'] }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Key pair</h3>
+			</div>
+			<div class="panel-body">
+				{{ info['key_pair']['name'] }}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Kernel ID</h3>
+			</div>
+			<div class="panel-body">
+			{{ info['kernel_id'] }}
+			</div>
+		</div>
     </li>
     <li>
-    	<h3>
+    	<h3> <!-- Tags -->
         {% for tag in info.tags %}
 			<span class="label label-primary">#{{ tag['Key'] }} : {{ tag['Value'] }}</span>&nbsp;
 		{% endfor %}
 		</h3>
+    </li>
+    <li> <!-- Security Groups -->
+    	{% for sg in info.security_groups %}
+    		<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">{{ sg['GroupName'] }} ({{ sg['GroupId'] }})</h3>
+			  </div>
+			  <div class="panel-body">
+			    Panel content
+			  </div>
+			</div>
+    	{% endfor %}
+    </li>
+    <li> <!-- Network -->
+    	<div class="row">
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Public IP</h3>
+					</div>
+					<div class="panel-body">
+					{{ info['public_ip_address'] }}
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Private IP</h3>
+					</div>
+					<div class="panel-body">
+					{{ info['private_ip_address'] }}
+					</div>
+				</div>
+			</div>
+		</div>
+    	<div class="row">
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Public Adress</h3>
+					</div>
+					<div class="panel-body">
+					{% if info['public_dns_name'] == "" %}
+						n/a
+					{% else %}
+						{{ info['public_dns_name'] }}
+					{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Private Adress</h3>
+					</div>
+					<div class="panel-body">
+					{{ info['private_dns_name'] }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">VPC ID</h3>
+			</div>
+			<div class="panel-body">
+				{{ info['vpc']['vpc_id'] }}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Subnet</h3>
+			</div>
+			<div class="panel-body">
+			{{ info['subnet_id'] }}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Network interfaces</h3>
+			</div>
+			<div class="panel-body">
+				{% for inet in info['network_interfaces'] %}
+					{{ inet.id }}
+				{% endfor %}
+			</div>
+		</div>
+    </li>
+    <li> <!-- Disks -->
+    	Disks soon!
+    </li>
+    <li> <!-- Console Output -->
+		<div class="panel panel-default">
+			<div class="panel-body">
+    			{% for line in info.console_output()['Output'].split("\n") %}
+    				{{ line }}<br>
+    			{% endfor %}
+    		</div>
+    	</div>
     </li>
 </ul>
 {% endblock %}
