@@ -110,11 +110,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for sg in atw.sg_info(region,sg['GroupId']).ip_permissions %}
+								{% for sgInfoIn in atw.sg_info(region,sg['GroupId']).ip_permissions %}
 									<tr>
-										<td>{{ sg['IpProtocol'] }}</td>
-										<td>{{ sg['ToPort'] }}</td>
-										<td>{{ sg['IpRanges'][0]['CidrIp'] }}</td>
+										<td>{{ sgInfoIn['IpProtocol'] }}</td>
+										<td>{{ sgInfoIn['ToPort'] }}</td>
+										<td>
+										{% for cidrIn in sgInfoIn['IpRanges'] %}
+											{{ cidrIn['CidrIp'] }}<br>
+										{% endfor %}
+										</td>
 									</tr>
 				    			{% endfor %}
 					    	</tbody>
@@ -131,11 +135,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for sg in atw.sg_info(region,sg['GroupId']).ip_permissions_egress %}
+								{% for sgInfoOut in atw.sg_info(region,sg['GroupId']).ip_permissions_egress %}
 									<tr>
-										<td>{{ sg['IpProtocol'] }}</td>
-										<td>{{ sg['ToPort'] }}</td>
-										<td>{{ sg['IpRanges'][0]['CidrIp'] }}</td>
+										<td>{{ sgInfoOut['IpProtocol'] }}</td>
+										<td>{{ sgInfoOut['ToPort'] }}</td>
+										<td>
+										{% for cidrOut in sgInfoOut['IpRanges'] %}
+											{{ cidrOut['CidrIp'] }}<br>
+										{% endfor %}
+										</td>
 									</tr>
 				    			{% endfor %}
 					    	</tbody>
