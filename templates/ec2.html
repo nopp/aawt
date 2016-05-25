@@ -46,6 +46,8 @@
 						<td>{{ ec2['public_ip_address'] }}</td>
 						{% if ec2['state']['Name'] == "running" %}
 						<td><span class="label label-success">{{ ec2['state']['Name'] }}</span></td>
+						{% elif ec2['state']['Name'] == "stopping" %}
+						<td><span class="label label-warning">{{ ec2['state']['Name'] }}</span></td>
 						{% else %}
 						<td><span class="label label-danger">{{ ec2['state']['Name'] }}</span></td>
 						{% endif %}

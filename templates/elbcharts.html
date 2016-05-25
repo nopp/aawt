@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>
+<script src="/static/js/tabs.js"></script>
+<link rel="stylesheet" href="/static/style.css">
+<h2 class="panel-title"><i class="fa fa-map-signs"></i> <b>{{ id }}</b></h2><br>
+<ul id="tabs">
+    <li class="active">Latency</li>
+    <li>Requests</li>
+</ul>
+<ul id="tab">
+    <li class="active">
+    	<h4>Last hour (5 minutes period) - Maximum</h4>
+		<div class="row">
+			{{ latencyChart|safe }}
+		</div>
+    </li>
+    <li>
+    	<h4>Last hour (5 minutes period) - Count</h4>
+		<div class="row">
+			{{ requestsChart|safe }}
+		</div>
+    </li>
+</ul>
+{% endblock %}

@@ -234,25 +234,40 @@ class Atw:
             return "ErrorLib - Can't convert bytes to "+to
 
     # Return chart from cloudwatch
-    def chart(self,region,id,metric,unit):
+    def chart(self,region,id,metric,unit,elb=None):
         try:
-            chargeClient = self.connect_client(region,'cloudwatch')
-            response = chargeClient.get_metric_statistics(
-                Namespace='AWS/EC2',
-                MetricName=metric,
-                StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
-                EndTime=datetime.datetime.now(),
-                Period=300,
-                Statistics=['Maximum','Minimum','Average'],
-                Dimensions=[{'Name':'InstanceId','Value':id}],
-                Unit=unit
-            )
+            chartClient = self.connect_client(region,'cloudwatch')
+            if elb == None: #EC2
+                response = chartClient.get_metric_statistics(
+                    Namespace='AWS/EC2',
+                    MetricName=metric,
+                    StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
+                    EndTime=datetime.datetime.now(),
+                    Period=300,
+                    Statistics=['Maximum','Minimum','Average'],
+                    Dimensions=[{'Name':'InstanceId','Value':id}],
+                    Unit=unit
+                )
+            else: #LoadBalancer
+                response = chartClient.get_metric_statistics(
+                    Namespace='AWS/ELB',
+                    MetricName=metric,
+                    StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
+                    EndTime=datetime.datetime.now(),
+                    Period=300,
+                    Statistics=['Average','Sum','Maximum'],
+                    Dimensions=[{'Name':'LoadBalancerName','Value':id}],
+                    Unit=unit
+                )
             dataChart = {}
             for endpoint in response['Datapoints']:
-                if unit == "Bytes":
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(self.bytes_to(endpoint['Average']
-,"m"),2)]
-                else:                 
+                if unit == "Bytes": # Network
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(self.bytes_to(endpoint['Average'],"m"),2)]
+                elif unit == "Seconds": # Latency
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint['Average'],2)]
+                elif unit == "Count": # Requests
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint['Sum'],2)]
+                else: # General
                     dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint['Maximum'],2)]
             dataX = []
             dateX = []

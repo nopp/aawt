@@ -24,7 +24,7 @@ def page_not_found(e):
     return render_template('500.html',menu=atw.menu()), 500
 
 # EC2 List All
-@app.route("/ec2/<region>",methods=['GET']) 
+@app.route("/ec2/<region>",methods=['GET'])
 def ec2(region):
 	try:
 		if atw.charge_service('AmazonEC2') == "ErrorLib - Not charges yet.":
@@ -36,7 +36,7 @@ def ec2(region):
 		print "ErrorFlask - Can't list all EC2."
 
 # EC2 Info
-@app.route("/ec2info/<region>/<id>",methods=['GET']) 
+@app.route("/ec2info/<region>/<id>",methods=['GET'])
 def ec2Info(region,id):
 	try:
 		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,menu=atw.menu())
@@ -44,7 +44,7 @@ def ec2Info(region,id):
 		print "ErrorFlask - Can't return EC2 info."
 
 # EC2 Charts
-@app.route("/ec2charts/<region>/<id>",methods=['GET']) 
+@app.route("/ec2charts/<region>/<id>",methods=['GET'])
 def ec2Charts(region,id):
 	try:
 		cpuChart = atw.chart(region,id,"CPUUtilization","Percent").render(is_unicode=True)
@@ -52,7 +52,18 @@ def ec2Charts(region,id):
 		networkOutChart = atw.chart(region,id,"NetworkOut","Bytes").render(is_unicode=True)
 		return render_template('ec2charts.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,cpuChart=cpuChart,networkInChart=networkInChart,networkOutChart=networkOutChart,menu=atw.menu())
 	except:
-		print "ErrorFlask - Can't return EC2 charts."			
+		print "ErrorFlask - Can't return EC2 charts."
+
+# EC2 Charts Teste
+@app.route("/ec2teste/<region>/<id>",methods=['GET'])
+def ec2Teste(region,id):
+	try:
+		cpuChartData,cpuChartDate = atw.chartTeste(region,id,"CPUUtilization","Percent")
+		networkInChart = atw.chart(region,id,"NetworkIn","Bytes").render(is_unicode=True)
+		networkOutChart = atw.chart(region,id,"NetworkOut","Bytes").render(is_unicode=True)
+		return render_template('ec2teste.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,cpuChartData=cpuChartData,cpuChartDate=cpuChartDate,networkInChart=networkInChart,networkOutChart=networkOutChart,menu=atw.menu())
+	except:
+		print "ErrorFlask - Can't return EC2 charts."
 
 # RDS List All
 @app.route("/rds/<region>",methods=['GET'])
@@ -67,15 +78,25 @@ def rds(region):
 		print "ErrorFlask - Can't list all RDS."
 
 # ELB List All
-@app.route("/elb/<region>",methods=['GET']) 
+@app.route("/elb/<region>",methods=['GET'])
 def elb(region):
 	try:
 		return render_template('elb.html',results=atw.elb_listAll(region),region=region,atw=atw,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't list all ELB."
 
+# ELB Charts
+@app.route("/elbcharts/<region>/<id>",methods=['GET'])
+def elbCharts(region,id):
+	try:
+		latencyChart = atw.chart(region,id,"Latency","Seconds","elb").render(is_unicode=True)
+		requestsChart = atw.chart(region,id,"RequestCount","Count","elb").render(is_unicode=True)
+		return render_template('elbcharts.html',region=region,id=id,atw=atw,latencyChart=latencyChart,requestsChart=requestsChart,menu=atw.menu())
+	except:
+		print "ErrorFlask - Can't return ELB charts."
+
 # IAM List All
-@app.route("/iam") 
+@app.route("/iam")
 def iam():
 	try:
 		return render_template('iam.html',results=atw.iam_listAll(),menu=atw.menu())
@@ -83,7 +104,7 @@ def iam():
 		print "Error - Can't list all users"
 
 # EC2 List all reserved
-@app.route("/ec2r/<region>",methods=['GET']) 
+@app.route("/ec2r/<region>",methods=['GET'])
 def ec2r(region):
 	try:
 		rtn,total = atw.ec2r_listAll(region)
@@ -92,7 +113,7 @@ def ec2r(region):
 		print "ErrorFlask - Can't list all EC2 reserved."
 
 # EBS List all
-@app.route("/ebs/<region>",methods=['GET']) 
+@app.route("/ebs/<region>",methods=['GET'])
 def ebs(region):
 	try:
 		rtn,total = atw.ebs_listAll(region)
