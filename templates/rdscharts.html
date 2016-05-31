@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>
+<script src="/static/js/tabs.js"></script>
+<link rel="stylesheet" href="/static/style.css">
+<h2 class="panel-title"><i class="fa fa-database"></i> <b>{{ name }}</b></h2><br>
+<ul id="tabs">
+    <li class="active">CPUUtilization</li>
+    <li>DatabaseConnections</li>
+</ul>
+<ul id="tab">
+    <li class="active">
+    	<h4>Last hour (5 minutes period) - Maximum</h4>
+		<div class="row">
+			{{ cpuChart|safe }}
+		</div>
+    </li>
+    <li>
+    	<h4>Last hour (5 minutes period) - Count</h4>
+		<div class="row">
+            {{ connectionsChart|safe }}
+		</div>
+    </li>
+</ul>
+{% endblock %}

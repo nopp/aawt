@@ -30,7 +30,8 @@
 					{% for ebs in results %}
 					<tr>
 						<td>{{ ebs['VolumeId'] }}</td>
-						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ebs['Attachments'][0]['InstanceId'] }}">{{ ebs['Attachments'][0]['InstanceId'] }}</a></td>
+						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ebs['Attachments'][0]['InstanceId'] }}">{{ ebs['Attachments'][0]['InstanceId'] }}
+						</a></td>
 						<td>{{ ebs['AvailabilityZone'] }}</td>
 						<td>{{ ebs['VolumeType'] }}</td>
 						<td>{{ ebs['Size'] }} GB</td>

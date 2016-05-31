@@ -24,6 +24,7 @@
 						<th>Endpoint</th>
 						<th>Port</th>
 						<th>State</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -39,6 +40,7 @@
 	                    {% else %}
 	                    <td><span class="label label-danger">{{ rds['DBInstanceStatus'] }}</span></td>
 	                    {% endif %}
+	                    <td><a id="ec2" href="/rdscharts/{{ region }}/{{ rds['DBInstanceIdentifier'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></td>
 					</tr>
 					{% endfor %}
 				</tbody>

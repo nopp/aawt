@@ -234,51 +234,36 @@ class Atw:
             return "ErrorLib - Can't convert bytes to "+to
 
     # Return chart from cloudwatch
-    def chart(self,region,id,metric,unit,elb=None):
+    def chart(self,region,id,metric,unit,statopt,opt):
+        dimentions = {'EC2':'InstanceId','ELB':'LoadBalancerName','RDS':'DBInstanceIdentifier'}
         try:
             chartClient = self.connect_client(region,'cloudwatch')
-            if elb == None: #EC2
-                response = chartClient.get_metric_statistics(
-                    Namespace='AWS/EC2',
-                    MetricName=metric,
-                    StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
-                    EndTime=datetime.datetime.now(),
-                    Period=300,
-                    Statistics=['Maximum','Minimum','Average'],
-                    Dimensions=[{'Name':'InstanceId','Value':id}],
-                    Unit=unit
-                )
-            else: #LoadBalancer
-                response = chartClient.get_metric_statistics(
-                    Namespace='AWS/ELB',
-                    MetricName=metric,
-                    StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
-                    EndTime=datetime.datetime.now(),
-                    Period=300,
-                    Statistics=['Average','Sum','Maximum'],
-                    Dimensions=[{'Name':'LoadBalancerName','Value':id}],
-                    Unit=unit
-                )
+            response = chartClient.get_metric_statistics(
+                Namespace='AWS/'+opt,
+                MetricName=metric,
+                StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
+                EndTime=datetime.datetime.now(),
+                Period=300,
+                Statistics=['Average','Sum','Maximum'],
+                Dimensions=[{'Name':dimentions[opt],'Value':id}],
+                Unit=unit
+            )            
             dataChart = {}
             for endpoint in response['Datapoints']:
-                if unit == "Bytes": # Network
+                if unit == "Bytes":
                     dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(self.bytes_to(endpoint['Average'],"m"),2)]
-                elif unit == "Seconds": # Latency
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint['Average'],2)]
-                elif unit == "Count": # Requests
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint['Sum'],2)]
-                else: # General
-                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint['Maximum'],2)]
+                else:
+                    dataChart[endpoint['Timestamp'].strftime('%H%M%S')] = [endpoint['Timestamp'].strftime('%H:%M'),round(endpoint[statopt],2)]
             dataX = []
             dateX = []
             for key in sorted(dataChart):
                 dateX.append(dataChart[key][0])
                 dataX.append(dataChart[key][1])
             custom_style = Style(
-              background='transparent',
-              opacity='.6',
-              opacity_hover='.9',
-              transition='400ms ease-in')            
+                background='transparent',
+                opacity='.6',
+                opacity_hover='.9',
+                transition='400ms ease-in')            
             bar_chart = pygal.Line(width=530, height=320,explicit_size=True, title=metric,x_label_rotation=60,style=custom_style,human_readable=True,pretty_print=True,tooltip_border_radius=10)
             if unit == "Bytes":
                 bar_chart.add("MB", dataX)
