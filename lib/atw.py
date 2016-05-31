@@ -235,7 +235,7 @@ class Atw:
 
     # Return chart from cloudwatch
     def chart(self,region,id,metric,unit,statopt,opt):
-        dimentions = {'EC2':'InstanceId','ELB':'LoadBalancerName','RDS':'DBInstanceIdentifier'}
+        dimensions = {'EC2':'InstanceId','ELB':'LoadBalancerName','RDS':'DBInstanceIdentifier'}
         try:
             chartClient = self.connect_client(region,'cloudwatch')
             response = chartClient.get_metric_statistics(
@@ -245,7 +245,7 @@ class Atw:
                 EndTime=datetime.datetime.now(),
                 Period=300,
                 Statistics=['Average','Sum','Maximum'],
-                Dimensions=[{'Name':dimentions[opt],'Value':id}],
+                Dimensions=[{'Name':dimensions[opt],'Value':id}],
                 Unit=unit
             )            
             dataChart = {}
