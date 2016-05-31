@@ -10,11 +10,11 @@ Required
 	
 DONE
 ====
-* EC2
+* EC2 (With Charts)
 * EC2 Reserved
 * EBS
-* ELB
-* RDS
+* ELB (With Charts)
+* RDS (With Charts)
 * IAM
 
 Install
