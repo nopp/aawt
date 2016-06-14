@@ -17,7 +17,7 @@ DONE
 
 Install
 =======
-	# yum install python-pip -y
+	# yum install python-pip supervisor -y
 	# pip install flask
 	# pip install boto3
 	# pip install pygal
