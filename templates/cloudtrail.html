@@ -35,9 +35,15 @@
 						<td>
 							{{ ct['EventName'] }}
 						</td>
-						<td>
-							{{ ct['Resources'] }}
-						</td>						
+						{% if ct['Resources'] %}
+							<td>
+								{% for rc in ct['Resources'] %}
+									{{ rc['ResourceName'] }}<br>
+								{% endfor %}
+							</td>
+						{% else %}
+							<td>-</td>
+						{% endif %}
 					</tr>
 					{% endfor %}
 				</tbody>
