@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block body %}
+	{% if results %}
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+	        $('#ec2table').dataTable();
+	        $('#ec2table tbody').on('click', 'td', function () {
+	            $('[data-toggle="tooltip"]').popover({html: true});
+	        } );
+	    } );
+	</script>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"> CloudTrail {{ region }}</h3>
+		</div>
+		<div class="panel-body">
+			<table id="ec2table" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>User</th>						
+						<th>Name</th>
+						<th>Resource</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for ct in results %}
+					<tr>
+						<td>
+							{{ ct['EventTime'].strftime("%d/%m/%Y %H:%M:%S") }}
+						</td>
+						<td>
+							{{ ct['Username'] }}
+						</td>
+						<td>
+							{{ ct['EventName'] }}
+						</td>
+						<td>
+							{{ ct['Resources'][0] }}
+						</td>						
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{% else %}
+		<div class="alert alert-warning" role="alert"><b>Doesn't have CloudTrail yet!</b></div>
+	{% endif %}
+{% endblock %}

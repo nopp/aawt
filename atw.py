@@ -120,6 +120,14 @@ def ebs(region):
 	except:
 		print "ErrorFlask - Can't list all ebs."
 
+# CloudTrail
+@app.route("/cloudtrail/<region>",methods=['GET'])
+def cloudtrail(region):
+	try:
+		return render_template('cloudtrail.html',results=atw.cloudtrail_listAll(region),region=region,menu=atw.menu())
+	except:		
+		print "ErrorFlask - Can't list CloudTrail."
+
 # Index
 @app.route("/")
 def index():
@@ -133,5 +141,5 @@ def index():
 		print "ErrorFlask - Can't render index."		
 
 if __name__ == '__main__':
-	logging.basicConfig(filename='atw.log',level=logging.INFO)
-	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
+	#logging.basicConfig(filename='atw.log',level=logging.INFO)
+	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)

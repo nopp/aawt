@@ -3,6 +3,7 @@
 #
 import ConfigParser
 import datetime
+import pprint
 import boto3
 import pygal
 import sys
@@ -275,3 +276,11 @@ class Atw:
             return bar_chart
         except:
             return "ErrorLib - Can't return chart."
+
+    # CloudTrail
+    def cloudtrail_listAll(self,region):
+        try:
+            cloudtrailClient = self.connect_client(region,"cloudtrail")
+            return cloudtrailClient.lookup_events()['Events']
+        except:
+            return "ErrorLib - Can't list CloudTrail."

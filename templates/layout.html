@@ -70,7 +70,15 @@
 					</li>
                     <li>
                         <a href="/iam">IAM</a>
-                    </li>                                    
+                    </li> 
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CloudTrail<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                                {% for mnu in menu %}
+                                <li><a href="/cloudtrail/{{ mnu.split(":")[0] }}">{{ mnu.split(":")[1] }}</a></li>
+                                {% endfor %}
+                        </ul>
+                    </li>                                                      
                 </ul>
             </div>
         </div>
