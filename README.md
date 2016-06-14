@@ -14,7 +14,7 @@ DONE
 * ELB (With Charts)
 * RDS (With Charts)
 * IAM
-* CloudTrail
+* CloudTrail (Obs:. not working with route53 changes)
 
 Install
 =======
