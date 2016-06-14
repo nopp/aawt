@@ -14,6 +14,7 @@ DONE
 * ELB (With Charts)
 * RDS (With Charts)
 * IAM
+* CloudTrail
 
 Install
 =======
