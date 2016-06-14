@@ -3,7 +3,7 @@
 	{% if results %}
 	<script type="text/javascript" class="init">
 	    $(document).ready(function() {
-	        $('#ec2table').dataTable();
+	        $('#ec2table').dataTable({"order": [[ 0, "desc" ]]});
 	        $('#ec2table tbody').on('click', 'td', function () {
 	            $('[data-toggle="tooltip"]').popover({html: true});
 	        } );
@@ -24,10 +24,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for ct in results %}
+					{% for ct in results|sort %}
 					<tr>
 						<td>
-							{{ ct['EventTime'].strftime("%d/%m/%Y %H:%M:%S") }}
+							{{ ct['EventTime'].strftime('%d/%m/%Y %H:%M:%S') }}
 						</td>
 						<td>
 							{{ ct['Username'] }}
@@ -36,7 +36,7 @@
 							{{ ct['EventName'] }}
 						</td>
 						<td>
-							{{ ct['Resources'][0] }}
+							{{ ct['Resources'] }}
 						</td>						
 					</tr>
 					{% endfor %}

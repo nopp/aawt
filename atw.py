@@ -141,5 +141,5 @@ def index():
 		print "ErrorFlask - Can't render index."		
 
 if __name__ == '__main__':
-	#logging.basicConfig(filename='atw.log',level=logging.INFO)
-	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)
+	logging.basicConfig(filename='atw.log',level=logging.INFO)
+	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
