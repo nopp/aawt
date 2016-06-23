@@ -15,6 +15,7 @@ DONE
 * RDS (With Charts)
 * IAM
 * CloudTrail (Obs:. not working with route53 changes)
+* S3
 
 Install
 =======
