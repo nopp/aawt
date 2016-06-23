@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript" class="init">
+    $(document).ready(function() {
+        $('#ec2table').dataTable();
+        $('#ec2table tbody').on('click', 'td', function () {
+            $('[data-toggle="tooltip"]').popover({html: true});
+        } );
+    } );
+</script>  
+<h2 class="panel-title">{{ name }} [{{ s3info['Location'] }}]</span></h2>
+<h5>Create at {{ s3info['CreatedAt'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
+<div class="panel panel-default">
+	<div class="panel-body">    
+		<table id="ec2table" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Storage class</th>
+				<th>MD5</th>
+				<th>Size</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for s3 in s3info['Objects']['Contents'] %}
+				<tr>
+					<td>{{ s3['Key'] }}</td>
+					<td>{{ s3['StorageClass'] }}</td>
+					<td>{{ s3['ETag']|replace('"','') }}</td>
+					<td>{{ s3['Size']|filesizeformat }}</td>
+				</tr>
+			{% endfor %}
+    	</tbody>
+    	</table>
+    </div>
+</div>
+{% endblock %}

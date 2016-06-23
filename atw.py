@@ -128,6 +128,22 @@ def cloudtrail(region):
 	except:		
 		print "ErrorFlask - Can't list CloudTrail."
 
+# S3
+@app.route("/s3",methods=['GET'])
+def s3():
+	try:
+		return render_template('s3.html',results=atw.s3_listAll(),atw=atw,menu=atw.menu())
+	except:		
+		print "ErrorFlask - Can't list S3."
+
+# S3 Info
+@app.route("/s3info/<name>",methods=['GET'])
+def s3Info(name):
+	try:
+		return render_template('s3info.html',name=name,s3info=atw.s3_info(name),menu=atw.menu())
+	except:
+		print "ErrorFlask - Can't return S3 info."
+
 # Index
 @app.route("/")
 def index():
@@ -138,8 +154,8 @@ def index():
 			charge = format(atw.charge_service('',"total"), ',.2f')
 		return render_template('index.html',menu=atw.menu(),charge=charge,atw=atw)
 	except:
-		print "ErrorFlask - Can't render index."		
+		print "ErrorFlask - Can't render index."
 
 if __name__ == '__main__':
-	logging.basicConfig(filename='atw.log',level=logging.INFO)
-	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
+	#logging.basicConfig(filename='atw.log',level=logging.INFO)
+	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)

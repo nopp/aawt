@@ -20,6 +20,7 @@
 					<tr>
 						<th>DBName</th>
 						<th>Engine</th>
+						<th>Type</th>
 						<th>Master username</th>
 						<th>Endpoint</th>
 						<th>Port</th>
@@ -32,6 +33,7 @@
 					<tr>
 						<td><i class="fa fa-database"></i> {{ rds['DBName'] }}</td>
 						<td>{{ rds['Engine'] }}</td>
+						<td>{{ rds['DBInstanceClass'] }}</td>
 	                    <td>{{ rds['MasterUsername'] }}</td>
 						<td>{{ rds['Endpoint']['Address'] }}</td>
 						<td>{{ rds['Endpoint']['Port'] }}</td>
@@ -40,7 +42,7 @@
 	                    {% else %}
 	                    <td><span class="label label-danger">{{ rds['DBInstanceStatus'] }}</span></td>
 	                    {% endif %}
-	                    <td><a id="ec2" href="/rdscharts/{{ region }}/{{ rds['DBInstanceIdentifier'] }}"><i class="fa fa-area-chart" aria-hidden="true"></i></a></td>
+	                    <td><a id="ec2" href="/rdscharts/{{ region }}/{{ rds['DBInstanceIdentifier'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i></a></td>
 					</tr>
 					{% endfor %}
 				</tbody>

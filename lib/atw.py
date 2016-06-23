@@ -284,3 +284,24 @@ class Atw:
             return cloudtrailClient.lookup_events()['Events']
         except:
             return "ErrorLib - Can't list CloudTrail."
+
+    # S3
+    def s3_listAll(self):
+        try:
+            s3Client = self.connect_client("","s3")
+            return s3Client.list_buckets()['Buckets']
+        except:
+            return "ErrorLib - Can't list S3."
+
+    # S3 Info
+    def s3_info(self,name):
+        try:
+            s3 = {}
+            s3Client = self.connect_client("","s3")
+            s3['Location'] = s3Client.get_bucket_location(Bucket=name)['LocationConstraint']
+            s3Resource = self.connect_resource(s3['Location'],"s3")
+            s3['Objects'] = s3Client.list_objects(Bucket=name)
+            s3['CreatedAt'] = s3Resource.Bucket(name).creation_date
+            return s3
+        except:
+            return "ErrorLib - Can't return S3 info."

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+	{% if results %}
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+	        $('#ec2table').dataTable({"order": [[ 1	, "asc" ]]});
+	        $('#ec2table tbody').on('click', 'td', function () {
+	            $('[data-toggle="tooltip"]').popover({html: true});
+	        } );
+	    } );
+	</script>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"> Listing all S3 buckets</h3>
+		</div>
+		<div class="panel-body">
+			<table id="ec2table" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Created</th>
+						<th>Name</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for s3 in results|sort %}
+					<tr>
+						<td>{{ s3['CreationDate'].strftime('%d/%m/%Y %H:%M:%S') }}</td>
+						<td>{{ s3['Name'] }}</td>
+						<td><a id="ec2" href="/s3info/{{ s3['Name'] }}"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{% else %}
+		<div class="alert alert-warning" role="alert"><b>Doesn't have S3 on this region {{ region }}</b></div>
+	{% endif %}
+{% endblock %}
