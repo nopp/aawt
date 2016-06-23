@@ -40,6 +40,8 @@ Configure
 	* IAMReadOnlyAccess
 	* AmazonRDSReadOnlyAccess
 	* CloudWatchReadOnlyAccess
+	* AmazonS3ReadOnlyAccess
+	* AWSCloudTrailReadOnlyAccess
 	You need to create an inline policy (getConsoleEC2) to allow method "GetConsoleOutput":
 	{
 	    "Version": "2012-10-17",
