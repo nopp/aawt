@@ -24,6 +24,7 @@
 						<th>Master username</th>
 						<th>Endpoint</th>
 						<th>Port</th>
+						<th>Size</th>
 						<th>State</th>
 						<th>Action</th>
 					</tr>
@@ -37,6 +38,7 @@
 	                    <td>{{ rds['MasterUsername'] }}</td>
 						<td>{{ rds['Endpoint']['Address'] }}</td>
 						<td>{{ rds['Endpoint']['Port'] }}</td>
+						<td>{{ rds['AllocatedStorage'] }} GB</td>
 	                    {% if rds['DBInstanceStatus'] == "available" %}
 	                    <td><span class="label label-success">{{ rds['DBInstanceStatus'] }}</span></td>
 	                    {% else %}
