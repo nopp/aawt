@@ -231,6 +231,9 @@
 		</div>
     </li>
     <li> <!-- Disks -->
+    	<div class="alert alert-info" role="alert"><b>Total EBS Standard {{ totalvolstandard }} GB</b></div>
+    	<div class="alert alert-info" role="alert"><b>Total EBS GP2 {{ totalvolgp2 }} GB</b></div>
+    	<div class="alert alert-info" role="alert"><b>Total EBS {{ totalvol }} GB</b></div>
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<table class="table">
@@ -252,6 +255,7 @@
 								<td>{{ vol['volume_type'] }}</td>
 								<td>{{ vol['size'] }} GB</td>
 							</tr>
+							
 		    			{% endfor %}
 			    	</tbody>
 			    </table>
