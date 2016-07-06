@@ -6,6 +6,7 @@ import logging
 import ConfigParser
 from flask import *
 from lib.atw import *
+import syslog
 
 config = ConfigParser.RawConfigParser()
 config.read('/etc/atw/config.cfg')
@@ -39,7 +40,17 @@ def ec2(region):
 @app.route("/ec2info/<region>/<id>",methods=['GET'])
 def ec2Info(region,id):
 	try:
-		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,menu=atw.menu())
+		totalVolStandard = 0
+		totalVolGp2 = 0
+		totalVol = 0
+		for vol in atw.ec2_info(region,id,"").volumes.all():
+			totalVol = totalVol+vol.size
+			if vol.volume_type == "gp2":
+				totalVolGp2 = totalVolGp2+vol.size
+			if vol.volume_type == "standard":
+				totalVolStandard = totalVolStandard+vol.size
+			
+		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,atw=atw,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't return EC2 info."
 
@@ -157,5 +168,5 @@ def index():
 		print "ErrorFlask - Can't render index."
 
 if __name__ == '__main__':
-	#logging.basicConfig(filename='atw.log',level=logging.INFO)
+	#logging.basicConfig(filename='atw.log',level=logging.INFO,facility=syslog.LOG_LOCAL2)
 	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)
