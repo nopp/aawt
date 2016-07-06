@@ -6,7 +6,6 @@ import logging
 import ConfigParser
 from flask import *
 from lib.atw import *
-import syslog
 
 config = ConfigParser.RawConfigParser()
 config.read('/etc/atw/config.cfg')
@@ -171,5 +170,5 @@ def index():
 		print "ErrorFlask - Can't render index."
 
 if __name__ == '__main__':
-	#logging.basicConfig(filename='atw.log',level=logging.INFO,facility=syslog.LOG_LOCAL2)
+	logging.basicConfig(filename='atw.log',level=logging.INFO)
 	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)
