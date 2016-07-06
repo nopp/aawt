@@ -42,6 +42,7 @@ def ec2Info(region,id):
 	try:
 		totalVolStandard = 0
 		totalVolGp2 = 0
+		totalVolIo1 = 0
 		totalVol = 0
 		for vol in atw.ec2_info(region,id,"").volumes.all():
 			totalVol = totalVol+vol.size
@@ -49,8 +50,10 @@ def ec2Info(region,id):
 				totalVolGp2 = totalVolGp2+vol.size
 			if vol.volume_type == "standard":
 				totalVolStandard = totalVolStandard+vol.size
+			if vol.volume_type == "io1":
+				totalVolIo1 = totalVolIo1+vol.size				
 			
-		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,atw=atw,menu=atw.menu())
+		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,totalvolio1=totalVolIo1,atw=atw,menu=atw.menu())
 	except:
 		print "ErrorFlask - Can't return EC2 info."
 
