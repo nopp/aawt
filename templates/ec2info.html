@@ -6,20 +6,17 @@
 {% if info['platform'] == None %}
 	{% if info['state']['Name'] == "running" %}
 		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h2>
-		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
 		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
-		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% else %}
 	{% if info['state']['Name'] == "running" %}
 		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
-		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
 		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
-		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% endif %}
+<h5>{{menu[region]}}<br>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 <ul id="tabs">
     <li class="active">Info</li>
     <li>Tags</li>
@@ -86,7 +83,7 @@
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Price OnDemand</h3>
+				<h3 class="panel-title">Price OnDemand (Shared)</h3>
 			</div>
 			<div class="panel-body">
 				{% if info['platform'] == None %}
@@ -94,7 +91,8 @@
 					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Linux"),"OnDemand")*hours }}/month
 				{% else %}
 					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Windows"),"OnDemand") }}/hour<br>
-					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Windows"),"OnDemand")*hours }}/month					
+					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Windows"),"OnDemand")*hours }}/month
+					{{info['platform']}}
 				{% endif %}				
 			</div>
 		</div>		
