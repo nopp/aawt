@@ -8,7 +8,7 @@ Required
 	
 DONE
 ====
-* EC2 (With Charts)
+* EC2 (With Charts and Prices)
 * EC2 Reserved
 * EBS
 * ELB (With Charts)
