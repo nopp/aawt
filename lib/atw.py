@@ -300,8 +300,21 @@ class Atw:
         for key,val in fulldict['products'].iteritems():
             # Little hammer :D
             if 'instanceType' in val['attributes'].keys():
-                if val['attributes']['instanceType'] == type and val['attributes']['location'] == region and val['attributes']['operatingSystem'] == os:
-                    return key
+                if os == "Windows":
+                    if  val['attributes']['instanceType'] == type and \
+                        val['attributes']['location'] == region and \
+                        val['attributes']['operatingSystem'] == os and \
+                        val['attributes']['tenancy'] == "Shared" and \
+                        val['attributes']['preInstalledSw'] == "NA" and \
+                        val['attributes']['licenseModel'] == "License Included":
+                        return key
+                else:
+                    if  val['attributes']['instanceType'] == type and \
+                        val['attributes']['location'] == region and \
+                        val['attributes']['operatingSystem'] == os and \
+                        val['attributes']['tenancy'] == "Shared" and \
+                        val['attributes']['preInstalledSw'] == "NA":
+                        return key                    
 
     # Return USD price for insance
     def returnIntancePriceFromJson(self,fulldict,instancekey,termtype):
