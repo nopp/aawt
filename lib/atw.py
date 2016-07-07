@@ -1,12 +1,8 @@
 #
 # ATW - AWS Tool Web
 #
-import ConfigParser
-import datetime
-import pprint
-import boto3
-import pygal
-import sys
+import ConfigParser,datetime,pprint,boto3,pygal,sys,json
+from calendar import monthrange
 from pygal.style import Style
 
 config = ConfigParser.RawConfigParser()
@@ -16,13 +12,6 @@ class Atw:
 
     access_key = config.get('conf','accessKey')
     secret_key = config.get('conf','secretKey')
-     
-    def menu(self):
-        try:
-            menu = config.get('conf','regions')
-            return menu.split(",")
-        except:
-            return "ErrorLib - can't get menu."
 
     # Connect to resource
     def connect_resource(self,region,resource):
@@ -298,10 +287,30 @@ class Atw:
         try:
             s3 = {}
             s3Client = self.connect_client("","s3")
-            s3['Location'] = s3Client.get_bucket_location(Bucket=name)['LocationConstraint']
             s3Resource = self.connect_resource(s3['Location'],"s3")
+            s3['Location'] = s3Client.get_bucket_location(Bucket=name)['LocationConstraint']
             s3['Objects'] = s3Client.list_objects(Bucket=name)
             s3['CreatedAt'] = s3Resource.Bucket(name).creation_date
             return s3
         except:
             return "ErrorLib - Can't return S3 info."
+
+    # Return instancekey and values info from Json
+    def searchInstanceJson(self,fulldict,type,region,os):
+        for key,val in fulldict['products'].iteritems():
+            # Little hammer :D
+            if 'instanceType' in val['attributes'].keys():
+                if val['attributes']['instanceType'] == type and val['attributes']['location'] == region and val['attributes']['operatingSystem'] == os:
+                    return key
+
+    # Return USD price for insance
+    def returnIntancePriceFromJson(self,fulldict,instancekey,termtype):
+        # termtype OnDemand/Reserved
+        for key,val in fulldict['terms'][termtype].iteritems():
+            for key1,val1 in val.iteritems():
+                if val[key1]['sku'] == instancekey:
+                    for key2,val2 in val[key1].iteritems():
+                        # Verify if is dict and not empty
+                        if type(val2) is dict and any(val2):
+                            for key3,val3 in val2.iteritems():
+                                return round(float(val2[key3]['pricePerUnit']['USD']),4)
