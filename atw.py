@@ -187,6 +187,8 @@ def index():
 		print "ErrorFlask - Can't render index."
 
 if __name__ == '__main__':
+	if os.path.isdir("json/") == False:
+		os.mkdir("json/")
 	if os.path.isfile("json/ec2.json"):
 		if os.path.isfile("json/rds.json"):
 			#logging.basicConfig(filename='atw.log',level=logging.INFO)
