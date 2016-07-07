@@ -27,7 +27,8 @@
     <li>Network</li>
     <li>Disks</li>
     <li>Console output</li>
-    &nbsp;&nbsp;&nbsp;<a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i> Charts</a>
+    <li>Cost</li>
+    <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><li><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i> Charts</li></a>
 </ul>
 <ul id="tab">
     <li class="active">
@@ -83,6 +84,20 @@
 				{{ info['key_pair']['name'] }}
 			</div>
 		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Price OnDemand</h3>
+			</div>
+			<div class="panel-body">
+				{% if info['platform'] == None %}
+					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Linux"),"OnDemand") }}/hour<br>
+					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Linux"),"OnDemand")*hours }}/month
+				{% else %}
+					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Windows"),"OnDemand") }}/hour<br>
+					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Windows"),"OnDemand")*hours }}/month					
+				{% endif %}				
+			</div>
+		</div>		
     </li>
     <li>
     	<h3> <!-- Tags -->
