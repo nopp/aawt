@@ -16,7 +16,7 @@
 		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 	{% endif %}
 {% endif %}
-<h5>{{menu[region]}}<br>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
+<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }} - {{menu[region]}}</h5>
 <ul id="tabs">
     <li class="active">Info</li>
     <li>Tags</li>
@@ -92,7 +92,6 @@
 				{% else %}
 					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Windows"),"OnDemand") }}/hour<br>
 					USD {{ atw.returnIntancePriceFromJson(fulldict,atw.searchInstanceJson(fulldict,info['instance_type'],menu[region],"Windows"),"OnDemand")*hours }}/month
-					{{info['platform']}}
 				{% endif %}				
 			</div>
 		</div>		
