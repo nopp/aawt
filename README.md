@@ -8,13 +8,13 @@ Required
 	
 DONE
 ====
-* EC2 (With Charts)
+* EC2 (With Charts and Prices)
 * EC2 Reserved
 * EBS
 * ELB (With Charts)
 * RDS (With Charts)
 * IAM
-* CloudTrail (Obs:. not working with route53 changes)
+* CloudTrail
 * S3
 
 Install
