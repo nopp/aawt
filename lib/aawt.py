@@ -348,8 +348,8 @@ class Aawt:
         try:
             s3 = {}
             s3Client = self.connect_client("","s3")
-            s3Resource = self.connect_resource(s3['Location'],"s3")
             s3['Location'] = s3Client.get_bucket_location(Bucket=name)['LocationConstraint']
+            s3Resource = self.connect_resource(s3['Location'],"s3")        
             s3['Objects'] = s3Client.list_objects(Bucket=name)
             s3['CreatedAt'] = s3Resource.Bucket(name).creation_date
             return s3
