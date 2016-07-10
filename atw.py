@@ -1,7 +1,7 @@
 #
 # ATW - AWS Tool Web
 #
-import math,logging,ConfigParser,os.path,urllib2
+import math,logging,ConfigParser
 from flask import *
 from lib.atw import *
 
@@ -64,12 +64,8 @@ def ec2Info(region,id):
 				totalVolStandard = totalVolStandard+vol.size
 			if vol.volume_type == "io1":
 				totalVolIo1 = totalVolIo1+vol.size
-		# Read Json prices EC2
-		f = open('json/ec2.json')
-		fullDict = json.loads(f.read())
-		f.close()
 		hoursOfMonth = monthrange(datetime.datetime.now().year, datetime.datetime.now().month)[1]*24
-		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,totalvolio1=totalVolIo1,atw=atw,menu=regions,fulldict=fullDict,hours=hoursOfMonth)
+		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,totalvolio1=totalVolIo1,atw=atw,menu=regions,hours=hoursOfMonth)
 	except:
 		print "ErrorFlask - Can't return EC2 info."
 
@@ -187,40 +183,5 @@ def index():
 		print "ErrorFlask - Can't render index."
 
 if __name__ == '__main__':
-	if os.path.isdir("json/") == False:
-		os.mkdir("json/")
-	if os.path.isfile("json/ec2.json"):
-		if os.path.isfile("json/rds.json"):
-			#logging.basicConfig(filename='atw.log',level=logging.INFO)
-			app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)
-		else:
-			print "Downloading RDS Json prices (~ 30MB) ..."
-			response = urllib2.urlopen("https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/current/index.json", timeout = 5)
-			content = response.read()
-			f = open("json/rds.json", 'w')
-			f.write(content)
-			f.close()
-			print "Done, ATW Started!"
-			logging.basicConfig(filename='atw.log',level=logging.INFO)
-			app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))			
-	else:
-		print "Downloading EC2 Json prices (~ 45MB) ..."
-		response = urllib2.urlopen("https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/index.json", timeout = 5)
-		content = response.read()
-		f = open("json/ec2.json", 'w')
-		f.write(content)
-		f.close()
-		if os.path.isfile("json/rds.json"):
-			print "Done, ATW Started!"
-			logging.basicConfig(filename='atw.log',level=logging.INFO)
-			app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
-		else:
-			print "Downloading RDS Json prices (~ 30MB) ..."
-			response = urllib2.urlopen("https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/current/index.json", timeout = 5)
-			content = response.read()
-			f = open("json/rds.json", 'w')
-			f.write(content)
-			f.close()
-			print "Done, ATW Started!"
-			logging.basicConfig(filename='atw.log',level=logging.INFO)
-			app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
+	#logging.basicConfig(filename='atw.log',level=logging.INFO)
+	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
