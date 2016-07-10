@@ -31,8 +31,8 @@
 						<td>{{ elb['LoadBalancerName'] }}</td>
 						<td>
 						{% for instance in elb['Instances'] %}
-							{% if atw.returnTagEC2(atw.returnTags(atw.ec2_info(region,instance['InstanceId'],"")['tags']),"Name") != "" %}
-								<a id="ec2" href="/ec2info/{{ region }}/{{ instance['InstanceId'] }}">{{ atw.returnTagEC2(atw.returnTags(atw.ec2_info(region,instance['InstanceId'],"")['tags']),"Name") }}</a><br>
+							{% if aawt.returnTagEC2(aawt.returnTags(aawt.ec2_info(region,instance['InstanceId'],"")['tags']),"Name") != "" %}
+								<a id="ec2" href="/ec2info/{{ region }}/{{ instance['InstanceId'] }}">{{ aawt.returnTagEC2(aawt.returnTags(aawt.ec2_info(region,instance['InstanceId'],"")['tags']),"Name") }}</a><br>
 							{% else %}
 								<a id="ec2" href="/ec2info/{{ region }}/{{ instance['InstanceId'] }}">{{ instance['InstanceId'] }}</a><br>
 							{% endif %}

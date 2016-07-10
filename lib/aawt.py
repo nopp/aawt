@@ -1,17 +1,24 @@
 #
-# ATW - AWS Tool Web
+# Amazon AWS Web Tool (AAWT)
 #
 import ConfigParser,datetime,pprint,boto3,pygal,sys,json,urllib2,re
 from calendar import monthrange
 from pygal.style import Style
 
 config = ConfigParser.RawConfigParser()
-config.read('/etc/atw/config.cfg')
+config.read('/etc/aawt/config.cfg')
 
-class Atw:
+class Aawt:
 
     access_key = config.get('conf','accessKey')
     secret_key = config.get('conf','secretKey')
+
+    ebsTypes = {
+        'gp2':'Amazon EBS General Purpose SSD (gp2) volumes',
+        'io1':'Amazon EBS Provisioned IOPS SSD (io1) volumes',
+        'standard':'Amazon EBS Throughput Optimized HDD (st1) volumes',
+        'sc1':'Amazon EBS Cold HDD (sc1) volumes'
+    }
 
     # Connect to resource
     def connect_resource(self,region,resource):
@@ -125,6 +132,35 @@ class Atw:
         except:
             return "ErrorLib - Can't list all EC2 reserved."
 
+    # EC2 Price
+    def ec2_price_ondemand(self,intanceType,region,os):
+        try:
+            if os == "Linux":
+                url = "http://a0.awsstatic.com/pricing/1/ec2/linux-od.min.js"
+            elif os == "Windows":
+                url = "http://a0.awsstatic.com/pricing/1/ec2/mswin-od.min.js"
+
+            fh = urllib2.urlopen(url).read()
+
+            # Prepare JS to use on AAWT :) "little hammers"
+            resub = fh[fh.index("(") + 1:fh.rindex(")")]
+            resub = re.sub(r'{+',r'{"',resub)
+            resub = re.sub(r':',r'":',resub)
+            resub = re.sub(r',',r',"',resub)
+            resub = re.sub(r':0.01,',r':"0.01",',resub)
+            resub = re.sub(r',"{',r',{',resub)
+            resub = re.sub(r',""',r',"',resub)
+
+            dataJson = json.loads(resub)
+
+            for regions in dataJson['config']['regions']:
+                if regions['region'] == region:
+                    for ec2 in regions['instanceTypes'][0]['sizes']:
+                        if ec2['size'] == intanceType:
+                            return ec2['valueColumns'][0]['prices']['USD']
+        except:
+            return "ErrorLib - Can't return EC2 price."
+
     # RDS List all
     def rds_listAll(self,region):
         try:
@@ -182,6 +218,31 @@ class Atw:
             return ebsResource.Volume(id)
         except:
             return "ErrorLib - Can't return EBS info."
+
+    # EBS Price
+    def ebs_price_ondemand(self,ebsType,region,size):
+        try:
+            url = "http://a0.awsstatic.com/pricing/1/ebs/pricing-ebs.min.js"
+
+            fh = urllib2.urlopen(url).read()
+
+            # Prepare JS to use on AAWT :) "little hammers"
+            resub = fh[fh.index("(") + 1:fh.rindex(")")]
+            resub = re.sub(r'{+',r'{"',resub)
+            resub = re.sub(r':',r'":',resub)
+            resub = re.sub(r',',r',"',resub)
+            resub = re.sub(r':0.01,',r':"0.01",',resub)
+            resub = re.sub(r',"{',r',{',resub)
+
+            dataJson = json.loads(resub)
+
+            for region in dataJson['config']['regions']:
+                if region['region'] == "sa-east-1":
+                    for vol in region['types']:
+                        if vol['name'] == self.ebsTypes[ebsType]:
+                            return float(vol['values'][0]['prices']['USD'])*int(size)
+        except:
+            return "ErrorLib - Can't return EBS price."
 
     # Billing
     def charge_service(self,service,option=None):
@@ -294,36 +355,3 @@ class Atw:
             return s3
         except:
             return "ErrorLib - Can't return S3 info."
-
-
-    # EC2 Price
-    def ec2_price_ondemand(self,intanceType,region,os):
-        print intanceType
-        print region
-        print os
-        try:
-            if os == "Linux":
-                url = "http://a0.awsstatic.com/pricing/1/ec2/linux-od.min.js"
-            elif os == "Windows":
-                url = "http://a0.awsstatic.com/pricing/1/ec2/mswin-od.min.js"
-
-            fh = urllib2.urlopen(url).read()
-
-            # Prepare JS to use on ATW :) "little hammers"
-            resub = fh[fh.index("(") + 1:fh.rindex(")")]
-            resub = re.sub(r'{+',r'{"',resub)
-            resub = re.sub(r':',r'":',resub)
-            resub = re.sub(r',',r',"',resub)
-            resub = re.sub(r':0.01,',r':"0.01",',resub)
-            resub = re.sub(r',"{',r',{',resub)
-            resub = re.sub(r',""',r',"',resub)
-
-            dataJson = json.loads(resub)
-
-            for regions in dataJson['config']['regions']:
-                if regions['region'] == region:
-                    for ec2 in regions['instanceTypes'][0]['sizes']:
-                        if ec2['size'] == intanceType:
-                            return ec2
-        except:
-            return "ErrorLib - Can't return EC2 price."

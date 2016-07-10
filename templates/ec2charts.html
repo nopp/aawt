@@ -5,18 +5,18 @@
 <link rel="stylesheet" href="/static/style.css">
 {% if info['platform'] == None %}
 	{% if info['state']['Name'] == "running" %}
-		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
-		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% else %}
 	{% if info['state']['Name'] == "running" %}
-		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% else %}
-		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 		<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }}</h5>
 	{% endif %}
 {% endif %}

@@ -34,9 +34,9 @@
 					<tr>
 						<td>
 						{% if ec2['platform'] == None %}
-							<i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}
+							<i class="fa fa-linux"></i> {{ aawt.returnTagEC2(aawt.returnTags(ec2['tags']),"Name") }}
 						{% else %}
-							<i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(ec2['tags']),"Name") }}
+							<i class="fa fa-windows"></i> {{ aawt.returnTagEC2(aawt.returnTags(ec2['tags']),"Name") }}
 						{% endif %}
 						</td>
 						<td>{{ ec2['instance_id'] }}</td>

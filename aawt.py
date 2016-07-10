@@ -1,17 +1,17 @@
 #
-# ATW - AWS Tool Web
+# Amazon AWS Web Tool (AAWT)
 #
 import math,logging,ConfigParser
 from flask import *
-from lib.atw import *
+from lib.aawt import *
 
 config = ConfigParser.RawConfigParser()
-config.read('/etc/atw/config.cfg')
+config.read('/etc/aawt/config.cfg')
 
 app = Flask(__name__)
 app.secret_key = 'BYG>.L*((*$jj2h>#'
 
-atw = Atw()
+aawt = Aawt()
 
 regions = {
     'us-east-1':'US East (N. Virginia)',
@@ -39,12 +39,12 @@ def page_not_found(e):
 @app.route("/ec2/<region>",methods=['GET'])
 def ec2(region):
 	try:
-		if atw.charge_service('AmazonEC2') == "ErrorLib - Not charges yet.":
+		if aawt.charge_service('AmazonEC2') == "ErrorLib - Not charges yet.":
 			charge = "Not charges yet."
 		else:
-			charge = format(atw.charge_service('AmazonEC2'), ',.2f')
+			charge = format(aawt.charge_service('AmazonEC2'), ',.2f')
 
-		return render_template('ec2.html',results=atw.ec2_listAll(region),region=region,atw=atw,charge=charge,menu=regions)
+		return render_template('ec2.html',results=aawt.ec2_listAll(region),region=region,aawt=aawt,charge=charge,menu=regions)
 	except:
 		print "ErrorFlask - Can't list all EC2."
 
@@ -56,7 +56,7 @@ def ec2Info(region,id):
 		totalVolGp2 = 0
 		totalVolIo1 = 0
 		totalVol = 0
-		for vol in atw.ec2_info(region,id,"").volumes.all():
+		for vol in aawt.ec2_info(region,id,"").volumes.all():
 			totalVol = totalVol+vol.size
 			if vol.volume_type == "gp2":
 				totalVolGp2 = totalVolGp2+vol.size
@@ -65,7 +65,7 @@ def ec2Info(region,id):
 			if vol.volume_type == "io1":
 				totalVolIo1 = totalVolIo1+vol.size
 		hoursOfMonth = monthrange(datetime.datetime.now().year, datetime.datetime.now().month)[1]*24
-		return render_template('ec2info.html',region=region,id=id,info=atw.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,totalvolio1=totalVolIo1,atw=atw,menu=regions,hours=hoursOfMonth)
+		return render_template('ec2info.html',region=region,id=id,info=aawt.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,totalvolio1=totalVolIo1,aawt=aawt,menu=regions,hours=hoursOfMonth)
 	except:
 		print "ErrorFlask - Can't return EC2 info."
 
@@ -73,10 +73,10 @@ def ec2Info(region,id):
 @app.route("/ec2charts/<region>/<id>",methods=['GET'])
 def ec2Charts(region,id):
 	try:
-		cpuChart = atw.chart(region,id,"CPUUtilization","Percent","Maximum","EC2").render(is_unicode=True)
-		networkInChart = atw.chart(region,id,"NetworkIn","Bytes","Average","EC2").render(is_unicode=True)
-		networkOutChart = atw.chart(region,id,"NetworkOut","Bytes","Average","EC2").render(is_unicode=True)
-		return render_template('ec2charts.html',region=region,id=id,info=atw.ec2_info(region,id,""),atw=atw,cpuChart=cpuChart,networkInChart=networkInChart,networkOutChart=networkOutChart,menu=regions)
+		cpuChart = aawt.chart(region,id,"CPUUtilization","Percent","Maximum","EC2").render(is_unicode=True)
+		networkInChart = aawt.chart(region,id,"NetworkIn","Bytes","Average","EC2").render(is_unicode=True)
+		networkOutChart = aawt.chart(region,id,"NetworkOut","Bytes","Average","EC2").render(is_unicode=True)
+		return render_template('ec2charts.html',region=region,id=id,info=aawt.ec2_info(region,id,""),aawt=aawt,cpuChart=cpuChart,networkInChart=networkInChart,networkOutChart=networkOutChart,menu=regions)
 	except:
 		print "ErrorFlask - Can't return EC2 charts."
 
@@ -84,11 +84,11 @@ def ec2Charts(region,id):
 @app.route("/rds/<region>",methods=['GET'])
 def rds(region):
 	try:
-		if atw.charge_service('AmazonRDS') == "ErrorLib - Not charges yet.":
+		if aawt.charge_service('AmazonRDS') == "ErrorLib - Not charges yet.":
 			charge = "Not charges yet."
 		else:
-			charge = format(atw.charge_service('AmazonRDS'), ',.2f')
-		return render_template('rds.html',results=atw.rds_listAll(region),region=region,charge=charge,menu=regions)
+			charge = format(aawt.charge_service('AmazonRDS'), ',.2f')
+		return render_template('rds.html',results=aawt.rds_listAll(region),region=region,charge=charge,menu=regions)
 	except:
 		print "ErrorFlask - Can't list all RDS."
 
@@ -96,9 +96,9 @@ def rds(region):
 @app.route("/rdscharts/<region>/<name>",methods=['GET'])
 def rdsCharts(region,name):
 	try:
-		cpuChart = atw.chart(region,name,"CPUUtilization","Percent","Maximum","RDS").render(is_unicode=True)
-		connectionsChart = atw.chart(region,name,"DatabaseConnections","Count","Average","RDS").render(is_unicode=True)
-		return render_template('rdscharts.html',region=region,name=name,atw=atw,cpuChart=cpuChart,connectionsChart=connectionsChart,menu=regions)
+		cpuChart = aawt.chart(region,name,"CPUUtilization","Percent","Maximum","RDS").render(is_unicode=True)
+		connectionsChart = aawt.chart(region,name,"DatabaseConnections","Count","Average","RDS").render(is_unicode=True)
+		return render_template('rdscharts.html',region=region,name=name,aawt=aawt,cpuChart=cpuChart,connectionsChart=connectionsChart,menu=regions)
 	except:
 		print "ErrorFlask - Can't return RDS charts."
 
@@ -106,7 +106,7 @@ def rdsCharts(region,name):
 @app.route("/elb/<region>",methods=['GET'])
 def elb(region):
 	try:
-		return render_template('elb.html',results=atw.elb_listAll(region),region=region,atw=atw,menu=regions)
+		return render_template('elb.html',results=aawt.elb_listAll(region),region=region,aawt=aawt,menu=regions)
 	except:
 		print "ErrorFlask - Can't list all ELB."
 
@@ -114,9 +114,9 @@ def elb(region):
 @app.route("/elbcharts/<region>/<id>",methods=['GET'])
 def elbCharts(region,id):
 	try:
-		latencyChart = atw.chart(region,id,"Latency","Seconds","Average","ELB").render(is_unicode=True)
-		requestsChart = atw.chart(region,id,"RequestCount","Count","Sum","ELB").render(is_unicode=True)
-		return render_template('elbcharts.html',region=region,id=id,atw=atw,latencyChart=latencyChart,requestsChart=requestsChart,menu=regions)
+		latencyChart = aawt.chart(region,id,"Latency","Seconds","Average","ELB").render(is_unicode=True)
+		requestsChart = aawt.chart(region,id,"RequestCount","Count","Sum","ELB").render(is_unicode=True)
+		return render_template('elbcharts.html',region=region,id=id,aawt=aawt,latencyChart=latencyChart,requestsChart=requestsChart,menu=regions)
 	except:
 		print "ErrorFlask - Can't return ELB charts."
 
@@ -124,7 +124,7 @@ def elbCharts(region,id):
 @app.route("/iam")
 def iam():
 	try:
-		return render_template('iam.html',results=atw.iam_listAll(),menu=regions)
+		return render_template('iam.html',results=aawt.iam_listAll(),menu=regions)
 	except:
 		print "Error - Can't list all users"
 
@@ -132,7 +132,7 @@ def iam():
 @app.route("/ec2r/<region>",methods=['GET'])
 def ec2r(region):
 	try:
-		rtn,total = atw.ec2r_listAll(region)
+		rtn,total = aawt.ec2r_listAll(region)
 		return render_template('ec2r.html',results=rtn,total=total,region=region,menu=regions)
 	except:
 		print "ErrorFlask - Can't list all EC2 reserved."
@@ -141,8 +141,8 @@ def ec2r(region):
 @app.route("/ebs/<region>",methods=['GET'])
 def ebs(region):
 	try:
-		rtn,total = atw.ebs_listAll(region)
-		return render_template('ebs.html',results=rtn,region=region,total=total,atw=atw,menu=regions)
+		rtn,total = aawt.ebs_listAll(region)
+		return render_template('ebs.html',results=rtn,region=region,total=total,aawt=aawt,menu=regions)
 	except:
 		print "ErrorFlask - Can't list all ebs."
 
@@ -150,7 +150,7 @@ def ebs(region):
 @app.route("/cloudtrail/<region>",methods=['GET'])
 def cloudtrail(region):
 	try:
-		return render_template('cloudtrail.html',results=atw.cloudtrail_listAll(region),region=region,menu=regions)
+		return render_template('cloudtrail.html',results=aawt.cloudtrail_listAll(region),region=region,menu=regions)
 	except:		
 		print "ErrorFlask - Can't list CloudTrail."
 
@@ -158,7 +158,7 @@ def cloudtrail(region):
 @app.route("/s3",methods=['GET'])
 def s3():
 	try:
-		return render_template('s3.html',results=atw.s3_listAll(),atw=atw,menu=regions)
+		return render_template('s3.html',results=aawt.s3_listAll(),aawt=aawt,menu=regions)
 	except:		
 		print "ErrorFlask - Can't list S3."
 
@@ -166,7 +166,7 @@ def s3():
 @app.route("/s3info/<name>",methods=['GET'])
 def s3Info(name):
 	try:
-		return render_template('s3info.html',name=name,s3info=atw.s3_info(name),menu=regions)
+		return render_template('s3info.html',name=name,s3info=aawt.s3_info(name),menu=regions)
 	except:
 		print "ErrorFlask - Can't return S3 info."
 
@@ -174,14 +174,14 @@ def s3Info(name):
 @app.route("/")
 def index():
 	try:
-		if atw.charge_service('',"total") == "ErrorLib - Not charges yet.":
+		if aawt.charge_service('',"total") == "ErrorLib - Not charges yet.":
 			charge = "Not charges yet."
 		else:
-			charge = format(atw.charge_service('',"total"), ',.2f')
-		return render_template('index.html',menu=regions,charge=charge,atw=atw)
+			charge = format(aawt.charge_service('',"total"), ',.2f')
+		return render_template('index.html',menu=regions,charge=charge,aawt=aawt)
 	except:
 		print "ErrorFlask - Can't render index."
 
 if __name__ == '__main__':
-	#logging.basicConfig(filename='atw.log',level=logging.INFO)
+	logging.basicConfig(filename='aawt.log',level=logging.INFO)
 	app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))

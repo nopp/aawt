@@ -3,19 +3,22 @@
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="/static/js/tabs.js"></script>
 <link rel="stylesheet" href="/static/style.css">
+{% set totalvolstandardPrice = aawt.ebs_price_ondemand("standard",region,totalvolstandard) %}
+{% set totalvolgp2Price = aawt.ebs_price_ondemand("gp2",region,totalvolgp2) %}
+{% set totalvolio1Price = aawt.ebs_price_ondemand("io1",region,totalvolio1) %}
 {% if info['platform'] == None %}
-	{% set priceHour = atw.ec2_price_ondemand(info['instance_type'],region,"Linux")['valueColumns'][0]['prices']['USD'] %}
+	{% set priceHour = aawt.ec2_price_ondemand(info['instance_type'],region,"Linux") %}
 	{% if info['state']['Name'] == "running" %}
-		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h2>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }} </span></h2>
 	{% else %}
-		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
+		<h2 class="panel-title"><i class="fa fa-linux"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 	{% endif %}
 {% else %}
-	{% set priceHour = atw.ec2_price_ondemand(info['instance_type'],region,"Windows")['valueColumns'][0]['prices']['USD'] %}
+	{% set priceHour = aawt.ec2_price_ondemand(info['instance_type'],region,"Windows") %}
 	{% if info['state']['Name'] == "running" %}
-		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-success">{{ info['state']['Name'] }}</span></h2>
 	{% else %}
-		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ atw.returnTagEC2(atw.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
+		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 	{% endif %}
 {% endif %}
 <h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }} - {{ menu[region] }}</h5>
@@ -87,16 +90,16 @@
 				<h3 class="panel-title">Price OnDemand</h3>
 			</div>
 			<div class="panel-body">
-				{% if info['platform'] == None %}
-					USD {{ priceHour }}/hour
+				{% if priceHour == None %}
+					This instance type is deprecated, consult the price on https://calculator.s3.amazonaws.com/index.html.
 				{% else %}
 					USD {{ priceHour }}/hour
-				{% endif %}				
+				{% endif %}
 			</div>
 		</div>		
     </li>
-    <li>
-    	<h3> <!-- Tags -->
+    <li> <!-- Tags -->
+    	<h3> 
         {% for tag in info.tags %}
 			<span class="label label-primary">#{{ tag['Key'] }} : {{ tag['Value'] }}</span>&nbsp;
 		{% endfor %}
@@ -121,7 +124,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for sgInfoIn in atw.sg_info(region,sg['GroupId']).ip_permissions %}
+								{% for sgInfoIn in aawt.sg_info(region,sg['GroupId']).ip_permissions %}
 									<tr>
 										<td>{{ sgInfoIn['IpProtocol'] }}</td>
 										<td>{{ sgInfoIn['ToPort'] }}</td>
@@ -146,7 +149,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for sgInfoOut in atw.sg_info(region,sg['GroupId']).ip_permissions_egress %}
+								{% for sgInfoOut in aawt.sg_info(region,sg['GroupId']).ip_permissions_egress %}
 									<tr>
 										<td>{{ sgInfoOut['IpProtocol'] }}</td>
 										<td>{{ sgInfoOut['ToPort'] }}</td>
@@ -243,11 +246,11 @@
     </li>
     <li> <!-- Disks -->
 		<div class="row">
-			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS Standard {{ totalvolstandard }} GB</b></div></div>
-			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS GP2 {{ totalvolgp2 }} GB</b></div></div>
-			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS IO1 {{ totalvolio1 }} GB</b></div></div>
+			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS Standard {{ totalvolstandard }} GB<br>USD {{ totalvolstandardPrice }}/month</b></div></div>
+			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS GP2 {{ totalvolgp2 }} GB<br>USD {{ totalvolgp2Price }}/month</b></div></div>
+			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS IO1 {{ totalvolio1 }} GB<br>USD {{ totalvolio1Price }}/month </b></div></div>
 		</div>
-    	<div class="alert alert-info" role="alert"><b>Total EBS {{ totalvol }} GB</b></div>
+    	<div class="alert alert-info" role="alert"><b>Total EBS {{ totalvol }} GB<br>USD {{ totalvolstandardPrice+totalvolgp2Price+totalvolio1Price }}/month</b></div>
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<table class="table">
@@ -258,6 +261,7 @@
 							<th>Zone</th>
 							<th>Type</th>
 							<th>Size</th>
+							<th>Cost</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -268,13 +272,15 @@
 								<td>{{ vol['availability_zone'] }}</td>
 								<td>{{ vol['volume_type'] }}</td>
 								<td>{{ vol['size'] }} GB</td>
+								<td>USD {{ aawt.ebs_price_ondemand(vol['volume_type'],region,vol['size']) }}/month</td>
 							</tr>
 							
 		    			{% endfor %}
 			    	</tbody>
 			    </table>
     		</div>
-    	</div>    </li>
+    	</div>    
+    </li>
     <li> <!-- Console Output -->
 		<div class="panel panel-default">
 			<div class="panel-body">
