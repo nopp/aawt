@@ -1,7 +1,7 @@
 #
 # ATW - AWS Tool Web
 #
-import ConfigParser,datetime,pprint,boto3,pygal,sys,json
+import ConfigParser,datetime,pprint,boto3,pygal,sys,json,urllib2,re
 from calendar import monthrange
 from pygal.style import Style
 
@@ -295,35 +295,35 @@ class Atw:
         except:
             return "ErrorLib - Can't return S3 info."
 
-    # Return instancekey and values info from Json
-    def searchInstanceJson(self,fulldict,type,region,os):
-        for key,val in fulldict['products'].iteritems():
-            # Little hammer :D
-            if 'instanceType' in val['attributes'].keys():
-                if os == "Windows":
-                    if  val['attributes']['instanceType'] == type and \
-                        val['attributes']['location'] == region and \
-                        val['attributes']['operatingSystem'] == os and \
-                        val['attributes']['tenancy'] == "Shared" and \
-                        val['attributes']['preInstalledSw'] == "NA" and \
-                        val['attributes']['licenseModel'] == "License Included":
-                        return key
-                else:
-                    if  val['attributes']['instanceType'] == type and \
-                        val['attributes']['location'] == region and \
-                        val['attributes']['operatingSystem'] == os and \
-                        val['attributes']['tenancy'] == "Shared" and \
-                        val['attributes']['preInstalledSw'] == "NA":
-                        return key                    
 
-    # Return USD price for insance
-    def returnIntancePriceFromJson(self,fulldict,instancekey,termtype):
-        # termtype OnDemand/Reserved
-        for key,val in fulldict['terms'][termtype].iteritems():
-            for key1,val1 in val.iteritems():
-                if val[key1]['sku'] == instancekey:
-                    for key2,val2 in val[key1].iteritems():
-                        # Verify if is dict and not empty
-                        if type(val2) is dict and any(val2):
-                            for key3,val3 in val2.iteritems():
-                                return round(float(val2[key3]['pricePerUnit']['USD']),4)
+    # EC2 Price
+    def ec2_price_ondemand(self,intanceType,region,os):
+        print intanceType
+        print region
+        print os
+        try:
+            if os == "Linux":
+                url = "http://a0.awsstatic.com/pricing/1/ec2/linux-od.min.js"
+            elif os == "Windows":
+                url = "http://a0.awsstatic.com/pricing/1/ec2/mswin-od.min.js"
+
+            fh = urllib2.urlopen(url).read()
+
+            # Prepare JS to use on ATW :) "little hammers"
+            resub = fh[fh.index("(") + 1:fh.rindex(")")]
+            resub = re.sub(r'{+',r'{"',resub)
+            resub = re.sub(r':',r'":',resub)
+            resub = re.sub(r',',r',"',resub)
+            resub = re.sub(r':0.01,',r':"0.01",',resub)
+            resub = re.sub(r',"{',r',{',resub)
+            resub = re.sub(r',""',r',"',resub)
+
+            dataJson = json.loads(resub)
+
+            for regions in dataJson['config']['regions']:
+                if regions['region'] == region:
+                    for ec2 in regions['instanceTypes'][0]['sizes']:
+                        if ec2['size'] == intanceType:
+                            return ec2
+        except:
+            return "ErrorLib - Can't return EC2 price."
