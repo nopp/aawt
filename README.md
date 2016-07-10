@@ -1,4 +1,4 @@
-# ATW (AWS Tool Web)
+# Amazon AWS Web Tool (AAWT)
 
 Constantly updated
 
@@ -59,9 +59,8 @@ Configure
 
 	Server:
 	=======
-	Create a file /etc/atw/config.cfg with:
+	Create a file /etc/aawt/config.cfg with:
 	[conf]
-	regions = sa-east-1:Sao Paulo,us-east-1:Virginia # You need to use this "pattern"
 	accessKey = yourAccessKeyWithReadOnly
 	secretKey = yourPrivateKeyWithReadOnly
 	ip = ipOfYourATWServer
