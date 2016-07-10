@@ -25,7 +25,7 @@ Install
 	# pip install pygal
 	# pip install cairosvg
 	# git clone https://github.com/nopp/aawt.git
-	# cd atw
+	# cd aawt
 	-> configure the application
 	# python aawt.py
 
