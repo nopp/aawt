@@ -24,18 +24,18 @@ Install
 	# pip install boto3
 	# pip install pygal
 	# pip install cairosvg
-	# git clone https://github.com/nopp/atw.git
+	# git clone https://github.com/nopp/aawt.git
 	# cd atw
 	-> configure the application
-	# python atw.py
+	# python aawt.py
 
 Configure
 =========
 
 	Amazon AWS:
 	===========
-	Create an user atw with access_key and private_key
-	Attach policy below on atw user:
+	Create an user aawt with access_key and private_key
+	Attach policy below on aawt user:
 	* AmazonEC2ReadOnlyAccess
 	* IAMReadOnlyAccess
 	* AmazonRDSReadOnlyAccess
