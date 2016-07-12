@@ -87,7 +87,7 @@
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Price OnDemand</h3>
+				<h3 class="panel-title">Instance price OnDemand</h3>
 			</div>
 			<div class="panel-body">
 				{% if priceHour == None %}
@@ -97,7 +97,19 @@
 					USD {{ priceHour*hours }}/month
 				{% endif %}
 			</div>
-		</div>		
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Total price OnDemand (EC2+EBS)</h3>
+			</div>
+			<div class="panel-body">
+				{% if priceHour == None %}
+					This instance type is deprecated, consult the price on https://calculator.s3.amazonaws.com/index.html.
+				{% else %}
+					USD {{ ((priceHour*hours)+totalvolstandardPrice+totalvolgp2Price+totalvolio1Price) }}/month
+				{% endif %}
+			</div>
+		</div>				
     </li>
     <li> <!-- Tags -->
     	<h3> 
