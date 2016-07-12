@@ -93,7 +93,8 @@
 				{% if priceHour == None %}
 					This instance type is deprecated, consult the price on https://calculator.s3.amazonaws.com/index.html.
 				{% else %}
-					USD {{ priceHour }}/hour
+					USD {{ priceHour }}/hour<br>
+					USD {{ priceHour*hours }}/month
 				{% endif %}
 			</div>
 		</div>		
