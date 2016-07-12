@@ -157,7 +157,7 @@ class Aawt:
                 if regions['region'] == region:
                     for ec2 in regions['instanceTypes'][0]['sizes']:
                         if ec2['size'] == intanceType:
-                            return ec2['valueColumns'][0]['prices']['USD']
+                            return float(ec2['valueColumns'][0]['prices']['USD'])
         except:
             return "ErrorLib - Can't return EC2 price."
 
