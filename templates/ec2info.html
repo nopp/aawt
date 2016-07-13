@@ -21,7 +21,7 @@
 		<h2 class="panel-title"><i class="fa fa-windows"></i> {{ aawt.returnTagEC2(aawt.returnTags(info['tags']),"Name") }} <span class="label label-danger">{{ info['state']['Name'] }}</span></h2>
 	{% endif %}
 {% endif %}
-<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }} - {{ menu[region] }}</h5>
+<h5>Launched at {{ info['launch_time'].strftime('%d/%m/%Y %H:%M:%S') }} - {{ menu[region] }}&nbsp;&nbsp;&nbsp;<a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i> Charts</a></h5>
 <ul id="tabs">
     <li class="active">Info</li>
     <li>Tags</li>
@@ -29,7 +29,6 @@
     <li>Network</li>
     <li>Disks</li>
     <li>Console output</li>
-    <a id="ec2" href="/ec2charts/{{ region }}/{{ info['id'] }}"><li><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i> Charts</li></a>
 </ul>
 <ul id="tab">
     <li class="active">
