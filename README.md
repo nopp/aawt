@@ -20,12 +20,9 @@ DONE
 Install
 =======
 	# yum install python-pip supervisor -y
-	# pip install flask
-	# pip install boto3
-	# pip install pygal
-	# pip install cairosvg
 	# git clone https://github.com/nopp/aawt.git
 	# cd aawt
+	# pip install -r requirements.txt
 	-> configure the application
 	# python aawt.py
 
