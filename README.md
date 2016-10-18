@@ -25,6 +25,10 @@ Install
 Configure
 =========
 
+	Server:
+	=======
+	Copy config.cfg to /etc/aawt/config.cfg(and configure it).
+
 	Amazon AWS:
 	===========
 	Create an user aawt with access_key and private_key
@@ -49,10 +53,6 @@ Configure
 	You need to enable "Monitor your estimated charges"
 	* Billing & Cost Management > Preferences > Check "Receive Billing Alerts"
 	Obs:. this will work some hours later.
-
-	Server:
-	=======
-	Copy config.cfg to /etc/aawt/config.cfg(and configure it).
 
 Screenshot
 ==========
