@@ -1,13 +1,9 @@
 # Amazon AWS Web Tool (AAWT)
 
 Constantly updated
-
-Required
-========
-	Python + Flask + Boto3
 	
-DONE
-====
+FEATURES
+========
 * EC2 (With Charts and Prices)
 * EC2 Reserved
 * EBS
