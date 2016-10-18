@@ -52,12 +52,7 @@ Configure
 
 	Server:
 	=======
-	Create a file /etc/aawt/config.cfg with:
-	[conf]
-	accessKey = yourAccessKeyWithReadOnly
-	secretKey = yourPrivateKeyWithReadOnly
-	ip = ipOfYourATWServer
-	port = portOfYourATWServer
+	Copy config.cfg to /etc/aawt/config.cfg(and configure it).
 
 Screenshot
 ==========
