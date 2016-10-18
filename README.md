@@ -2,7 +2,7 @@
 
 Constantly updated
 	
-FEATURES
+Features
 ========
 * EC2 (With Charts and Prices)
 * EC2 Reserved
