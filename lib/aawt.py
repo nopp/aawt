@@ -26,7 +26,7 @@ class Aawt:
             session = boto3.session.Session(aws_access_key_id=self.access_key,aws_secret_access_key=self.secret_key,region_name=region)
             conn = session.resource(resource)
             return conn
-        except:			
+        except:
             return "ErrorLib - can't connect to "+resource+"."
 
     # Connect to client
@@ -100,7 +100,7 @@ class Aawt:
             return sgResource.SecurityGroup(id)
         except:
             return "ErrorLib - Can't return SG info."
-    
+
     # EC2 total EBS
     def ec2_totalEbs(self,region,opt):
         try:
@@ -109,7 +109,7 @@ class Aawt:
             if opt == "size":
                 # Size
                 for volume in ec2.describe_volumes()['Volumes']:
-                    total = total+volume['Size']         
+                    total = total+volume['Size']
             else:
                 # Total
                 for volume in ec2.describe_volumes()['Volumes']:
@@ -171,7 +171,7 @@ class Aawt:
             return rdsList
         except:
            return "ErrorLib - Can't list all RDS."
-    
+
     # ELB List all
     def elb_listAll(self,region):
         try:
@@ -249,7 +249,7 @@ class Aawt:
         try:
             chargeClient = self.connect_client('us-east-1','cloudwatch')
             if option == "total":
-                response = chargeClient.get_metric_statistics(
+                response = chargeClient.get_metric_statistics (
                     Namespace='AWS/Billing',
                     MetricName='EstimatedCharges',
                     StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
@@ -259,7 +259,7 @@ class Aawt:
                     Dimensions=[{'Name':'Currency','Value':'USD'}]
                 )
             else:
-                response = chargeClient.get_metric_statistics(
+                response = chargeClient.get_metric_statistics (
                     Namespace='AWS/Billing',
                     MetricName='EstimatedCharges',
                     StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
@@ -272,7 +272,7 @@ class Aawt:
             return response['Datapoints'][0]['Maximum']
         except:
             return "ErrorLib - Not charges yet."
-            
+
     # Convert bytes to ?
     def bytes_to(self,bytes,to,bsize=1024):
         try:
@@ -289,7 +289,7 @@ class Aawt:
         dimensions = {'EC2':'InstanceId','ELB':'LoadBalancerName','RDS':'DBInstanceIdentifier'}
         try:
             chartClient = self.connect_client(region,'cloudwatch')
-            response = chartClient.get_metric_statistics(
+            response = chartClient.get_metric_statistics (
                 Namespace='AWS/'+opt,
                 MetricName=metric,
                 StartTime=datetime.datetime.now() - datetime.timedelta(hours=1),
@@ -298,7 +298,7 @@ class Aawt:
                 Statistics=['Average','Sum','Maximum'],
                 Dimensions=[{'Name':dimensions[opt],'Value':id}],
                 Unit=unit
-            )            
+            )
             dataChart = {}
             for endpoint in response['Datapoints']:
                 if unit == "Bytes":
@@ -314,7 +314,7 @@ class Aawt:
                 background='transparent',
                 opacity='.6',
                 opacity_hover='.9',
-                transition='400ms ease-in')            
+                transition='400ms ease-in')
             bar_chart = pygal.Line(width=530, height=320,explicit_size=True, title=metric,x_label_rotation=60,style=custom_style,human_readable=True,pretty_print=True,tooltip_border_radius=10)
             if unit == "Bytes":
                 bar_chart.add("MB", dataX)
@@ -349,9 +349,28 @@ class Aawt:
             s3 = {}
             s3Client = self.connect_client("","s3")
             s3['Location'] = s3Client.get_bucket_location(Bucket=name)['LocationConstraint']
-            s3Resource = self.connect_resource(s3['Location'],"s3")        
+            s3Resource = self.connect_resource(s3['Location'],"s3")
             s3['Objects'] = s3Client.list_objects(Bucket=name)
             s3['CreatedAt'] = s3Resource.Bucket(name).creation_date
             return s3
         except:
             return "ErrorLib - Can't return S3 info."
+
+    # DynamoDB
+    def dynamodb_listAll(self,region):
+        try:
+            dynamoDBClient = self.connect_client(region,"dynamodb")
+            return dynamoDBClient.list_tables()['TableNames']
+        except:
+            return "ErrorLib - Can't list DynamoDB."
+
+    # DynamoDB Info
+    def dynamodb_info(self,table,region):
+        try:
+            dynamodb = {}
+            dynamodbClient = self.connect_client(region,"dynamodb")
+            dynamodb['status'] = dynamodbClient.describe_table(TableName=table)['Table']['TableStatus']
+            dynamodb['provisionedthroughput'] = dynamodbClient.describe_table(TableName=table)['Table']['ProvisionedThroughput']
+            return dynamodb
+        except:
+            return "ErrorLib - Can't return DynamoDB table info."

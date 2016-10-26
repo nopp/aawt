@@ -151,7 +151,7 @@ def ebs(region):
 def cloudtrail(region):
 	try:
 		return render_template('cloudtrail.html',results=aawt.cloudtrail_listAll(region),region=region,menu=regions)
-	except:		
+	except:
 		print "ErrorFlask - Can't list CloudTrail."
 
 # S3
@@ -159,7 +159,7 @@ def cloudtrail(region):
 def s3():
 	try:
 		return render_template('s3.html',results=aawt.s3_listAll(),aawt=aawt,menu=regions)
-	except:		
+	except:
 		print "ErrorFlask - Can't list S3."
 
 # S3 Info
@@ -169,6 +169,14 @@ def s3Info(name):
 		return render_template('s3info.html',name=name,s3info=aawt.s3_info(name),menu=regions)
 	except:
 		print "ErrorFlask - Can't return S3 info."
+
+# DynamoDB
+@app.route("/dynamodb/<region>",methods=['GET'])
+def dynamodb(region):
+    try:
+        return render_template('dynamodb.html',results=aawt.dynamodb_listAll(region),aawt=aawt,menu=regions,region=region)
+    except:
+        print "ErrorFlask - Can't list DynamoDB."
 
 # Index
 @app.route("/")

@@ -1,7 +1,7 @@
 # Amazon AWS Web Tool (AAWT)
 
 Constantly updated
-	
+
 Features
 ========
 * EC2 (With Charts and Prices)
@@ -39,6 +39,7 @@ Configure
 	* CloudWatchReadOnlyAccess
 	* AmazonS3ReadOnlyAccess
 	* AWSCloudTrailReadOnlyAccess
+	* AmazonDynamoDBReadOnlyAccess
 	You need to create an inline policy (getConsoleEC2) to allow method "GetConsoleOutput":
 	{
 	    "Version": "2012-10-17",
