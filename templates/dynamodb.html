@@ -29,7 +29,11 @@
 					{% for table in results|sort %}
 						{% set info = aawt.dynamodb_info(table,region) %}
 					<tr>
-						<td>{{ table }}</td>
+						<td>
+							<b>{{ table }}</b><br>
+							Item count: {{ info['itemcount'] }}<br>
+							Storage Size(bytes): {{ info['tablesizebytes'] }}
+						</td>
 						<td>{{ info['keys'][0]['AttributeName'] }} ({{ info[info['keys'][0]['AttributeName']] }})</td>
 						{% if  info['keys'][1] %}
 							<td>{{ info['keys'][1]['AttributeName'] }} ({{ info[info['keys'][1]['AttributeName']] }})</td>
