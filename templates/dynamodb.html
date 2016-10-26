@@ -18,6 +18,8 @@
 				<thead>
 					<tr>
 						<th>Name</th>
+						<th>Partition key</th>
+						<th>Sort key</th>
 						<th>Read capacity units</th>
 						<th>Write capacity units</th>
 						<th>Status</th>
@@ -28,6 +30,12 @@
 						{% set info = aawt.dynamodb_info(table,region) %}
 					<tr>
 						<td>{{ table }}</td>
+						<td>{{ info['keys'][0]['AttributeName'] }} ({{ info[info['keys'][0]['AttributeName']] }})</td>
+						{% if  info['keys'][1] %}
+							<td>{{ info['keys'][1]['AttributeName'] }} ({{ info[info['keys'][1]['AttributeName']] }})</td>
+						{% else %}
+							<td>-</td>
+						{% endif %}
 						<td>{{ info['provisionedthroughput']['ReadCapacityUnits'] }}</td>
 						<td>{{ info['provisionedthroughput']['WriteCapacityUnits'] }}</td>
 						{% if info['status'] == "ACTIVE" %}

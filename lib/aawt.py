@@ -371,6 +371,9 @@ class Aawt:
             dynamodbClient = self.connect_client(region,"dynamodb")
             dynamodb['status'] = dynamodbClient.describe_table(TableName=table)['Table']['TableStatus']
             dynamodb['provisionedthroughput'] = dynamodbClient.describe_table(TableName=table)['Table']['ProvisionedThroughput']
+            dynamodb['keys'] = dynamodbClient.describe_table(TableName=table)['Table']['KeySchema']
+            for atb in dynamodbClient.describe_table(TableName=table)['Table']['AttributeDefinitions']:
+                dynamodb[atb['AttributeName']] = atb['AttributeType']
             return dynamodb
         except:
             return "ErrorLib - Can't return DynamoDB table info."
