@@ -11,6 +11,7 @@ Features
 * RDS (With Charts)
 * IAM
 * CloudTrail
+* DynamoDB
 * S3
 
 Install
