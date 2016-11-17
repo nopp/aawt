@@ -7,7 +7,7 @@ Features
 * EC2 (With Charts and Prices)
 * EC2 Reserved
 * EBS
-* ELB (With Charts)
+* ELB (With Charts) Obs:. only classic load balancer
 * RDS (With Charts)
 * IAM
 * CloudTrail
