@@ -30,16 +30,12 @@
 						<td><i class="fa fa-map-signs"></i> {{ elb['Scheme'] }}</td>
 						<td>{{ elb['LoadBalancerName'] }}</td>
 						<td>
-						{% for instance in elb['Instances'] %}
-							{% if aawt.ec2_info(region,instance['InstanceId'],"")['state']['Name'] == "running" %}
-								<i class="fa fa-square" aria-hidden="true" style="color:#5cb85c"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ instance['InstanceId'] }}">{{ instance['InstanceId'] }}</a><br>
-								{% else %}
-								<i class="fa fa-square" aria-hidden="true" style="color:#d9534f"></i> <a id="ec2" href="/ec2info/{{ region }}/{{ instance['InstanceId'] }}">{{ instance['InstanceId'] }}</a><br>
-							{% endif %}							
-						{% endfor %}
+							{% for instance in elb['Instances'] %}
+								<a href="ec2info/sa-east-1/{{ instance['InstanceId'] }}">{{ instance['InstanceId'] }}</a><br>
+							{% endfor %}
 						</td>
-	          			<td>{{ elb['DNSName'] }}</td>
-	          			<td><a id="ec2" href="/elbcharts/{{ region }}/{{ elb['LoadBalancerName'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i></a></td>
+						<td>{{ elb['DNSName'] }}</td>
+						<td><a id="ec2" href="/elbcharts/{{ region }}/{{ elb['LoadBalancerName'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i></a></td>
 					</tr>
 					{% endfor %}
 				</tbody>
