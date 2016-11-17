@@ -8,7 +8,7 @@
 	            $('[data-toggle="tooltip"]').popover({html: true});
 	        } );
 	    } );
-	</script>	
+	</script>
 	<div class="alert alert-info" role="alert"><b>Total EBS {{ total }} GB</b></div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -30,8 +30,11 @@
 					{% for ebs in results %}
 					<tr>
 						<td>{{ ebs['VolumeId'] }}</td>
-						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ebs['Attachments'][0]['InstanceId'] }}">{{ ebs['Attachments'][0]['InstanceId'] }}
-						</a></td>
+						{% if ebs['State'] == "in-use" %}
+							<td><a id="ec2" href="/ec2info/{{ region }}/{{ ebs['Attachments'][0]['InstanceId'] }}">{{ ebs['Attachments'][0]['InstanceId'] }}</a></td>
+						{% else %}
+							<td></td>
+						{% endif %}
 						<td>{{ ebs['AvailabilityZone'] }}</td>
 						<td>{{ ebs['VolumeType'] }}</td>
 						<td>{{ ebs['Size'] }} GB</td>
