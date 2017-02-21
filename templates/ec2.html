@@ -53,9 +53,11 @@
 						{% endif %}
 						<td><a id="ec2" href="/ec2info/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a> <a id="ec2" href="/ec2charts/{{ region }}/{{ ec2['instance_id'] }}"><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i></a></td>
 						<td style="display:none;">
-						{% for tag in ec2.tags %}
-							{{ tag }}<br>
-						{% endfor %}
+						{% if tag %}
+							{% for tag in ec2.tags %}
+								{{ tag }}<br>
+							{% endfor %}
+						{% endif %}
 						</td>
 					</tr>
 					{% endfor %}

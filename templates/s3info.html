@@ -22,6 +22,7 @@
 			</tr>
 		</thead>
 		<tbody>
+			{% set total = 0 %}
 			{% for s3 in s3info['Objects']['Contents'] %}
 				<tr>
 					<td>{{ s3['Key'] }}</td>
@@ -29,6 +30,8 @@
 					<td>{{ s3['ETag']|replace('"','') }}</td>
 					<td>{{ s3['Size']|filesizeformat }}</td>
 				</tr>
+				{% set total = total + s3['Size'] %}
+				{{ total }}
 			{% endfor %}
     	</tbody>
     	</table>
