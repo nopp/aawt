@@ -29,6 +29,7 @@
     <li>Network</li>
     <li>Disks</li>
     <li>Console output</li>
+    <li>Screenshot</li>
 </ul>
 <ul id="tab">
     <li class="active">
@@ -299,6 +300,17 @@
     			{% for line in info.console_output()['Output'].split("\n") %}
     				{{ line }}<br>
     			{% endfor %}
+    		</div>
+    	</div>
+    </li>
+    <li> <!-- Screenshot -->
+		<div class="panel panel-default">
+			<div class="panel-body">
+			{% if screen != None %}
+				<img src="data:;base64,{{ screen }}"/>
+			{% else %}
+				Paravirtual doesn't have support for screenshot
+			{% endif %}
     		</div>
     	</div>
     </li>
