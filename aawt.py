@@ -1,7 +1,7 @@
 #
 # Amazon AWS Web Tool (AAWT)
 #
-import math,logging,ConfigParser,os,time,urllib
+import math,logging,ConfigParser,os,time,urllib,base64
 from flask import *
 from lib.aawt import *
 
@@ -50,6 +50,7 @@ def ec2(region):
 @app.route("/ec2info/<region>/<id>",methods=['GET'])
 def ec2Info(region,id):
     try:
+        info = aawt.ec2_info(region,id,"")
 	totalVolStandard = 0
 	totalVolGp2 = 0
 	totalVolIo1 = 0
@@ -63,7 +64,10 @@ def ec2Info(region,id):
 	    if vol.volume_type == "io1":
 		totalVolIo1 = totalVolIo1+vol.size
 	hoursOfMonth = monthrange(datetime.datetime.now().year, datetime.datetime.now().month)[1]*24
-	return render_template('ec2info.html',region=region,id=id,info=aawt.ec2_info(region,id,""),totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,totalvolio1=totalVolIo1,aawt=aawt,menu=regions,hours=hoursOfMonth)
+        screen = None
+        if info.virtualization_type != "paravirtual":
+            screen = aawt.connect_client(region,"ec2").get_console_screenshot(InstanceId=id,WakeUp=True)['ImageData']
+	return render_template('ec2info.html',region=region,id=id,info=info,totalvol=totalVol,totalvolstandard=totalVolStandard,totalvolgp2=totalVolGp2,totalvolio1=totalVolIo1,aawt=aawt,menu=regions,hours=hoursOfMonth,screen=screen)
     except:
 	print "ErrorFlask - Can't return EC2 info."
 
@@ -196,5 +200,5 @@ def index():
         print "ErrorFlask - Can't render index."
 
 if __name__ == '__main__':
-    #logging.basicConfig(filename='aawt.log',level=logging.INFO)
-    app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')),debug=True)
+    logging.basicConfig(filename='aawt.log',level=logging.INFO)
+    app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')))
