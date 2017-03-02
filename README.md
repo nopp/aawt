@@ -41,15 +41,18 @@ Configure
 	* AmazonS3ReadOnlyAccess
 	* AWSCloudTrailReadOnlyAccess
 	* AmazonDynamoDBReadOnlyAccess
-	You need to create an inline policy (getConsoleEC2) to allow method "GetConsoleOutput":
+	You need to create an inline policy (getConsoleEC2) to allow method "GetConsoleOutput" and "GetConsoleScreenshot":	
 	{
 	    "Version": "2012-10-17",
 	    "Statement": [
-	        {
-	            "Effect": "Allow",
-	            "Action": "ec2:GetConsoleOutput*",
-	            "Resource": "*"
-	        }
+		{
+		    "Effect": "Allow",
+		    "Action": [
+			"ec2:GetConsoleOutput*",
+			"ec2:GetConsoleScreenshot*"
+		    ],
+		    "Resource": "*"
+		}
 	    ]
 	}
 	You need to enable "Monitor your estimated charges"
