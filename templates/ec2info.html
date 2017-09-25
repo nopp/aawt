@@ -263,7 +263,9 @@
 			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS GP2 {{ totalvolgp2 }} GB<br>USD {{ totalvolgp2Price }}/month</b></div></div>
 			<div class="col-md-4"><div class="alert alert-info" role="alert"><b>Total EBS IO1 {{ totalvolio1 }} GB<br>USD {{ totalvolio1Price }}/month </b></div></div>
 		</div>
+		{% if totalvolstandardPrice and totalvolgp2Price and totalvolio1Price %}
     	<div class="alert alert-info" role="alert"><b>Total EBS {{ totalvol }} GB<br>USD {{ totalvolstandardPrice+totalvolgp2Price+totalvolio1Price }}/month</b></div>
+		{% endif %}
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<table class="table">
