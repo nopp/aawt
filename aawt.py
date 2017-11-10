@@ -148,30 +148,6 @@ def ebs(region):
     except:
 	print "ErrorFlask - Can't list all ebs."
 
-# CloudTrail
-@app.route("/cloudtrail/<region>",methods=['GET'])
-def cloudtrail(region):
-    try:
-	return render_template('cloudtrail.html',results=aawt.cloudtrail_listAll(region),region=region,menu=regions)
-    except:
-	print "ErrorFlask - Can't list CloudTrail."
-
-# S3
-@app.route("/s3",methods=['GET'])
-def s3():
-    try:
-	return render_template('s3.html',results=aawt.s3_listAll(),aawt=aawt,menu=regions)
-    except:
-	print "ErrorFlask - Can't list S3."
-
-# S3 Info
-@app.route("/s3info/<name>",methods=['GET'])
-def s3Info(name):
-    try:
-	return render_template('s3info.html',name=name,s3info=aawt.s3_info(name),menu=regions)
-    except:
-	print "ErrorFlask - Can't return S3 info."
-
 # DynamoDB
 @app.route("/dynamodb/<region>",methods=['GET'])
 def dynamodb(region):
@@ -180,12 +156,13 @@ def dynamodb(region):
     except:
         print "ErrorFlask - Can't list DynamoDB."
 
-# Gen app zip
-@app.route("/teste/<app>",methods=['GET'])
-def teste(app):
-    dirName = time.strftime("%d%m%Y%H%m%S")
-    os.mkdir("/home/pia/aawt/static/pkg/"+dirName)
-    return app
+# Alerts List all
+@app.route("/alerts")
+def alerts():
+    try:
+        return render_template('alerts.html',results=aawt.alerts_listAll(),menu=regions)
+    except:
+        print "Error - Can't list all alerts"
 
 # Index
 @app.route("/")

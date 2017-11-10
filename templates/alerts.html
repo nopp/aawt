@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block body %}
+	{% if results %}
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+	        $('#ec2table').dataTable();
+	        $('#ec2table tbody').on('click', 'td', function () {
+	            $('[data-toggle="tooltip"]').popover({html: true});
+	        } );
+	    } );
+	</script>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"> Listing all alerts</h3>
+		</div>
+		<div class="panel-body">
+			<table id="ec2table" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Service</th>
+						<th>Region</th>
+						<th>Instance ID/Name</th>
+						<th>Start time</th>
+						<th>End time</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for event in results %}
+					<tr>
+						<td> {{ event['service'] }}</td>
+						<td> {{ event['region'] }}</td>
+						<td>
+							{% for entity in event['entitys'] %}
+								{{ entity['entityValue'] }}
+							{% endfor %}
+						</td>
+						<td>{{ event['start'] }}</td>
+						<td>{{ event['end'] }}</td>
+						<td><span class="label label-success">{{ event['statusCode'] }}</span></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{% else %}
+		<div class="alert alert-warning" role="alert"><b>Doesn't have alerts!</b></div>
+	{% endif %}
+{% endblock %}

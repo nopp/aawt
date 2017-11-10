@@ -327,35 +327,6 @@ class Aawt:
         except:
             return "ErrorLib - Can't return chart."
 
-    # CloudTrail
-    def cloudtrail_listAll(self,region):
-        try:
-            cloudtrailClient = self.connect_client(region,"cloudtrail")
-            return cloudtrailClient.lookup_events()['Events']
-        except:
-            return "ErrorLib - Can't list CloudTrail."
-
-    # S3
-    def s3_listAll(self):
-        try:
-            s3Client = self.connect_client("","s3")
-            return s3Client.list_buckets()['Buckets']
-        except:
-            return "ErrorLib - Can't list S3."
-
-    # S3 Info
-    def s3_info(self,name):
-        try:
-            s3 = {}
-            s3Client = self.connect_client("","s3")
-            s3['Location'] = s3Client.get_bucket_location(Bucket=name)['LocationConstraint']
-            s3Resource = self.connect_resource(s3['Location'],"s3")
-            s3['Objects'] = s3Client.list_objects(Bucket=name)
-            s3['CreatedAt'] = s3Resource.Bucket(name).creation_date
-            return s3
-        except:
-            return "ErrorLib - Can't return S3 info."
-
     # DynamoDB
     def dynamodb_listAll(self,region):
         try:
@@ -379,3 +350,22 @@ class Aawt:
             return dynamodb
         except:
             return "ErrorLib - Can't return DynamoDB table info."
+
+    # Alerts List all
+    def alerts_listAll(self):
+        try:
+            healthClient = self.connect_client("us-east-1","health")
+            healtList = []
+            for event in healthClient.describe_events(filter={'eventStatusCodes':['upcoming']})['events']:
+                health = {}
+                health['service'] = event['service']
+                health['region'] = event['region']
+                health['statusCode'] = event['statusCode']
+                health['arn'] = event['arn']
+                health['start'] = event['startTime']
+                health['end'] = event['endTime']
+                health['entitys'] = healthClient.describe_affected_entities(filter={'eventArns': [event['arn']]})['entities']
+                healtList.append(health)
+            return healtList
+        except:
+            return "ErrorLib - Can't list all alerts."
