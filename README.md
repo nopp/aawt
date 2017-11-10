@@ -10,9 +10,8 @@ Features
 * ELB (With Charts) Obs:. only classic load balancer
 * RDS (With Charts)
 * IAM
-* CloudTrail
 * DynamoDB
-* S3
+* Alerts
 
 Install
 =======
@@ -38,10 +37,8 @@ Configure
 	* IAMReadOnlyAccess
 	* AmazonRDSReadOnlyAccess
 	* CloudWatchReadOnlyAccess
-	* AmazonS3ReadOnlyAccess
-	* AWSCloudTrailReadOnlyAccess
 	* AmazonDynamoDBReadOnlyAccess
-	You need to create an inline policy (getConsole) to allow methods "GetConsoleOutput" and "GetConsoleScreenshot":	
+	You need to create an inline policy:	
 	{
 	    "Version": "2012-10-17",
 	    "Statement": [
@@ -49,7 +46,8 @@ Configure
 		    "Effect": "Allow",
 		    "Action": [
 				"ec2:GetConsoleOutput*",
-				"ec2:GetConsoleScreenshot*"
+				"ec2:GetConsoleScreenshot*",
+				"health:Describe*"
 		    ],
 		    "Resource": "*"
 		}]
