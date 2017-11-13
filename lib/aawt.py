@@ -241,6 +241,8 @@ class Aawt:
                     for vol in region['types']:
                         if vol['name'] == self.ebsTypes[ebsType]:
                             return float(vol['values'][0]['prices']['USD'])*int(size)
+                        else:
+                            return float(0)
         except:
             return "ErrorLib - Can't return EBS price."
 
