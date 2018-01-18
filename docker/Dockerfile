@@ -2,9 +2,6 @@ FROM alpine:3.7
 
 LABEL maintainer "Carlos Augusto Malucelli <malucellicarlos@gmail.com>"
 
-ARG akey
-ARG skey
-
 RUN apk update \
 		&& apk add py-pip git bash \
 		&& git clone https://github.com/nopp/aawt.git \
