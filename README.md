@@ -13,6 +13,14 @@ Features
 * DynamoDB
 * Alerts
 
+
+RUNNING ON DOCKER
+=================
+
+	# docker container run -p 8082:8082 -e akey=yourAccessKey -e skey='yourSecretKey' -d nopp/aawt_alpine:0.9.2
+
+RUNNING ON SEVER
+================
 Install
 =======
 	# yum install python-pip supervisor -y
