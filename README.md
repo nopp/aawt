@@ -13,6 +13,37 @@ Features
 * DynamoDB
 * Alerts
 
+Amazon AWS configuration:
+========================
+Create an user aawt with access_key and private_key
+Attach policy below on aawt user:
+
+	* AmazonEC2ReadOnlyAccess
+	* IAMReadOnlyAccess
+	* AmazonRDSReadOnlyAccess
+	* CloudWatchReadOnlyAccess
+	* AmazonDynamoDBReadOnlyAccess
+	You need to create an inline policy:	
+	{
+	    "Version": "2012-10-17",
+	    "Statement": [
+		{
+		    "Effect": "Allow",
+		    "Action": [
+				"ec2:GetConsoleOutput*",
+				"ec2:GetConsoleScreenshot*",
+				"health:Describe*"
+		    ],
+		    "Resource": "*"
+		}]
+	}
+	
+You need to enable "Monitor your estimated charges"
+
+* Billing & Cost Management > Preferences > Check "Receive Billing Alerts"
+
+Obs:. this will work some hours later.
+
 
 RUNNING ON DOCKER
 =================
@@ -36,33 +67,6 @@ Configure
 	Server:
 	=======
 	Copy config.cfg to /etc/aawt/config.cfg(and configure it).
-
-	Amazon AWS:
-	===========
-	Create an user aawt with access_key and private_key
-	Attach policy below on aawt user:
-	* AmazonEC2ReadOnlyAccess
-	* IAMReadOnlyAccess
-	* AmazonRDSReadOnlyAccess
-	* CloudWatchReadOnlyAccess
-	* AmazonDynamoDBReadOnlyAccess
-	You need to create an inline policy:	
-	{
-	    "Version": "2012-10-17",
-	    "Statement": [
-		{
-		    "Effect": "Allow",
-		    "Action": [
-				"ec2:GetConsoleOutput*",
-				"ec2:GetConsoleScreenshot*",
-				"health:Describe*"
-		    ],
-		    "Resource": "*"
-		}]
-	}
-	You need to enable "Monitor your estimated charges"
-	* Billing & Cost Management > Preferences > Check "Receive Billing Alerts"
-	Obs:. this will work some hours later.
 
 Screenshot
 ==========
