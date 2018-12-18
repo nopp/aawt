@@ -2,6 +2,8 @@
 
 Constantly updated
 
+---> Runs better in Python3 ;) <----
+
 Features
 ========
 * EC2 (With Charts and Prices)
