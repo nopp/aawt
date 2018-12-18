@@ -1,11 +1,11 @@
 #
 # Amazon AWS Web Tool (AAWT)
 #
-import ConfigParser,datetime,pprint,boto3,pygal,sys,json,urllib2,re
+import configparser,datetime,pprint,boto3,pygal,sys,json,re
 from calendar import monthrange
 from pygal.style import Style
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read('/etc/aawt/config.cfg')
 
 class Aawt:
@@ -56,7 +56,7 @@ class Aawt:
             ec2Tags = []
             tag = {}
             for numIndice in range(0,len(tags)):
-                tag = {tags[numIndice].values()[1]:tags[numIndice].values()[0]}
+                tag = {list(tags[numIndice].values())[0]:list(tags[numIndice].values())[1]}
                 ec2Tags.append(tag)
             return ec2Tags
         except:
@@ -66,8 +66,8 @@ class Aawt:
     def returnTagEC2(self,ec2Tags,tag):
         try:
             for i in range(len(ec2Tags)):
-                if ec2Tags[i].keys()[0] == tag:
-                    return ec2Tags[i].values()[0]
+                if list(ec2Tags[i])[0] == tag:
+                    return ec2Tags[i]['Name']
         except:
             return "ErrorLib - Can't return tag "+tag+"."
 
@@ -140,7 +140,7 @@ class Aawt:
             elif os == "Windows":
                 url = "http://a0.awsstatic.com/pricing/1/ec2/mswin-od.min.js"
 
-            fh = urllib2.urlopen(url).read()
+            fh = urlopen(url).read()
 
             # Prepare JS to use on AAWT :) "little hammers"
             resub = fh[fh.index("(") + 1:fh.rindex(")")]
@@ -224,7 +224,7 @@ class Aawt:
         try:
             url = "http://a0.awsstatic.com/pricing/1/ebs/pricing-ebs.min.js"
 
-            fh = urllib2.urlopen(url).read()
+            fh = urlopen(url).read()
 
             # Prepare JS to use on AAWT :) "little hammers"
             resub = fh[fh.index("(") + 1:fh.rindex(")")]
