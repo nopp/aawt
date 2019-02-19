@@ -70,10 +70,6 @@ Configure
 	=======
 	Copy config.cfg to /etc/aawt/config.cfg(and configure it).
 	
-Appplication root
-=================
-/aws
-
 Screenshot
 ==========
 ![Image Alt](http://i67.tinypic.com/cl1t3.png)
