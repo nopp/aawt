@@ -3,10 +3,10 @@ FROM alpine:3.7
 LABEL maintainer "Carlos Augusto Malucelli <malucellicarlos@gmail.com>"
 
 RUN apk update \
-		&& apk add py-pip git bash \
+		&& apk add python3 py3-pip git bash \
 		&& git clone https://github.com/nopp/aawt.git \
 		&& cd aawt \
-		&& pip install -r requirements.txt \
+		&& pip3 install -r requirements.txt \
 		&& mkdir /etc/aawt \
 		&& mv /aawt/config.cfg /etc/aawt/config.cfg 
 
