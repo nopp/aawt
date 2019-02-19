@@ -69,6 +69,10 @@ Configure
 	Server:
 	=======
 	Copy config.cfg to /etc/aawt/config.cfg(and configure it).
+	
+Appplication root
+=================
+/aws
 
 Screenshot
 ==========
