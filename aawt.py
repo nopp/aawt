@@ -8,7 +8,7 @@ from lib.aawt import *
 config = configparser.RawConfigParser()
 config.read('/etc/aawt/config.cfg')
 
-app = Flask(__name__,root_path='aws/')
+app = Flask(__name__)
 app.secret_key = 'BYG>.L*((*$jj2h>#'
 
 aawt = Aawt()
