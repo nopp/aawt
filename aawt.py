@@ -170,7 +170,7 @@ def cf():
     try:
         return render_template('cf.html',menu=regions,results=aawt.cloudfront_listAll())
     except:
-        print("ErrorFlask - Can't render index.")
+        print("ErrorFlask - Can't list distributions.")
 
 # Index
 @app.route("/")
