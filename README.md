@@ -6,6 +6,7 @@ Constantly updated
 
 Features
 ========
+* Cloudfront (simple)
 * EC2 (With Charts and Prices)
 * EC2 Reserved
 * EBS
