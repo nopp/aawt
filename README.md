@@ -52,7 +52,7 @@ Obs:. this will work some hours later.
 RUNNING ON DOCKER
 =================
 
-	# docker container run -p 8082:8082 -e akey=yourAccessKey -e skey='yourSecretKey' -d nopp/aawt_alpine:0.9.2
+	# docker container run -p 8082:8082 -e akey=yourAccessKey -e skey='yourSecretKey' -d nopp/aawt_alpine:0.10
 
 RUNNING ON SEVER
 ================
