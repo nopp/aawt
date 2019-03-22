@@ -250,12 +250,13 @@ class Aawt:
     def charge_service(self,service,option=None):
         try:
             chargeClient = self.connect_client('us-east-1','cloudwatch')
+            now = datetime.datetime.now()
             if option == "total":
                 response = chargeClient.get_metric_statistics (
                     Namespace='AWS/Billing',
                     MetricName='EstimatedCharges',
-                    StartTime=datetime.datetime.now() - datetime.timedelta(minutes=300),
-                    EndTime=datetime.datetime.now(),
+                    StartTime=datetime.datetime.strptime(str(now.year)+"/"+str(now.month)+"/1", '%Y/%m/%d'),
+                    EndTime=now,
                     Period=21600,
                     Statistics=['Maximum'],
                     Dimensions=[{'Name':'Currency','Value':'USD'}]
@@ -371,3 +372,11 @@ class Aawt:
             return healtList
         except:
             return "ErrorLib - Can't list all alerts."
+
+    # Cloudfron
+    def cloudfront_listAll(self):
+        try:
+            cfClient = self.connect_client("us-east-1","cloudfront")
+            return cfClient.list_distributions()["DistributionList"]["Items"]
+        except:
+            return "ErrorLib - Can't list all distributions."
