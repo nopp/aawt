@@ -164,6 +164,14 @@ def alerts():
     except:
         print("Error - Can't list all alerts")
 
+# Cloudfront List all
+@app.route("/cf")
+def cf():
+    try:
+        return render_template('cf.html',menu=regions,results=aawt.cloudfront_listAll())
+    except:
+        print("ErrorFlask - Can't render index.")
+
 # Index
 @app.route("/")
 def index():
@@ -171,7 +179,7 @@ def index():
         if aawt.charge_service('',"total") == "ErrorLib - Not charges yet.":
             charge = "Not charges yet."
         else:
-            charge = format(aawt.charge_service('',"total"), ',.2f')
+            charge = '{:.2f}'.format(float(aawt.charge_service('',"total")))
             return render_template('index.html',menu=regions,charge=charge,aawt=aawt)
     except:
         print("ErrorFlask - Can't render index.")
