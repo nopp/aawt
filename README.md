@@ -25,6 +25,7 @@ Attach policy below on aawt user:
 	* AmazonRDSReadOnlyAccess
 	* CloudWatchReadOnlyAccess
 	* AmazonDynamoDBReadOnlyAccess
+	* CloudFrontReadOnlyAccess
 	You need to create an inline policy:	
 	{
 	    "Version": "2012-10-17",
