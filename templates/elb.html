@@ -31,7 +31,7 @@
 						<td>{{ elb['LoadBalancerName'] }}</td>
 						<td>
 							{% for instance in elb['Instances'] %}
-								<a href="/ec2info/sa-east-1/{{ instance['InstanceId'] }}">{{ instance['InstanceId'] }}</a><br>
+								<a href="/ec2info/{{region}}/{{ instance['InstanceId'] }}">{{ instance['InstanceId'] }}</a><br>
 							{% endfor %}
 						</td>
 						<td>{{ elb['DNSName'] }}</td>
