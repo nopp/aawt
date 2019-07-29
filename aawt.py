@@ -176,13 +176,9 @@ def cf():
 @app.route("/")
 def index():
     try:
-        if aawt.charge_service('',"total") == "ErrorLib - Not charges yet.":
-            charge = "Not charges yet."
-        else:
-            charge = '{:.2f}'.format(float(aawt.charge_service('',"total")))
-            return render_template('index.html',menu=regions,charge=charge,aawt=aawt)
+        return render_template('alerts.html',results=aawt.alerts_listAll(),menu=regions)
     except:
-        print("ErrorFlask - Can't render index.")
+        print("Error - Can't list all alerts")
 
 if __name__ == '__main__':
     app.run(host=str(config.get('conf','ip')),port=int(config.get('conf','port')), debug=True)
