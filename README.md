@@ -1,8 +1,6 @@
 # Amazon AWS Web Tool (AAWT)
 
-Constantly updated
-
----> Runs better in Python3 ;) <----
+![Code scanning - action](https://github.com/nopp/aawt/workflows/Code%20scanning%20-%20action/badge.svg)
 
 Features
 ========
