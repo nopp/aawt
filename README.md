@@ -69,9 +69,3 @@ Configure
 	Server:
 	=======
 	Copy config.cfg to /etc/aawt/config.cfg(and configure it).
-	
-Screenshot
-==========
-![Image Alt](http://i67.tinypic.com/cl1t3.png)
-![Image Alt](http://i66.tinypic.com/25ov0wk.png)
-![Image Alt](http://i68.tinypic.com/33uap7s.png)
