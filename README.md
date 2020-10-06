@@ -1,4 +1,4 @@
-# Amazon AWS Web Tool (AAWT)
+# Amazon AWS Web Tool (AAWT) discontinued
 
 ![Code scanning - action](https://github.com/nopp/aawt/workflows/Code%20scanning%20-%20action/badge.svg)
 
